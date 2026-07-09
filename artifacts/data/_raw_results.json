@@ -1,0 +1,589 @@
+{
+  "0. RECORD COUNTS": [
+    {
+      "label": "All table row counts",
+      "result": [
+        {
+          "tabela": "dim_cliente",
+          "linhas": 1086
+        },
+        {
+          "tabela": "dim_fornecedor",
+          "linhas": 189
+        },
+        {
+          "tabela": "dim_loja",
+          "linhas": 29
+        },
+        {
+          "tabela": "dim_produto",
+          "linhas": 35258
+        },
+        {
+          "tabela": "dim_tempo",
+          "linhas": 7306
+        },
+        {
+          "tabela": "dim_vendedor",
+          "linhas": 221
+        },
+        {
+          "tabela": "fato_compras",
+          "linhas": 187935
+        },
+        {
+          "tabela": "fato_estoque_diario",
+          "linhas": 10124888
+        },
+        {
+          "tabela": "fato_trocas",
+          "linhas": 300827
+        },
+        {
+          "tabela": "fato_vendas",
+          "linhas": 10435
+        }
+      ]
+    }
+  ],
+  "1. PK UNIQUENESS": [
+    {
+      "label": "PK: dim_tempo.id_data",
+      "result": [
+        {
+          "pk_check": "dim_tempo.id_data",
+          "total_rows": 7306,
+          "distinct_values": 7306,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "label": "PK: dim_produto.id_produto",
+      "result": [
+        {
+          "pk_check": "dim_produto.id_produto",
+          "total_rows": 35258,
+          "distinct_values": 35258,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "label": "PK: dim_loja.id_loja",
+      "result": [
+        {
+          "pk_check": "dim_loja.id_loja",
+          "total_rows": 29,
+          "distinct_values": 29,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "label": "PK: dim_fornecedor.id_fornecedor",
+      "result": [
+        {
+          "pk_check": "dim_fornecedor.id_fornecedor",
+          "total_rows": 189,
+          "distinct_values": 189,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "label": "PK: dim_cliente.id_cliente",
+      "result": [
+        {
+          "pk_check": "dim_cliente.id_cliente",
+          "total_rows": 1086,
+          "distinct_values": 1086,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "label": "PK: dim_vendedor.id_vendedor",
+      "result": [
+        {
+          "pk_check": "dim_vendedor.id_vendedor",
+          "total_rows": 221,
+          "distinct_values": 221,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "label": "BK: dim_loja.cod_estabelecimento",
+      "result": [
+        {
+          "bk_check": "dim_loja.cod_estabelecimento",
+          "total_rows": 29,
+          "distinct_values": 29,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "label": "BK: dim_fornecedor.cod_fornecedor",
+      "result": [
+        {
+          "bk_check": "dim_fornecedor.cod_fornecedor",
+          "total_rows": 189,
+          "distinct_values": 189,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "label": "BK: dim_cliente.codigo_cliente",
+      "result": [
+        {
+          "bk_check": "dim_cliente.codigo_cliente",
+          "total_rows": 1086,
+          "distinct_values": 1086,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "label": "BK: dim_vendedor.cod_vendedor",
+      "result": [
+        {
+          "bk_check": "dim_vendedor.cod_vendedor",
+          "total_rows": 221,
+          "distinct_values": 221,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "label": "SCD2 BK: dim_produto (cod_artigo, cod_cor, cod_tamanho) ATIVO",
+      "result": [
+        {
+          "bk_check": "dim_produto SCD2 (cod_artigo,cod_cor,cod_tamanho) ativo",
+          "total_rows": 35257,
+          "active_rows": 35257,
+          "status": "PASS"
+        }
+      ]
+    }
+  ],
+  "2. FK REFERENTIAL INTEGRITY": [
+    {
+      "label": "FK: fato_vendas.id_data -> dim_tempo.id_data",
+      "result": [
+        {
+          "fk_check": "fato_vendas.id_data->dim_tempo",
+          "fact_rows": 10435,
+          "distinct_fk": 93,
+          "orphans": 0,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "label": "FK: fato_vendas.id_loja -> dim_loja.id_loja",
+      "result": [
+        {
+          "fk_check": "fato_vendas.id_loja->dim_loja",
+          "fact_rows": 10435,
+          "distinct_fk": 10,
+          "orphans": 0,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "label": "FK: fato_vendas.id_produto -> dim_produto.id_produto",
+      "result": [
+        {
+          "fk_check": "fato_vendas.id_produto->dim_produto",
+          "fact_rows": 10435,
+          "distinct_fk": 3546,
+          "orphans": 0,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "label": "FK: fato_vendas.id_cliente -> dim_cliente.id_cliente (nullable)",
+      "result": [
+        {
+          "fk_check": "fato_vendas.id_cliente->dim_cliente",
+          "fact_rows": 10435,
+          "distinct_fk": 0,
+          "null_fks": 10435,
+          "orphans": 0,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "label": "FK: fato_vendas.id_vendedor -> dim_vendedor.id_vendedor (nullable)",
+      "result": [
+        {
+          "fk_check": "fato_vendas.id_vendedor->dim_vendedor",
+          "fact_rows": 10435,
+          "distinct_fk": 0,
+          "null_fks": 10435,
+          "orphans": 0,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "label": "FK: fato_estoque_diario.id_data -> dim_tempo.id_data",
+      "result": [
+        {
+          "fk_check": "estoque.id_data->dim_tempo",
+          "fact_rows": 10124888,
+          "distinct_fk": 632,
+          "orphans": 0,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "label": "FK: fato_estoque_diario.id_loja -> dim_loja.id_loja",
+      "result": [
+        {
+          "fk_check": "estoque.id_loja->dim_loja",
+          "fact_rows": 10124888,
+          "distinct_fk": 24,
+          "orphans": 0,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "label": "FK: fato_estoque_diario.id_produto -> dim_produto.id_produto",
+      "result": [
+        {
+          "fk_check": "estoque.id_produto->dim_produto",
+          "fact_rows": 10124888,
+          "distinct_fk": 33363,
+          "orphans": 0,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "label": "FK: fato_compras.id_data_pedido -> dim_tempo.id_data",
+      "result": [
+        {
+          "fk_check": "compras.id_data_pedido->dim_tempo",
+          "fact_rows": 187935,
+          "distinct_fk": 791,
+          "orphans": 0,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "label": "FK: fato_compras.id_loja -> dim_loja.id_loja",
+      "result": [
+        {
+          "fk_check": "compras.id_loja->dim_loja",
+          "fact_rows": 187935,
+          "distinct_fk": 11,
+          "orphans": 0,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "label": "FK: fato_compras.id_fornecedor -> dim_fornecedor.id_fornecedor",
+      "result": [
+        {
+          "fk_check": "compras.id_fornecedor->dim_fornecedor",
+          "fact_rows": 187935,
+          "distinct_fk": 178,
+          "orphans": 0,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "label": "FK: fato_compras.id_produto -> dim_produto.id_produto",
+      "result": [
+        {
+          "fk_check": "compras.id_produto->dim_produto",
+          "fact_rows": 187935,
+          "distinct_fk": 32385,
+          "orphans": 0,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "label": "FK: fato_trocas.id_data -> dim_tempo.id_data",
+      "result": [
+        {
+          "fk_check": "trocas.id_data->dim_tempo",
+          "fact_rows": 300827,
+          "distinct_fk": 2005,
+          "orphans": 0,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "label": "FK: fato_trocas.id_loja -> dim_loja.id_loja",
+      "result": [
+        {
+          "fk_check": "trocas.id_loja->dim_loja",
+          "fact_rows": 300827,
+          "distinct_fk": 11,
+          "orphans": 0,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "label": "FK: fato_trocas.id_produto_devolvido -> dim_produto.id_produto",
+      "result": [
+        {
+          "fk_check": "trocas.id_produto_devolvido->dim_produto",
+          "fact_rows": 300827,
+          "distinct_fk": 15310,
+          "orphans": 0,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "label": "FK: fato_trocas.id_produto_substituto -> dim_produto.id_produto (nullable)",
+      "result": [
+        {
+          "fk_check": "trocas.id_produto_substituto->dim_produto",
+          "fact_rows": 300827,
+          "distinct_fk": 28151,
+          "null_fks": 42506,
+          "orphans": 0,
+          "status": "PASS"
+        }
+      ]
+    }
+  ],
+  "3. NULL FK VALUES": [
+    {
+      "label": "fato_vendas.id_cliente",
+      "result": [
+        {
+          "null_check": "fato_vendas.id_cliente",
+          "total_rows": 10435,
+          "null_count": 10435,
+          "null_pct": 100.0
+        }
+      ]
+    },
+    {
+      "label": "fato_vendas.id_vendedor",
+      "result": [
+        {
+          "null_check": "fato_vendas.id_vendedor",
+          "total_rows": 10435,
+          "null_count": 10435,
+          "null_pct": 100.0
+        }
+      ]
+    },
+    {
+      "label": "fato_trocas.id_produto_substituto",
+      "result": [
+        {
+          "null_check": "fato_trocas.id_produto_substituto",
+          "total_rows": 300827,
+          "null_count": 42506,
+          "null_pct": 14.13
+        }
+      ]
+    }
+  ],
+  "4. DATE RANGES": [
+    {
+      "label": "dim_tempo coverage",
+      "result": [
+        {
+          "min_date": "1900-01-01",
+          "max_date": "2030-12-31",
+          "total_days": 7306
+        }
+      ]
+    },
+    {
+      "label": "fato_vendas date range vs dim_tempo",
+      "result": [
+        {
+          "tabela": "fato_vendas",
+          "min_data": "2017-11-21",
+          "max_data": "2020-05-28",
+          "total_rows": 10435,
+          "before_dim": 0,
+          "after_dim": 0
+        }
+      ]
+    },
+    {
+      "label": "fato_estoque_diario date range vs dim_tempo",
+      "result": [
+        {
+          "tabela": "fato_estoque_diario",
+          "min_data": "2017-12-01",
+          "max_data": "2019-11-30",
+          "total_rows": 10124888,
+          "before_dim": 0,
+          "after_dim": 0
+        }
+      ]
+    },
+    {
+      "label": "fato_compras date range vs dim_tempo",
+      "result": [
+        {
+          "tabela": "fato_compras",
+          "min_data": "1900-01-01",
+          "max_data": "2020-05-14",
+          "total_rows": 187935,
+          "before_dim": 0,
+          "after_dim": 0
+        }
+      ]
+    },
+    {
+      "label": "fato_trocas date range vs dim_tempo",
+      "result": [
+        {
+          "tabela": "fato_trocas",
+          "min_data": "2013-10-23",
+          "max_data": "2020-05-28",
+          "total_rows": 300827,
+          "before_dim": 0,
+          "after_dim": 0
+        }
+      ]
+    }
+  ],
+  "5. ORPHAN DETAILS": [
+    {
+      "label": "Orphans: fato_vendas.id_data",
+      "result": []
+    },
+    {
+      "label": "Orphans: fato_vendas.id_loja",
+      "result": []
+    },
+    {
+      "label": "Orphans: fato_vendas.id_produto",
+      "result": []
+    },
+    {
+      "label": "Orphans: fato_vendas.id_cliente",
+      "result": [
+        {
+          "fact_table": "fato_vendas",
+          "fk_column": "id_cliente",
+          "fk_value": null,
+          "occurrences": 10435
+        }
+      ]
+    },
+    {
+      "label": "Orphans: fato_vendas.id_vendedor",
+      "result": [
+        {
+          "fact_table": "fato_vendas",
+          "fk_column": "id_vendedor",
+          "fk_value": null,
+          "occurrences": 10435
+        }
+      ]
+    },
+    {
+      "label": "Orphans: fato_estoque_diario.id_data",
+      "result": []
+    },
+    {
+      "label": "Orphans: fato_estoque_diario.id_loja",
+      "result": []
+    },
+    {
+      "label": "Orphans: fato_estoque_diario.id_produto",
+      "result": []
+    },
+    {
+      "label": "Orphans: fato_compras.id_data_pedido",
+      "result": []
+    },
+    {
+      "label": "Orphans: fato_compras.id_loja",
+      "result": []
+    },
+    {
+      "label": "Orphans: fato_compras.id_fornecedor",
+      "result": []
+    },
+    {
+      "label": "Orphans: fato_compras.id_produto",
+      "result": []
+    },
+    {
+      "label": "Orphans: fato_trocas.id_data",
+      "result": []
+    },
+    {
+      "label": "Orphans: fato_trocas.id_loja",
+      "result": []
+    },
+    {
+      "label": "Orphans: fato_trocas.id_produto_devolvido",
+      "result": []
+    },
+    {
+      "label": "Orphans: fato_trocas.id_produto_substituto",
+      "result": [
+        {
+          "fact_table": "fato_trocas",
+          "fk_column": "id_produto_substituto",
+          "fk_value": null,
+          "occurrences": 42506
+        }
+      ]
+    }
+  ],
+  "6. UNUSED DIMENSION RECORDS": [
+    {
+      "label": "Products not referenced in any fact",
+      "result": [
+        {
+          "unused_count": 59
+        }
+      ]
+    },
+    {
+      "label": "Stores not referenced in any fact",
+      "result": [
+        {
+          "unused_count": 5
+        }
+      ]
+    },
+    {
+      "label": "Customers never purchased",
+      "result": [
+        {
+          "unused_count": 1086
+        }
+      ]
+    },
+    {
+      "label": "Sellers never sold",
+      "result": [
+        {
+          "unused_count": 221
+        }
+      ]
+    }
+  ]
+}

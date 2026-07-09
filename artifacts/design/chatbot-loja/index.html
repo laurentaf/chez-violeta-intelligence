@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chez Violeta — Chatbot de Processos</title>
+<style>
+:root {
+  --color-primary: #7B2D4E;
+  --color-primary-light: #A64D72;
+  --color-primary-dark: #5A1E38;
+  --color-gold: #C9A84C;
+  --color-gold-light: #E8CF7A;
+  --color-gold-dark: #A88830;
+  --color-bg: #FAF8F5;
+  --color-surface: #FFFFFF;
+  --color-border: #E5DDD6;
+  --color-text-primary: #2D1B1B;
+  --color-text-secondary: #6B5E5A;
+  --color-text-muted: #9C8F8A;
+  --color-success: #2E7D5E;
+  --color-warning: #C97D3B;
+  --color-danger: #B34A4A;
+  --color-info: #4A7BA8;
+  --font-heading: 'Cormorant Garamond', 'Georgia', serif;
+  --font-body: 'Inter', -apple-system, 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Cascadia Code', monospace;
+  --text-xs: .75rem; --text-sm: .875rem; --text-base: 1rem;
+  --text-lg: 1.125rem; --text-xl: 1.5rem; --text-2xl: 2rem;
+  --space-1: .25rem; --space-2: .5rem; --space-3: .75rem;
+  --space-4: 1rem; --space-5: 1.5rem; --space-6: 2rem;
+  --radius-sm: 6px; --radius-md: 8px; --radius-lg: 12px;
+  --shadow-sm: 0 1px 3px rgba(45,27,27,.06);
+  --shadow-md: 0 4px 12px rgba(45,27,27,.08);
+  --shadow-lg: 0 8px 24px rgba(45,27,27,.1);
+  --chat-max-w: 720px;
+}
+[data-theme="dark"] {
+  --color-bg: #1A1115; --color-surface: #2D1B22;
+  --color-border: #3D2830; --color-text-primary: #F0EBE6;
+  --color-text-secondary: #B8A9A4; --color-text-muted: #7A6A64;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.3);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.4);
+}
+[data-theme="dark"] .quick-btn { background: #3D2830; border-color: #5A3848; color: var(--color-text-primary); }
+[data-theme="dark"] .quick-btn:hover { background: var(--color-primary-light); border-color: var(--color-primary-light); }
+[data-theme="dark"] .welcome-card { background: linear-gradient(135deg,#3D2830 0%,#2D1B22 100%); }
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html,body { height: 100%; font-family: var(--font-body); font-size: var(--text-base); line-height: 1.6; color: var(--color-text-primary); background: var(--color-bg); -webkit-font-smoothing: antialiased; }
+button,input { font-family: inherit; }
+button { cursor: pointer; }
+input { outline: none; border: none; }
+.app { display: flex; flex-direction: column; height: 100vh; max-width: var(--chat-max-w); margin: 0 auto; }
+.header { display: flex; align-items: center; justify-content: space-between; padding: var(--space-3) var(--space-5); background: var(--color-primary); color: #fff; min-height: 64px; flex-shrink: 0; box-shadow: 0 2px 8px rgba(90,30,56,.3); }
+.header-brand { display: flex; align-items: center; gap: var(--space-3); }
+.header-icon { width: 36px; height: 36px; background: var(--color-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+.header-title { display: flex; flex-direction: column; }
+.header-title h1 { font-family: var(--font-heading); font-size: var(--text-lg); font-weight: 700; line-height: 1.2; letter-spacing: .02em; }
+.header-title span { font-size: var(--text-xs); opacity: .85; }
+.header-actions { display: flex; align-items: center; gap: var(--space-2); }
+.theme-toggle { background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.2); color: #fff; width: 38px; height: 38px; border-radius: 50%; font-size: 1.1rem; transition: background .2s; display: flex; align-items: center; justify-content: center; }
+.theme-toggle:hover { background: rgba(255,255,255,.25); }
+.clear-btn { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.15); color: #fff; padding: var(--space-1) var(--space-3); border-radius: var(--radius-sm); font-size: var(--text-xs); transition: background .2s; }
+.clear-btn:hover { background: rgba(255,255,255,.2); }
+.chat-area { flex: 1; overflow-y: auto; padding: var(--space-4); scroll-behavior: smooth; }
+.chat-area::-webkit-scrollbar { width: 6px; }
+.chat-area::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+.welcome { text-align: center; padding: var(--space-5) 0; animation: fadeIn .4s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.welcome-icon { font-size: 3rem; margin-bottom: var(--space-3); }
+.welcome h2 { font-family: var(--font-heading); font-size: var(--text-xl); color: var(--color-primary); margin-bottom: var(--space-2); }
+.welcome p { color: var(--color-text-secondary); font-size: var(--text-sm); max-width: 480px; margin: 0 auto var(--space-5); }
+.welcome-card { background: linear-gradient(135deg,#FAF8F5 0%,#F5EDE8 100%); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-4); margin-bottom: var(--space-4); text-align: left; }
+.welcome-card h3 { font-family: var(--font-heading); font-size: var(--text-base); color: var(--color-primary); margin-bottom: var(--space-2); display: flex; align-items: center; gap: var(--space-2); }
+.quick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); margin-top: var(--space-3); }
+.quick-btn { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-3); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); color: var(--color-text-primary); font-size: var(--text-sm); font-weight: 500; text-align: left; transition: all .2s; line-height: 1.3; }
+.quick-btn:hover { background: var(--color-primary); color: #fff; border-color: var(--color-primary); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.quick-btn .q-icon { font-size: 1.2rem; flex-shrink: 0; }
+.message { display: flex; margin-bottom: var(--space-3); animation: msgIn .3s ease; }
+@keyframes msgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.message--bot { justify-content: flex-start; }
+.message--user { justify-content: flex-end; }
+.message-bubble { max-width: 85%; padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); font-size: var(--text-sm); line-height: 1.7; word-wrap: break-word; }
+.message--bot .message-bubble { background: var(--color-surface); border: 1px solid var(--color-border); border-bottom-left-radius: 4px; color: var(--color-text-primary); }
+.message--user .message-bubble { background: var(--color-primary); color: #fff; border-bottom-right-radius: 4px; }
+.message-time { font-size: .65rem; color: var(--color-text-muted); margin-top: var(--space-1); text-align: right; }
+.message--user .message-time { color: rgba(255,255,255,.6); }
+.message-bubble strong { color: var(--color-primary-dark); }
+[data-theme="dark"] .message--bot .message-bubble strong { color: var(--color-gold); }
+.message-bubble ul,.message-bubble ol { padding-left: var(--space-5); margin: var(--space-2) 0; }
+.message-bubble li { margin-bottom: var(--space-1); }
+.message-bubble p { margin-bottom: var(--space-2); }
+.message-bubble p:last-child { margin-bottom: 0; }
+.message-bubble code { font-family: var(--font-mono); font-size: .8rem; background: rgba(123,45,78,.08); padding: 1px 5px; border-radius: 3px; color: var(--color-primary-dark); }
+.step-list { list-style: none; padding: 0 !important; counter-reset: step; }
+.step-list li { counter-increment: step; padding: var(--space-2) var(--space-2) var(--space-2) var(--space-6); position: relative; margin-bottom: var(--space-1); border-left: 2px solid var(--color-gold); }
+.step-list li::before { content: counter(step); position: absolute; left: -1px; top: var(--space-2); width: 22px; height: 22px; background: var(--color-gold); color: #fff; border-radius: 50%; font-size: .7rem; font-weight: 700; display: flex; align-items: center; justify-content: center; transform: translateX(-50%); }
+.info-box { background: rgba(74,123,168,.08); border-left: 3px solid var(--color-info); padding: var(--space-3); margin: var(--space-3) 0; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-size: var(--text-sm); }
+.info-box--warning { background: rgba(201,125,59,.08); border-left-color: var(--color-warning); }
+.info-box--success { background: rgba(46,125,94,.08); border-left-color: var(--color-success); }
+.info-box--danger { background: rgba(179,74,74,.08); border-left-color: var(--color-danger); }
+.info-box strong { display: block; margin-bottom: var(--space-1); }
+.typing { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-4); animation: msgIn .3s ease; }
+.typing-dots { display: flex; gap: 4px; }
+.typing-dots span { width: 8px; height: 8px; background: var(--color-text-muted); border-radius: 50%; animation: dotPulse 1.4s infinite; }
+.typing-dots span:nth-child(2) { animation-delay: .2s; }
+.typing-dots span:nth-child(3) { animation-delay: .4s; }
+@keyframes dotPulse { 0%,60%,100% { opacity: .3; transform: scale(.8); } 30% { opacity: 1; transform: scale(1.1); } }
+.input-area { padding: var(--space-3) var(--space-4); background: var(--color-bg); border-top: 1px solid var(--color-border); flex-shrink: 0; }
+.input-row { display: flex; gap: var(--space-2); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-1); transition: border-color .2s, box-shadow .2s; }
+.input-row:focus-within { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(123,45,78,.12); }
+.chat-input { flex: 1; background: transparent; padding: var(--space-2) var(--space-3); font-size: var(--text-sm); color: var(--color-text-primary); min-height: 44px; }
+.chat-input::placeholder { color: var(--color-text-muted); }
+.send-btn { width: 44px; height: 44px; border: none; background: var(--color-primary); color: #fff; border-radius: var(--radius-md); font-size: 1.2rem; transition: background .2s, transform .1s; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.send-btn:hover { background: var(--color-primary-light); }
+.send-btn:active { transform: scale(.95); }
+.send-btn:disabled { background: var(--color-text-muted); cursor: not-allowed; }
+.input-hint { text-align: center; font-size: .65rem; color: var(--color-text-muted); margin-top: var(--space-2); }
+.suggestion-bar { display: flex; gap: var(--space-2); overflow-x: auto; padding: var(--space-2) 0; scrollbar-width: none; }
+.suggestion-bar::-webkit-scrollbar { display: none; }
+.suggestion-chip { flex-shrink: 0; padding: var(--space-1) var(--space-3); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 20px; font-size: var(--text-xs); color: var(--color-text-secondary); white-space: nowrap; transition: all .2s; }
+.suggestion-chip:hover { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
+.no-results { text-align: center; padding: var(--space-6); color: var(--color-text-muted); }
+@media (max-width: 600px) {
+  .header { padding: var(--space-2) var(--space-3); }
+  .header-title h1 { font-size: var(--text-base); }
+  .quick-grid { grid-template-columns: 1fr; }
+  .message-bubble { max-width: 92%; }
+}
+
+</style>
+</head>
+<body>
+<div class="app" role="application" aria-label="Chatbot de Processos Chez Violeta">
+  <header class="header">
+    <div class="header-brand">
+      <div class="header-icon" aria-hidden="true">&#x1F48E;</div>
+      <div class="header-title">
+        <h1>Chez Violeta</h1>
+        <span>Chatbot de Processos</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Alternar modo escuro" title="Modo escuro">&#x1F319;</button>
+      <button class="clear-btn" id="clearBtn" aria-label="Limpar conversa">&#x2715; Limpar</button>
+    </div>
+  </header>
+  <main class="chat-area" id="chatArea" role="log" aria-label="Historico da conversa" aria-live="polite"></main>
+  <footer class="input-area">
+    <div class="suggestion-bar" id="suggestionBar"></div>
+    <div class="input-row">
+      <input type="text" class="chat-input" id="chatInput" placeholder="Digite sua duvida sobre processos..." autocomplete="off" aria-label="Digite sua pergunta">
+      <button class="send-btn" id="sendBtn" aria-label="Enviar mensagem">&#x27A4;</button>
+    </div>
+    <div class="input-hint">Pergunte sobre recebimento, etiquetagem, bipagem, divergencias e mais</div>
+  </footer>
+</div>
+<script>
+const KB = [
+  {id:"chegou-mercadoria",kw:["chegou", "mercadoria", "recebimento", "receber", "nf", "nota fiscal", "entrada", "chegada", "entrega", "fornecedor", "o que fazer"],q:"Chegou mercadoria - o que fazer?",a:`<p><strong>Passo a passo completo do recebimento:</strong></p><ol class="step-list"><li><strong>Receber a Nota Fiscal (NF-e)</strong><br>Confira os dados: razao social/CNPJ, numero da NF, data de emissao (ate 30 dias).<br><small style="color:var(--color-text-muted)">Responsavel: Administrativo | Sistema: GAVARNIE | 5-10 min</small></li><li><strong>Lancar entrada no GAVARNIE</strong><br>Registre numero, serie, fornecedor e valor. Vincule ao pedido de compra.<div class="info-box info-box--warning"><strong>Atencao:</strong> NF sem pedido de compra sinalize ao gerente. NF acima de R$ 10.000 requer autorizacao do gerente.</div></li><li><strong>Enviar para conferencia</strong><br>Encaminhe com copia da NF. Joias em bandejas acolchoadas. Lotes acima de 50 itens subdivididos em caixas identificadas.</li><li><strong>Etiquetagem</strong><br>Se tem EAN etiqueta de preco. Se nao tem EAN gere codigo interno CV-XXXXX-NNN e imprima etiqueta completa.</li><li><strong>Bipagem (scan)</strong><br>Bipe todos os itens no coletor, conferindo com a NF. Sistema alerta se codigo nao consta na NF.</li><li><strong>Conferencia final</strong><br>Sistema compara NF x bipado. Se 100% OK liberar. Se divergir registrar e ajustar.</li><li><strong>Liberacao para venda</strong><br>Alterar status no GAVARNIE de "Em conferencia" para "Liberado". Joias acima de R$ 5.000 exigem dupla assinatura (conferente + gerente).</li></ol><div class="info-box info-box--success"><strong>SLA total:</strong> Ate 2 horas para lote medio de 50 itens.</div>`},
+  {id:"etiquetagem",kw:["etiqueta", "etiquetar", "etiquetagem", "ean", "codigo proprio", "codigo interno", "preco", "identificar", "marcar", "CV-", "barras"],q:"Como etiquetar a mercadoria?",a:`<p><strong>Ha dois caminhos, depende do tipo de produto:</strong></p><h4 style="margin:var(--space-3) 0 var(--space-2);color:var(--color-primary-dark)">Produto com EAN (codigo de barras padrao)</h4><ol><li>Verifique se o EAN-13 esta legivel na embalagem</li><li>Coloque a <strong>etiqueta de preco</strong> sobre ou ao lado do EAN</li><li>A etiqueta deve conter: valor de venda, codigo do produto, data de precificacao</li></ol><h4 style="margin:var(--space-3) 0 var(--space-2);color:var(--color-primary-dark)">Produto com Codigo Proprio (sem EAN)</h4><p><strong>Quando usar codigo proprio:</strong></p><ul><li>Joias sem embalagem original do fabricante</li><li>Acessorios artesanais (sem fornecedor padronizado)</li><li>EAN danificado ou ilegivel</li></ul><ol><li>Gere etiqueta interna no GAVARNIE: formato <code>CV-XXXXX-NNN</code></li><li>Imprima com: codigo de barras Code 128, nome do produto, preco de venda, QR Code opcional</li><li>Afixe na embalagem ou lacre de seguranca (para joias)</li><li>Registre a etiqueta como ativa no inventario</li></ol><div class="info-box"><strong>Tempo estimado:</strong> 1-3 minutos por item</div>`},
+  {id:"divergencia-nf",kw:["divergencia", "nf nao confere", "diferenca", "erro na nota", "nota errada", "quantidade errada", "faltando", "sobrando", "excedente", "pendente"],q:"A NF nao confere com a mercadoria - o que fazer?",a:`<p><strong>Divergencia acontece. Veja o que fazer em cada caso:</strong></p><table style="width:100%;border-collapse:collapse;font-size:var(--text-sm);margin:var(--space-3) 0"><thead><tr style="background:var(--color-primary);color:#fff"><th style="padding:var(--space-2);text-align:left">Situacao</th><th style="padding:var(--space-2);text-align:left">Acao</th></tr></thead><tbody><tr style="border-bottom:1px solid var(--color-border)"><td style="padding:var(--space-2);font-weight:600">Quantidade divergente</td><td style="padding:var(--space-2)">Registrar divergencia, recontar fisicamente. Se confirmado, ajustar estoque no sistema.</td></tr><tr style="border-bottom:1px solid var(--color-border)"><td style="padding:var(--space-2);font-weight:600">Item nao localizado</td><td style="padding:var(--space-2)">Marcar como "pendente" no sistema. Busca adicional de 24h. Se nao encontrado, registrar perda.</td></tr><tr><td style="padding:var(--space-2);font-weight:600">Item excedente (sobrou)</td><td style="padding:var(--space-2)">Se do mesmo fornecedor e gerente autorizar: fornecedor emite NF complementar. Senao: segregar para devolucao.</td></tr></tbody></table><div class="info-box info-box--warning"><strong>Regras importantes:</strong> Divergencia acima de 5% do valor total da NF requer autorizacao do gerente. Itens acima de R$ 500 tem dupla checagem obrigatoria. Divergencias devem ser registradas com fotos se possivel.</div>`},
+  {id:"devolucao",kw:["devolucao", "devolver", "fornecedor", "avariado", "defeito", "danificado", "quebrado", "coleta", "nota de devolucao"],q:"Preciso devolver mercadoria - como fazer?",a:`<p><strong>Fluxo de devolucao ao fornecedor:</strong></p><ol class="step-list"><li><strong>Separar fisicamente</strong> os itens a devolver (avariados, em desacordo, excedentes nao incorporados)</li><li><strong>Registrar NF de devolucao</strong> no sistema GAVARNIE</li><li><strong>Notificar o fornecedor</strong> por email ou sistema, informando o motivo e os itens</li><li><strong>Aguardar instrucoes de coleta</strong> do fornecedor (prazo conforme acordo comercial)</li><li><strong>Baixar do inventario</strong> apos a coleta ser realizada</li></ol><div class="info-box info-box--danger"><strong>Atencao:</strong> Itens avariados nao devem ser bipados. Separe em lote de devolucao e registre NF de devolucao antes de qualquer outra acao.</div>`},
+  {id:"bipagem",kw:["bipagem", "bipar", "bip", "scan", "scanner", "coletor", "coletar", "codigo de barras", "leitura", "ler codigo"],q:"Como bipar a mercadoria?",a:`<p><strong>Procedimento de bipagem (scan):</strong></p><ol class="step-list"><li><strong>Abra a conferencia no coletor</strong> vinculada a NF recebida</li><li><strong>Bipe cada item</strong> - o sistema registra automaticamente: codigo do produto, quantidade bipada, horario da bipagem</li><li><strong>Conferencia visual rapida</strong> durante a bipagem:<br>- Produto corresponde a descricao da NF?<br>- Embalagem em boas condicoes?<br>- Quantidade bipada = quantidade fisica?</li></ol><div class="info-box"><strong>Controles do sistema:</strong> Impede bipar o mesmo codigo duas vezes sem confirmacao. Alerta sonoro se codigo bipado nao consta na NF. Itens com defeito devem ser marcados como "avariado".</div><div class="info-box info-box--warning"><strong>Excecoes:</strong> Item avariado nao bipar, separar para devolucao. Item faltando bipar quantidade real. Item excedente sinalizar e aguardar gerente.</div><p><small style="color:var(--color-text-muted)">Tempo: 10-30s por item | Lote de 50 itens: 15-30 min</small></p>`},
+  {id:"troca",kw:["troca", "trocas", "cliente quer trocar", "produto com defeito", "insatisfeito", "arrependimento", "trocar produto"],q:"Cliente quer trocar um produto - como proceder?",a:`<p><strong>Nota:</strong> O processo de troca nao esta detalhado no documento atual de Entrada de Mercadorias.</p><p><strong>Procedimento geral baseado nas praticas da loja:</strong></p><ol class="step-list"><li><strong>Verifique o prazo</strong> para troca conforme politica da loja</li><li><strong>Confira o estado do produto</strong> e a nota fiscal de venda original</li><li><strong>Registre a troca</strong> no sistema GAVARNIE (consulte o gerente para o procedimento exato)</li><li><strong>Produto devolvido</strong> deve passar novamente pelo fluxo de entrada (conferencia, etiquetagem) se for reexposto</li><li><strong>Consulte o gerente</strong> em caso de duvida sobre prazos, condicoes ou produtos sem nota</li></ol><div class="info-box"><strong>Sugestao:</strong> Consulte seu supervisor ou gerente para o procedimento especifico de trocas da sua loja.</div>`},
+  {id:"precificacao",kw:["preco", "precificacao", "colocar preco", "etiqueta de preco", "valor", "precificar", "quanto custa"],q:"Como colocar preco no produto?",a:`<p><strong>Regras de precificacao na etiquetagem:</strong></p><div class="info-box"><strong>Para produtos com EAN:</strong> A etiqueta de preco e colocada sobre ou ao lado do codigo EAN. Deve conter: valor de venda, codigo do produto, data de precificacao.</div><div class="info-box"><strong>Para codigo proprio (CV-XXXXX-NNN):</strong> A etiqueta interna ja e impressa com o preco de venda junto com o codigo de barras Code 128, nome do produto e QR Code opcional.</div><p><strong>Responsavel:</strong> Conferente / Estoquista | <strong>Tempo:</strong> 1-3 min por item</p><p>O valor de venda e definido pela equipe de precificacao e ja deve estar no sistema GAVARNIE no momento da etiquetagem.</p>`},
+  {id:"liberacao",kw:["liberacao", "liberar", "venda", "disponivel", "exposicao", "vitrine", "estoque", "pronta entrega"],q:"Como liberar a mercadoria para venda?",a:`<p><strong>Etapa final apos conferencia OK:</strong></p><ol class="step-list"><li><strong>No GAVARNIE:</strong> Alterar status do lote de "Em conferencia" para "Liberado"</li><li><strong>Estoque fisico:</strong> Mover da area de conferencia para exposicao (vitrine/balcao) ou estoque interno</li><li><strong>Inventario:</strong> Quantidades disponiveis sao atualizadas automaticamente no sistema</li></ol><div class="info-box info-box--warning"><strong>Atencao:</strong> Joias acima de R$ 5.000 exigem dupla assinatura (conferente + gerente). Lotes com divergencia resolvida liberam apenas itens conferidos; itens pendentes ficam bloqueados.</div><p><small style="color:var(--color-text-muted)">Responsavel: Gerente / Supervisor | Tempo: 2-5 min</small></p>`},
+  {id:"perda",kw:["perda", "extravio", "perdeu", "sumiu", "nao encontrou", "desapareceu", "busca", "ocorrencia"],q:"Mercadoria extraviada - o que fazer?",a:`<p><strong>Fluxo de perda / extravio:</strong></p><ol class="step-list"><li><strong>Busca por 24h</strong> na area de conferencia e estoque</li><li><strong>Se nao encontrado:</strong> Registrar perda no sistema GAVARNIE</li><li><strong>Ajustar inventario</strong> (baixar o item do estoque)</li><li><strong>Notificar seguranca</strong> (se aplicavel)</li><li><strong>Registrar ocorrencia policial</strong> se o valor for acima de R$ 1.000</li></ol><div class="info-box info-box--danger"><strong>Importante:</strong> Nao libere o lote enquanto itens estiverem marcados como "pendente" - eles ficam bloqueados ate resolucao.</div>`},
+  {id:"papeis",kw:["papeis", "responsabilidades", "quem faz", "quem e responsavel", "administrativo", "conferente", "gerente", "supervisor"],q:"Quem faz o que no processo de entrada?",a:`<table style="width:100%;border-collapse:collapse;font-size:var(--text-sm);margin:var(--space-3) 0"><thead><tr style="background:var(--color-primary);color:#fff"><th style="padding:var(--space-2);text-align:left">Papel</th><th style="padding:var(--space-2);text-align:left">Responsabilidades</th></tr></thead><tbody><tr style="border-bottom:1px solid var(--color-border)"><td style="padding:var(--space-2);font-weight:600">Administrativo</td><td style="padding:var(--space-2)">Lanca NF no GAVARNIE, encaminha mercadoria para conferencia</td></tr><tr style="border-bottom:1px solid var(--color-border)"><td style="padding:var(--space-2);font-weight:600">Conferente</td><td style="padding:var(--space-2)">Etiqueta, bipa, confere, sinaliza divergencias</td></tr><tr style="border-bottom:1px solid var(--color-border)"><td style="padding:var(--space-2);font-weight:600">Conferente Senior</td><td style="padding:var(--space-2)">Valida divergencias, dupla checagem de itens acima de R$ 500</td></tr><tr style="border-bottom:1px solid var(--color-border)"><td style="padding:var(--space-2);font-weight:600">Supervisor de Estoque</td><td style="padding:var(--space-2)">Autoriza liberacoes parciais, gerencia bloqueios</td></tr><tr><td style="padding:var(--space-2);font-weight:600">Gerente de Loja</td><td style="padding:var(--space-2)">Autoriza NF acima de R$ 10k, resolve divergencias, libera lote</td></tr></tbody></table>`},
+  {id:"slas",kw:["sla", "tempo", "prazo", "quanto tempo", "demora", "estimativa", "minutos", "horas"],q:"Quanto tempo leva cada etapa?",a:`<table style="width:100%;border-collapse:collapse;font-size:var(--text-sm);margin:var(--space-3) 0"><thead><tr style="background:var(--color-primary);color:#fff"><th style="padding:var(--space-2);text-align:left">Etapa</th><th style="padding:var(--space-2);text-align:left">Tempo</th><th style="padding:var(--space-2);text-align:left">SLA maximo</th></tr></thead><tbody><tr style="border-bottom:1px solid var(--color-border)"><td style="padding:var(--space-2)">1. Receber NF</td><td style="padding:var(--space-2)">5-10 min</td><td style="padding:var(--space-2)">30 min</td></tr><tr style="border-bottom:1px solid var(--color-border)"><td style="padding:var(--space-2)">2. Enviar p/ conferencia</td><td style="padding:var(--space-2)">2-5 min</td><td style="padding:var(--space-2)">15 min</td></tr><tr style="border-bottom:1px solid var(--color-border)"><td style="padding:var(--space-2)">3. Etiquetagem (por item)</td><td style="padding:var(--space-2)">1-3 min</td><td style="padding:var(--space-2)">5 min/item</td></tr><tr style="border-bottom:1px solid var(--color-border)"><td style="padding:var(--space-2)">4. Bipagem (lote 50 itens)</td><td style="padding:var(--space-2)">15-30 min</td><td style="padding:var(--space-2)">45 min</td></tr><tr style="border-bottom:1px solid var(--color-border)"><td style="padding:var(--space-2)">5. Conferencia final</td><td style="padding:var(--space-2)">5-15 min</td><td style="padding:var(--space-2)">30 min</td></tr><tr><td style="padding:var(--space-2)">6. Liberacao</td><td style="padding:var(--space-2)">2-5 min</td><td style="padding:var(--space-2)">10 min</td></tr></tbody></table><div class="info-box info-box--success"><strong>Total (lote 50 itens):</strong> 40-80 min, SLA maximo ~2 horas</div>`},
+  {id:"glossario",kw:["glossario", "termos", "significado", "o que significa", "definicao", "EAN", "NF", "GAVARNIE", "bipagem", "conferencia", "divergencia", "liberacao", "codigo proprio"],q:"O que significam os termos tecnicos?",a:`<table style="width:100%;border-collapse:collapse;font-size:var(--text-sm);margin:var(--space-3) 0"><thead><tr style="background:var(--color-primary);color:#fff"><th style="padding:var(--space-2);text-align:left">Termo</th><th style="padding:var(--space-2);text-align:left">Significado</th></tr></thead><tbody><tr style="border-bottom:1px solid var(--color-border)"><td style="padding:var(--space-2);font-weight:600">NF / NF-e</td><td style="padding:var(--space-2)">Nota Fiscal eletronica - documento fiscal digital</td></tr><tr style="border-bottom:1px solid var(--color-border)"><td style="padding:var(--space-2);font-weight:600">EAN</td><td style="padding:var(--space-2)">European Article Number - codigo de barras padrao internacional (13 digitos)</td></tr><tr style="border-bottom:1px solid var(--color-border)"><td style="padding:var(--space-2);font-weight:600">Codigo proprio</td><td style="padding:var(--space-2)">Codigo de barras interno Chez Violeta: CV-XXXXX-NNN</td></tr><tr style="border-bottom:1px solid var(--color-border)"><td style="padding:var(--space-2);font-weight:600">Bipagem</td><td style="padding:var(--space-2)">Ato de escanear o codigo de barras com o coletor</td></tr><tr style="border-bottom:1px solid var(--color-border)"><td style="padding:var(--space-2);font-weight:600">GAVARNIE</td><td style="padding:var(--space-2)">Sistema ERP Oracle utilizado pela Chez Violeta</td></tr><tr style="border-bottom:1px solid var(--color-border)"><td style="padding:var(--space-2);font-weight:600">Conferencia</td><td style="padding:var(--space-2)">Verificacao se quantidade e itens correspondem a NF</td></tr><tr style="border-bottom:1px solid var(--color-border)"><td style="padding:var(--space-2);font-weight:600">Divergencia</td><td style="padding:var(--space-2)">Diferenca entre o que foi pedido/NF e o que foi recebido</td></tr><tr><td style="padding:var(--space-2);font-weight:600">Liberacao</td><td style="padding:var(--space-2)">Autorizacao final para mercadoria ficar disponivel para venda</td></tr></tbody></table>`},
+  {id:"regras",kw:["regras", "regra de negocios", "normas", "regulamento", "politica", "autorizacao", "limite"],q:"Quais as regras de negocios importantes?",a:`<table style="width:100%;border-collapse:collapse;font-size:var(--text-sm);margin:var(--space-3) 0"><thead><tr style="background:var(--color-primary);color:#fff"><th style="padding:var(--space-2);text-align:left">Regra</th><th style="padding:var(--space-2);text-align:left">Severidade</th></tr></thead><tbody><tr style="border-bottom:1px solid var(--color-border)"><td style="padding:var(--space-2)">NF sem pedido de compra sinalizar ao gerente</td><td style="padding:var(--space-2)">Media</td></tr><tr style="border-bottom:1px solid var(--color-border)"><td style="padding:var(--space-2)">NF acima de R$ 10.000 requer autorizacao do gerente</td><td style="padding:var(--space-2)">Alta</td></tr><tr style="border-bottom:1px solid var(--color-border)"><td style="padding:var(--space-2)">Sistema impede NF duplicada (mesmo numero+serie+fornecedor)</td><td style="padding:var(--space-2)">Alta</td></tr><tr style="border-bottom:1px solid var(--color-border)"><td style="padding:var(--space-2)">Joias e itens frageis em bandejas acolchoadas</td><td style="padding:var(--space-2)">Media</td></tr><tr style="border-bottom:1px solid var(--color-border)"><td style="padding:var(--space-2)">Lotes acima de 50 itens subdividir em caixas</td><td style="padding:var(--space-2)">Baixa</td></tr><tr style="border-bottom:1px solid var(--color-border)"><td style="padding:var(--space-2)">Joias sem embalagem original codigo proprio</td><td style="padding:var(--space-2)">Alta</td></tr><tr style="border-bottom:1px solid var(--color-border)"><td style="padding:var(--space-2)">Sistema alerta se codigo bipado nao consta na NF</td><td style="padding:var(--space-2)">Alta</td></tr><tr style="border-bottom:1px solid var(--color-border)"><td style="padding:var(--space-2)">Divergencia acima de 5% autorizacao do gerente</td><td style="padding:var(--space-2)">Alta</td></tr><tr style="border-bottom:1px solid var(--color-border)"><td style="padding:var(--space-2)">Itens acima de R$ 500 dupla checagem</td><td style="padding:var(--space-2)">Alta</td></tr><tr><td style="padding:var(--space-2)">Joias acima de R$ 5.000 dupla assinatura na liberacao</td><td style="padding:var(--space-2)">Alta</td></tr></tbody></table>`}
+];
+const QUICK = [
+  {icon:"📦",label:"Chegou mercadoria"},
+  {icon:"🏷️",label:"Como etiquetar?"},
+  {icon:"⚠️",label:"NF nao confere"},
+  {icon:"📤",label:"Devolucao"},
+  {icon:"📱",label:"Como bipar?"},
+  {icon:"🔄",label:"Troca"},
+  {icon:"💰",label:"Colocar preco"},
+  {icon:"📋",label:"Quem faz o que?"}
+];
+(function(){
+  const chatArea = document.getElementById("chatArea");
+  const chatInput = document.getElementById("chatInput");
+  const sendBtn = document.getElementById("sendBtn");
+  const themeToggle = document.getElementById("themeToggle");
+  const clearBtn = document.getElementById("clearBtn");
+  const suggestionBar = document.getElementById("suggestionBar");
+  let msgCount = 0;
+
+  function esc(s){ const e=document.createElement("div"); e.textContent=s; return e.innerHTML; }
+
+  function scrollDown(){ setTimeout(()=>{chatArea.scrollTop=chatArea.scrollHeight},50); }
+
+  function addBotMsg(html){
+    const t=new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+    const d=document.createElement("div"); d.className="message message--bot";
+    d.innerHTML='<div class="message-bubble">'+html+'<div class="message-time">'+t+'</div></div>';
+    chatArea.appendChild(d); scrollDown(); msgCount++;
+  }
+
+  function addUserMsg(text){
+    const t=new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+    const d=document.createElement("div"); d.className="message message--user";
+    d.innerHTML='<div class="message-bubble">'+esc(text)+'<div class="message-time">'+t+'</div></div>';
+    chatArea.appendChild(d); scrollDown(); msgCount++;
+  }
+
+  function showTyping(){
+    const d=document.createElement("div"); d.className="message message--bot"; d.id="typingIndicator";
+    d.innerHTML='<div class="message-bubble typing"><div class="typing-dots"><span></span><span></span><span></span></div></div>';
+    chatArea.appendChild(d); scrollDown();
+  }
+  function hideTyping(){ const e=document.getElementById("typingIndicator"); if(e) e.remove(); }
+
+  function searchKB(query){
+    const q=query.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();
+    if(!q) return null;
+    let best=null, bestScore=0;
+    for(const item of KB){
+      let score=0;
+      for(const k of item.kw){
+        const kn=k.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+        if(q.includes(kn)||kn.includes(q)) score+=kn.length;
+      }
+      if(score>bestScore){bestScore=score;best=item;}
+    }
+    return best;
+  }
+
+  function respondTo(query){
+    const match=searchKB(query);
+    if(match) return match.a;
+    return '<p>Nao encontrei resposta exata para sua pergunta.</p><div class="info-box"><strong>Tente perguntar sobre:</strong><br>'
+      +KB.map(i=>"&bull; "+esc(i.q)).join("<br>")
+      +'</div><p>Ou clique em um dos topicos rapidos abaixo!</p>';
+  }
+
+  function sendMessage(text){
+    const q=(text||"").trim();
+    if(!q) return;
+    if(msgCount===0) clearChat(true);
+    addUserMsg(q);
+    chatInput.value=""; sendBtn.disabled=true;
+    showTyping();
+    const delay=400+Math.min(q.length*15,1200);
+    setTimeout(()=>{
+      hideTyping();
+      const html=respondTo(q);
+      addBotMsg(html);
+      sendBtn.disabled=false;
+      renderSuggestions();
+      chatInput.focus();
+    },delay);
+  }
+
+  function clearChat(silent){
+    chatArea.innerHTML=""; msgCount=0;
+    if(!silent){ chatArea.innerHTML='<div class="welcome" id="welcomeScreen"><div class="welcome-icon">&#x1F48E;</div><h2>Conversa limpa!</h2><p>Como posso ajudar?</p></div>'; }
+    renderWelcome(); renderSuggestions();
+  }
+
+  function renderWelcome(){
+    if(msgCount>0) return;
+    const w=document.createElement("div"); w.className="welcome"; w.id="welcomeScreen";
+    w.innerHTML='<div class="welcome-icon">&#x1F48E;</div>'
+      +'<h2>Chatbot de Processos</h2>'
+      +'<p>Bem-vindo(a)! Tire duvidas sobre os processos operacionais da Chez Violeta. Escolha um topico abaixo ou digite sua pergunta.</p>'
+      +'<div class="welcome-card"><h3>&#x1F4AC; Perguntas rapidas</h3><div class="quick-grid">'
+      +QUICK.map(q=>'<button class="quick-btn" data-q="'+esc(q.label)+'"><span class="q-icon">'+q.icon+'</span> '+esc(q.label)+'</button>').join("")
+      +'</div></div>'
+      +'<div class="welcome-card"><h3>&#x1F4D6; Sobre o que posso perguntar?</h3>'
+      +'<p style="font-size:var(--text-sm);color:var(--color-text-secondary);text-align:left">'
+      +'Recebimento de mercadorias, etiquetagem (EAN e codigo proprio), bipagem/scan, divergencias na NF, devolucao ao fornecedor, troca de produtos, precificacao, papeis e responsabilidades, prazos (SLAs), regras de negocios e glossario de termos tecnicos.</p></div>';
+    chatArea.appendChild(w);
+    setTimeout(()=>{
+      document.querySelectorAll(".quick-btn").forEach(b=>{
+        b.addEventListener("click",()=>sendMessage(b.getAttribute("data-q")));
+      });
+    },50);
+  }
+
+  function renderSuggestions(){
+    suggestionBar.innerHTML="";
+    ["Chegou mercadoria","Como etiquetar?","NF nao confere","Fazer devolucao","Como bipar?"].forEach(c=>{
+      const btn=document.createElement("button"); btn.className="suggestion-chip";
+      btn.textContent=c;
+      btn.addEventListener("click",()=>sendMessage(c));
+      suggestionBar.appendChild(btn);
+    });
+  }
+
+  // Theme
+  const saved=localStorage.getItem("cv-theme")||"light";
+  document.documentElement.setAttribute("data-theme",saved);
+  themeToggle.textContent=saved==="dark"?"☀️":"🌙";
+  themeToggle.addEventListener("click",()=>{
+    const cur=document.documentElement.getAttribute("data-theme");
+    const next=cur==="dark"?"light":"dark";
+    document.documentElement.setAttribute("data-theme",next);
+    localStorage.setItem("cv-theme",next);
+    themeToggle.textContent=next==="dark"?"☀️":"🌙";
+  });
+
+  // Events
+  sendBtn.addEventListener("click",()=>sendMessage(chatInput.value));
+  chatInput.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendMessage(chatInput.value);}});
+  clearBtn.addEventListener("click",()=>clearChat(false));
+
+  renderWelcome(); renderSuggestions(); chatInput.focus();
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+{
+  "simulation_metadata": {
+    "version": "1.0.0",
+    "total_days": 30,
+    "start_date": "2019-12-01",
+    "end_date": "2019-12-30",
+    "seed": 42
+  },
+  "totals": {
+    "total_sales_units": 2670,
+    "total_revenue_brl": 88143.87,
+    "total_stockouts": 1456,
+    "stockout_products_unique": 1456,
+    "total_purchase_alerts": 739,
+    "total_receipts": 0,
+    "total_slow_movers": 23196,
+    "slow_mover_products_unique": 898
+  },
+  "final_stock": {
+    "total_units": 19886,
+    "unique_products": 8069,
+    "zero_stock_products": 1456
+  },
+  "regime_distribution": {
+    "commodity": 4858,
+    "fashion": 3795,
+    "seasonal": 872
+  },
+  "suppliers_tracked": 178,
+  "suppliers_with_receipts": 0
+}

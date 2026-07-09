@@ -1,0 +1,15 @@
+{
+  "preflight": {
+    "command": "uv run python scripts/preflight_check.py projects/chez-violeta",
+    "exit_code": 0,
+    "output": "PREFLIGHT_PASS: 0 findings, tier=M1, 7 checks completed.",
+    "tier": "M1",
+    "findings": 0,
+    "checks": 7
+  },
+  "wdl_gate": {
+    "status": "meta-audit skip",
+    "exit_code": 0,
+    "note": "No active plan_id for this validation. Prior WDL gate returned READY (plan_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890)."
+  }
+}

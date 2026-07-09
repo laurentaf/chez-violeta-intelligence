@@ -1,0 +1,726 @@
+<!---
+synthetic: false
+kind: wireframe
+label: "WIREFRAME — layout and data shape only, not production"
+granted_by: laurent@laurentaf.dev
+granted_at: 2026-07-02T12:00:00Z
+data_source: gold.fato_vendas (DuckDB chez_gold.duckdb)
+design_system: artifacts/design/design-system.md
+--->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard de Vendas — Chez Violeta (Wireframe)</title>
+<style>
+  /* ─── Design System Tokens ───────────────────────────── */
+  :root {
+    --color-primary: #7B2D4E;
+    --color-primary-light: #A64D72;
+    --color-primary-dark: #5A1E38;
+    --color-gold: #C9A84C;
+    --color-gold-light: #E8CF7A;
+    --color-gold-dark: #A88830;
+    --color-bg: #FAF8F5;
+    --color-surface: #FFFFFF;
+    --color-border: #E5DDD6;
+    --color-text-primary: #2D1B1B;
+    --color-text-secondary: #6B5E5A;
+    --color-text-muted: #9C8F8A;
+    --color-success: #2E7D5E;
+    --color-warning: #C97D3B;
+    --color-danger: #B34A4A;
+    --color-info: #4A7BA8;
+    --chart-1: #7B2D4E;
+    --chart-2: #C9A84C;
+    --chart-3: #4A7BA8;
+    --chart-4: #2E7D5E;
+    --font-heading: 'Georgia', 'Cormorant Garamond', serif;
+    --font-body: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-mono: 'Courier New', monospace;
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.5rem;
+    --text-2xl: 2rem;
+    --text-3xl: 3rem;
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.5rem;
+    --space-6: 2rem;
+    --space-8: 3rem;
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --shadow-sm: 0 1px 3px rgba(45,27,27,0.06);
+    --shadow-md: 0 4px 12px rgba(45,27,27,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: var(--font-body);
+    background: var(--color-bg);
+    color: var(--color-text-primary);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+
+  /* ─── Watermark ───────────────────────────────────── */
+  .watermark {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent, transparent 20px,
+      rgba(90,30,56,0.03) 20px, rgba(90,30,56,0.03) 40px
+    );
+    color: var(--color-primary);
+    text-align: center;
+    font-size: var(--text-xs);
+    padding: var(--space-1);
+    font-weight: 600;
+    letter-spacing: 2px;
+    border-bottom: 2px solid var(--color-gold);
+    z-index: 1000;
+  }
+  .watermark span {
+    background: var(--color-primary);
+    color: white;
+    padding: 2px 12px;
+    border-radius: 0 0 4px 4px;
+  }
+
+  /* ─── Layout ───────────────────────────────────────── */
+  .app { max-width: 1440px; margin: 0 auto; padding: var(--space-5); padding-top: calc(var(--space-5) + 28px); }
+
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-4) var(--space-5);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-5);
+    box-shadow: var(--shadow-sm);
+  }
+  .header h1 {
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    color: var(--color-primary-dark);
+  }
+  .header .subtitle {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+  .nav-tabs {
+    display: flex;
+    gap: var(--space-2);
+  }
+  .nav-tab {
+    padding: var(--space-2) var(--space-4);
+    border: none;
+    background: transparent;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .nav-tab:hover { color: var(--color-primary); }
+  .nav-tab.active {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  /* Filter Bar */
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-5);
+  }
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .filter-group label {
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .filter-select, .filter-input {
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    font-family: var(--font-body);
+    background: var(--color-bg);
+    color: var(--color-text-primary);
+  }
+  .filter-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    padding: var(--space-2) 0;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: 2px 10px;
+    background: var(--color-primary);
+    color: white;
+    border-radius: 20px;
+    font-size: var(--text-xs);
+  }
+  .pill-close {
+    cursor: pointer;
+    opacity: 0.7;
+  }
+  .pill-close:hover { opacity: 1; }
+  .clear-link {
+    font-size: var(--text-xs);
+    color: var(--color-info);
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  /* KPI Row */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+  }
+  .kpi-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    box-shadow: var(--shadow-sm);
+    border-left: 4px solid var(--color-primary);
+  }
+  .kpi-card.gold { border-left-color: var(--color-gold); }
+  .kpi-card.success { border-left-color: var(--color-success); }
+  .kpi-card.info { border-left-color: var(--color-info); }
+  .kpi-label {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: var(--space-1);
+  }
+  .kpi-value {
+    font-family: var(--font-heading);
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    line-height: 1.1;
+    margin-bottom: var(--space-1);
+  }
+  .kpi-delta {
+    font-size: var(--text-xs);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .kpi-delta.up { color: var(--color-success); }
+  .kpi-delta.down { color: var(--color-danger); }
+
+  /* Charts Grid */
+  .charts-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+  }
+  .chart-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    box-shadow: var(--shadow-sm);
+  }
+  .chart-card.full { grid-column: 1 / -1; }
+  .chart-title {
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
+    color: var(--color-primary-dark);
+    margin-bottom: var(--space-4);
+  }
+
+  /* SVG Chart Placeholders */
+  .chart-svg {
+    width: 100%;
+    height: 220px;
+  }
+  .bar-chart { display: flex; align-items: flex-end; gap: 4px; height: 180px; padding-top: 10px; }
+  .bar { flex: 1; min-width: 12px; border-radius: 3px 3px 0 0; position: relative; }
+  .bar-label { position: absolute; bottom: -22px; left: 50%; transform: rotate(-45deg); transform-origin: left top; font-size: 10px; color: var(--color-text-muted); white-space: nowrap; }
+  .bar-value { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); font-size: 10px; color: var(--color-primary-dark); font-weight: 600; }
+  .sparkline { height: 40px; display: flex; align-items: flex-end; gap: 2px; margin-top: var(--space-2); }
+  .spark-bar { width: 4px; border-radius: 2px 2px 0 0; background: var(--chart-2); }
+  .legend { display: flex; gap: var(--space-4); margin-top: var(--space-3); flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-xs); color: var(--color-text-secondary); }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  /* Table */
+  .table-wrapper { overflow-x: auto; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+  }
+  th {
+    background: var(--color-primary);
+    color: white;
+    text-align: left;
+    padding: var(--space-2) var(--space-3);
+    font-weight: 600;
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  td {
+    padding: var(--space-2) var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+  }
+  tr:nth-child(even) td { background: #FAF8F5; }
+  tr:hover td { background: #F0EBE6; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: var(--space-6);
+    color: var(--color-text-muted);
+    font-size: var(--text-xs);
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .charts-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .kpi-row { grid-template-columns: 1fr; }
+    .header { flex-direction: column; gap: var(--space-3); }
+  }
+</style>
+</head>
+<body>
+
+<!-- === WATERMARK === -->
+<div class="watermark"><span>WIREFRAME — layout prototype, not production data</span></div>
+
+<div class="app">
+
+  <!-- === HEADER === -->
+  <header class="header">
+    <div>
+      <h1>Chez Violeta</h1>
+      <div class="subtitle">Operational Intelligence · Vendas</div>
+    </div>
+    <nav class="nav-tabs">
+      <button class="nav-tab active">Vendas</button>
+      <button class="nav-tab">Estoque</button>
+      <button class="nav-tab">Compras</button>
+      <button class="nav-tab">Financeiro</button>
+    </nav>
+  </header>
+
+  <!-- === FILTER BAR === -->
+  <div class="filter-bar">
+    <div class="filter-group">
+      <label>Período</label>
+      <input class="filter-input" type="text" value="01/11/2017 – 31/05/2020" style="width:180px">
+    </div>
+    <div class="filter-group">
+      <label>Loja</label>
+      <select class="filter-select">
+        <option>Todas as lojas</option>
+        <option>INDAIATUBA</option>
+        <option>ATIBAIA</option>
+        <option>SUMARE</option>
+        <option>BRAGANÇA</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Categoria</label>
+      <select class="filter-select">
+        <option>Todas as categorias</option>
+        <option>UNDERWARE</option>
+        <option>VESTUARIO</option>
+        <option>MODA PRAIA</option>
+      </select>
+    </div>
+    <span class="clear-link">Limpar filtros</span>
+    <div class="filter-pills" style="width:100%">
+      <span class="pill">2020 <span class="pill-close">✕</span></span>
+    </div>
+  </div>
+
+  <!-- === KPI ROW === -->
+  <div class="kpi-row">
+    <div class="kpi-card gold">
+      <div class="kpi-label">Receita Total</div>
+      <div class="kpi-value">R$ 442.180</div>
+      <div class="kpi-delta up">▲ 12,3% vs. período anterior</div>
+      <div class="sparkline">
+        <div class="spark-bar" style="height:60%"></div>
+        <div class="spark-bar" style="height:35%"></div>
+        <div class="spark-bar" style="height:75%"></div>
+        <div class="spark-bar" style="height:50%"></div>
+        <div class="spark-bar" style="height:90%"></div>
+        <div class="spark-bar" style="height:70%"></div>
+        <div class="spark-bar" style="height:100%"></div>
+        <div class="spark-bar" style="height:45%"></div>
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Volume de Vendas</div>
+      <div class="kpi-value">10.596</div>
+      <div class="kpi-delta up">▲ 8,7% vs. período anterior</div>
+    </div>
+    <div class="kpi-card success">
+      <div class="kpi-label">Ticket Médio</div>
+      <div class="kpi-value">R$ 41,73</div>
+      <div class="kpi-delta up">▲ 3,2% vs. período anterior</div>
+    </div>
+    <div class="kpi-card info">
+      <div class="kpi-label">Margem Média</div>
+      <div class="kpi-value">54,2%</div>
+      <div class="kpi-delta down">▼ 1,1 pp vs. período anterior</div>
+    </div>
+  </div>
+
+  <!-- === CHARTS GRID === -->
+  <div class="charts-grid">
+    <!-- Receita por Mês -->
+    <div class="chart-card full">
+      <div class="chart-title">Receita Mensal</div>
+      <div class="chart-svg">
+        <svg width="100%" height="220" viewBox="0 0 800 220">
+          <!-- Grid lines -->
+          <line x1="0" y1="40" x2="800" y2="40" stroke="#E5DDD6" stroke-dasharray="4 4"/>
+          <line x1="0" y1="90" x2="800" y2="90" stroke="#E5DDD6" stroke-dasharray="4 4"/>
+          <line x1="0" y1="140" x2="800" y2="140" stroke="#E5DDD6" stroke-dasharray="4 4"/>
+          <line x1="0" y1="190" x2="800" y2="190" stroke="#E5DDD6" stroke-dasharray="4 4"/>
+          <!-- Area fill -->
+          <path d="M 50,180 Q 100,175 150,160 Q 200,140 250,150 Q 300,100 350,120 Q 400,60 450,90 Q 500,70 550,80 Q 600,50 650,55 Q 700,45 750,60 L 750,190 L 50,190 Z"
+                fill="rgba(123,45,78,0.12)" />
+          <!-- Line -->
+          <path d="M 50,180 Q 100,175 150,160 Q 200,140 250,150 Q 300,100 350,120 Q 400,60 450,90 Q 500,70 550,80 Q 600,50 650,55 Q 700,45 750,60"
+                stroke="#7B2D4E" stroke-width="2" fill="none" />
+          <!-- Dots -->
+          <circle cx="50" cy="180" r="3" fill="#7B2D4E"/>
+          <circle cx="100" cy="175" r="3" fill="#7B2D4E"/>
+          <circle cx="150" cy="160" r="3" fill="#7B2D4E"/>
+          <circle cx="200" cy="140" r="3" fill="#7B2D4E"/>
+          <circle cx="250" cy="150" r="3" fill="#7B2D4E"/>
+          <circle cx="300" cy="100" r="3" fill="#7B2D4E"/>
+          <circle cx="350" cy="120" r="3" fill="#7B2D4E"/>
+          <circle cx="400" cy="60" r="5" fill="#C9A84C" stroke="white" stroke-width="2"/>
+          <circle cx="450" cy="90" r="3" fill="#7B2D4E"/>
+          <circle cx="500" cy="70" r="3" fill="#7B2D4E"/>
+          <circle cx="550" cy="80" r="3" fill="#7B2D4E"/>
+          <circle cx="600" cy="50" r="3" fill="#7B2D4E"/>
+          <circle cx="650" cy="55" r="3" fill="#7B2D4E"/>
+          <circle cx="700" cy="45" r="3" fill="#7B2D4E"/>
+          <circle cx="750" cy="60" r="3" fill="#7B2D4E"/>
+          <!-- X labels -->
+          <text x="50" y="208" font-size="11" fill="#6B5E5A" text-anchor="middle">Nov/17</text>
+          <text x="150" y="208" font-size="11" fill="#6B5E5A" text-anchor="middle">Dez/17</text>
+          <text x="250" y="208" font-size="11" fill="#6B5E5A" text-anchor="middle">Out/18</text>
+          <text x="350" y="208" font-size="11" fill="#6B5E5A" text-anchor="middle">Nov/18</text>
+          <text x="450" y="208" font-size="11" fill="#6B5E5A" text-anchor="middle">Dez/18</text>
+          <text x="550" y="208" font-size="11" fill="#6B5E5A" text-anchor="middle">Set/19</text>
+          <text x="650" y="208" font-size="11" fill="#6B5E5A" text-anchor="middle">Abr/20</text>
+          <text x="750" y="208" font-size="11" fill="#6B5E5A" text-anchor="middle">Mai/20</text>
+          <!-- Y labels -->
+          <text x="790" y="44" font-size="11" fill="#6B5E5A" text-anchor="end">200k</text>
+          <text x="790" y="94" font-size="11" fill="#6B5E5A" text-anchor="end">150k</text>
+          <text x="790" y="144" font-size="11" fill="#6B5E5A" text-anchor="end">100k</text>
+          <text x="790" y="194" font-size="11" fill="#6B5E5A" text-anchor="end">50k</text>
+          <!-- Highlight annotation -->
+          <rect x="385" y="25" width="40" height="20" rx="4" fill="#C9A84C" opacity="0.9"/>
+          <text x="405" y="38" font-size="10" fill="white" text-anchor="middle" font-weight="600">217k</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Vendas por Loja -->
+    <div class="chart-card">
+      <div class="chart-title">Vendas por Loja</div>
+      <div class="bar-chart">
+        <div class="bar" style="height:100%;background:var(--chart-1);">
+          <span class="bar-value">R$160k</span>
+        </div>
+        <div class="bar" style="height:60%;background:var(--chart-1);">
+          <span class="bar-value">R$68k</span>
+        </div>
+        <div class="bar" style="height:40%;background:var(--chart-3);">
+          <span class="bar-value">R$39k</span>
+        </div>
+        <div class="bar" style="height:30%;background:var(--chart-3);">
+          <span class="bar-value">R$30k</span>
+        </div>
+        <div class="bar" style="height:25%;background:var(--chart-6);">
+          <span class="bar-value">R$24k</span>
+        </div>
+        <div class="bar" style="height:24%;background:var(--chart-6);">
+          <span class="bar-value">R$24k</span>
+        </div>
+        <div class="bar" style="height:23%;background:var(--chart-6);">
+          <span class="bar-value">R$23k</span>
+        </div>
+        <div class="bar" style="height:20%;background:var(--chart-7);">
+          <span class="bar-value">R$19k</span>
+        </div>
+      </div>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot" style="background:var(--chart-1)"></span> INDAIATUBA</span>
+        <span class="legend-item"><span class="legend-dot" style="background:var(--chart-1)"></span> ATIBAIA</span>
+        <span class="legend-item"><span class="legend-dot" style="background:var(--chart-3)"></span> SUMARE</span>
+        <span class="legend-item"><span class="legend-dot" style="background:var(--chart-6)"></span> Outras</span>
+      </div>
+    </div>
+
+    <!-- Sazonalidade -->
+    <div class="chart-card">
+      <div class="chart-title">Sazonalidade — Vendas por Mês</div>
+      <div class="bar-chart">
+        <div class="bar" style="height:45%;background:var(--color-warning);">
+          <span class="bar-value">R$33k</span>
+        </div>
+        <div class="bar" style="height:30%;background:var(--chart-3);">
+          <span class="bar-value">R$16k</span>
+        </div>
+        <div class="bar" style="height:55%;background:var(--color-warning);">
+          <span class="bar-value">R$21k</span>
+        </div>
+        <div class="bar" style="height:100%;background:var(--chart-1);">
+          <span class="bar-value">R$64k</span>
+        </div>
+        <div class="bar" style="height:70%;background:var(--chart-1);">
+          <span class="bar-value">R$42k</span>
+        </div>
+        <div class="bar" style="height:25%;background:var(--chart-3);">
+          <span class="bar-value">R$8k</span>
+        </div>
+        <div class="bar" style="height:20%;background:var(--chart-3);">
+          <span class="bar-value">R$4k</span>
+        </div>
+        <div class="bar" style="height:40%;background:var(--color-warning);">
+          <span class="bar-value">R$13k</span>
+        </div>
+        <div class="bar" style="height:100%;background:var(--chart-1);">
+          <span class="bar-value">R$218k</span>
+        </div>
+      </div>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot" style="background:var(--chart-1)"></span> Nov/17</span>
+        <span class="legend-item"><span class="legend-dot" style="background:var(--chart-3)"></span> Dez/17</span>
+        <span class="legend-item"><span class="legend-dot" style="background:var(--color-warning)"></span> Out/18</span>
+        <span class="legend-item"><span class="legend-dot" style="background:var(--chart-1)"></span> Nov/18</span>
+        <span class="legend-item"><span class="legend-dot" style="background:var(--chart-1)"></span> Mai/20</span>
+      </div>
+    </div>
+
+    <!-- Vendas por Dia da Semana -->
+    <div class="chart-card full">
+      <div class="chart-title">Vendas por Dia da Semana</div>
+      <div class="bar-chart" style="gap:8px;padding:0 40px;">
+        <div class="bar" style="height:100%;background:var(--chart-1);">
+          <span class="bar-value">32%</span>
+          <span class="bar-label">Segunda</span>
+        </div>
+        <div class="bar" style="height:85%;background:var(--chart-6);">
+          <span class="bar-value">27%</span>
+          <span class="bar-label">Terça</span>
+        </div>
+        <div class="bar" style="height:78%;background:var(--chart-6);">
+          <span class="bar-value">25%</span>
+          <span class="bar-label">Quarta</span>
+        </div>
+        <div class="bar" style="height:92%;background:var(--chart-6);">
+          <span class="bar-value">30%</span>
+          <span class="bar-label">Quinta</span>
+        </div>
+        <div class="bar" style="height:95%;background:var(--chart-1);">
+          <span class="bar-value">31%</span>
+          <span class="bar-label">Sexta</span>
+        </div>
+        <div class="bar" style="height:110%;background:var(--chart-2);">
+          <span class="bar-value">35%</span>
+          <span class="bar-label">Sábado</span>
+        </div>
+        <div class="bar" style="height:30%;background:var(--chart-3);">
+          <span class="bar-value">10%</span>
+          <span class="bar-label">Domingo</span>
+        </div>
+      </div>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot" style="background:var(--chart-1)"></span> Alto volume</span>
+        <span class="legend-item"><span class="legend-dot" style="background:var(--chart-2)"></span> Pico (sábado)</span>
+        <span class="legend-item"><span class="legend-dot" style="background:var(--chart-6)"></span> Médio</span>
+        <span class="legend-item"><span class="legend-dot" style="background:var(--chart-3)"></span> Baixo (domingo)</span>
+      </div>
+    </div>
+
+    <!-- Top Produtos -->
+    <div class="chart-card">
+      <div class="chart-title">Top Produtos por Volume</div>
+      <div style="margin-top:var(--space-3)">
+        <table>
+          <thead>
+            <tr><th>Produto</th><th>Categoria</th><th style="text-align:right">% Vendas</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>SOUTIEN</td><td>Underware</td><td style="text-align:right">28,5%</td></tr>
+            <tr><td>CALCINHA</td><td>Underware</td><td style="text-align:right">22,1%</td></tr>
+            <tr><td>CALCA-BIQUINI</td><td>Moda Praia</td><td style="text-align:right">12,3%</td></tr>
+            <tr><td>CUECA</td><td>Underware</td><td style="text-align:right">9,8%</td></tr>
+            <tr><td>TOP</td><td>Moda Praia</td><td style="text-align:right">7,4%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Vendas por Categoria -->
+    <div class="chart-card">
+      <div class="chart-title">Distribuição por Categoria</div>
+      <svg width="100%" height="200" viewBox="0 0 200 200">
+        <!-- Donut chart -->
+        <circle cx="100" cy="100" r="80" fill="none" stroke="#7B2D4E" stroke-width="30" stroke-dasharray="188 251" transform="rotate(-90 100 100)"/>
+        <circle cx="100" cy="100" r="80" fill="none" stroke="#C9A84C" stroke-width="30" stroke-dasharray="94 345" transform="rotate(94 100 100)"/>
+        <circle cx="100" cy="100" r="80" fill="none" stroke="#4A7BA8" stroke-width="30" stroke-dasharray="44 395" transform="rotate(169 100 100)"/>
+        <circle cx="100" cy="100" r="80" fill="none" stroke="#8B6F9C" stroke-width="30" stroke-dasharray="32 407" transform="rotate(273 100 100)"/>
+        <text x="100" y="95" text-anchor="middle" font-size="28" font-weight="700" fill="#5A1E38" font-family="Georgia">10.6k</text>
+        <text x="100" y="115" text-anchor="middle" font-size="10" fill="#6B5E5A">total itens</text>
+      </svg>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot" style="background:#7B2D4E"></span> Underware 56%</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#C9A84C"></span> Moda Praia 28%</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#4A7BA8"></span> Vestuário 13%</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#8B6F9C"></span> Outros 3%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- === DATA TABLE === -->
+  <div class="chart-card full">
+    <div class="chart-title">Detalhamento por Loja</div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Loja</th>
+            <th style="text-align:right">Vendas</th>
+            <th style="text-align:right">Itens</th>
+            <th style="text-align:right">Receita</th>
+            <th style="text-align:right">Ticket Médio</th>
+            <th style="text-align:right">Custo Total</th>
+            <th style="text-align:right">Margem</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>INDAIATUBA</strong></td>
+            <td style="text-align:right">4.059</td>
+            <td style="text-align:right">4.059</td>
+            <td style="text-align:right">R$ 160.149</td>
+            <td style="text-align:right">R$ 39,46</td>
+            <td style="text-align:right">R$ 73.364</td>
+            <td style="text-align:right"><span style="color:var(--color-success)">54,2%</span></td>
+          </tr>
+          <tr>
+            <td><strong>ATIBAIA</strong></td>
+            <td style="text-align:right">1.705</td>
+            <td style="text-align:right">1.705</td>
+            <td style="text-align:right">R$ 67.930</td>
+            <td style="text-align:right">R$ 39,84</td>
+            <td style="text-align:right">R$ 31.421</td>
+            <td style="text-align:right"><span style="color:var(--color-success)">53,8%</span></td>
+          </tr>
+          <tr>
+            <td><strong>SUMARE</strong></td>
+            <td style="text-align:right">1.061</td>
+            <td style="text-align:right">1.064</td>
+            <td style="text-align:right">R$ 38.882</td>
+            <td style="text-align:right">R$ 36,65</td>
+            <td style="text-align:right">R$ 18.117</td>
+            <td style="text-align:right"><span style="color:var(--color-success)">53,4%</span></td>
+          </tr>
+          <tr>
+            <td><strong>BRAGANÇA</strong></td>
+            <td style="text-align:right">688</td>
+            <td style="text-align:right">688</td>
+            <td style="text-align:right">R$ 29.707</td>
+            <td style="text-align:right">R$ 43,18</td>
+            <td style="text-align:right">R$ 13.721</td>
+            <td style="text-align:right"><span style="color:var(--color-success)">53,8%</span></td>
+          </tr>
+          <tr>
+            <td><strong>SOROCABA</strong></td>
+            <td style="text-align:right">582</td>
+            <td style="text-align:right">596</td>
+            <td style="text-align:right">R$ 24.412</td>
+            <td style="text-align:right">R$ 41,95</td>
+            <td style="text-align:right">R$ 11.274</td>
+            <td style="text-align:right"><span style="color:var(--color-success)">53,8%</span></td>
+          </tr>
+          <tr>
+            <td><strong>VALINHOS</strong></td>
+            <td style="text-align:right">552</td>
+            <td style="text-align:right">552</td>
+            <td style="text-align:right">R$ 24.142</td>
+            <td style="text-align:right">R$ 43,74</td>
+            <td style="text-align:right">R$ 11.153</td>
+            <td style="text-align:right"><span style="color:var(--color-success)">53,8%</span></td>
+          </tr>
+          <tr>
+            <td><strong>SALTO</strong></td>
+            <td style="text-align:right">606</td>
+            <td style="text-align:right">624</td>
+            <td style="text-align:right">R$ 23.401</td>
+            <td style="text-align:right">R$ 38,62</td>
+            <td style="text-align:right">R$ 10.796</td>
+            <td style="text-align:right"><span style="color:var(--color-success)">53,9%</span></td>
+          </tr>
+          <tr>
+            <td><strong>ITATIBA</strong></td>
+            <td style="text-align:right">492</td>
+            <td style="text-align:right">492</td>
+            <td style="text-align:right">R$ 19.359</td>
+            <td style="text-align:right">R$ 39,35</td>
+            <td style="text-align:right">R$ 8.970</td>
+            <td style="text-align:right"><span style="color:var(--color-success)">53,7%</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    Chez Violeta Intelligence · Dados do gold.fato_vendas (DuckDB) · Wireframe v1.0
+  </div>
+</div>
+</body>
+</html>

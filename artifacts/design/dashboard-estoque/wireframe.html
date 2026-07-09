@@ -1,0 +1,609 @@
+<!---
+synthetic: false
+kind: wireframe
+label: "WIREFRAME — layout and data shape only, not production"
+granted_by: laurent@laurentaf.dev
+granted_at: 2026-07-02T12:00:00Z
+data_source: gold.fato_estoque_diario, gold.dim_produto (DuckDB chez_gold.duckdb)
+design_system: artifacts/design/design-system.md
+--->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard de Estoque — Chez Violeta (Wireframe)</title>
+<style>
+  :root {
+    --color-primary: #7B2D4E;
+    --color-primary-light: #A64D72;
+    --color-primary-dark: #5A1E38;
+    --color-gold: #C9A84C;
+    --color-gold-light: #E8CF7A;
+    --color-gold-dark: #A88830;
+    --color-bg: #FAF8F5;
+    --color-surface: #FFFFFF;
+    --color-border: #E5DDD6;
+    --color-text-primary: #2D1B1B;
+    --color-text-secondary: #6B5E5A;
+    --color-text-muted: #9C8F8A;
+    --color-success: #2E7D5E;
+    --color-warning: #C97D3B;
+    --color-danger: #B34A4A;
+    --color-info: #4A7BA8;
+    --chart-1: #7B2D4E;
+    --chart-2: #C9A84C;
+    --chart-3: #4A7BA8;
+    --chart-4: #2E7D5E;
+    --chart-5: #B34A4A;
+    --chart-6: #8B6F9C;
+    --chart-7: #C97D3B;
+    --font-heading: 'Georgia', 'Cormorant Garamond', serif;
+    --font-body: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.5rem;
+    --text-2xl: 2rem;
+    --text-3xl: 3rem;
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.5rem;
+    --space-6: 2rem;
+    --space-8: 3rem;
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --shadow-sm: 0 1px 3px rgba(45,27,27,0.06);
+    --shadow-md: 0 4px 12px rgba(45,27,27,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: var(--font-body);
+    background: var(--color-bg);
+    color: var(--color-text-primary);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+
+  .watermark {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent, transparent 20px,
+      rgba(90,30,56,0.03) 20px, rgba(90,30,56,0.03) 40px
+    );
+    color: var(--color-primary);
+    text-align: center;
+    font-size: var(--text-xs);
+    padding: var(--space-1);
+    font-weight: 600;
+    letter-spacing: 2px;
+    border-bottom: 2px solid var(--color-gold);
+    z-index: 1000;
+  }
+  .watermark span {
+    background: var(--color-primary);
+    color: white;
+    padding: 2px 12px;
+    border-radius: 0 0 4px 4px;
+  }
+
+  .app { max-width: 1440px; margin: 0 auto; padding: var(--space-5); padding-top: calc(var(--space-5) + 28px); }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-4) var(--space-5);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-5);
+    box-shadow: var(--shadow-sm);
+  }
+  .header h1 {
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    color: var(--color-primary-dark);
+  }
+  .header .subtitle {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+  .nav-tabs { display: flex; gap: var(--space-2); }
+  .nav-tab {
+    padding: var(--space-2) var(--space-4);
+    border: none;
+    background: transparent;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .nav-tab:hover { color: var(--color-primary); }
+  .nav-tab.active {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-5);
+  }
+  .filter-group { display: flex; align-items: center; gap: var(--space-2); }
+  .filter-group label {
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .filter-select, .filter-input {
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    font-family: var(--font-body);
+    background: var(--color-bg);
+    color: var(--color-text-primary);
+  }
+  .clear-link {
+    font-size: var(--text-xs);
+    color: var(--color-info);
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+  }
+  .kpi-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    box-shadow: var(--shadow-sm);
+    border-left: 4px solid var(--color-primary);
+  }
+  .kpi-card.gold { border-left-color: var(--color-gold); }
+  .kpi-card.danger { border-left-color: var(--color-danger); }
+  .kpi-card.info { border-left-color: var(--color-info); }
+  .kpi-label {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: var(--space-1);
+  }
+  .kpi-value {
+    font-family: var(--font-heading);
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    line-height: 1.1;
+    margin-bottom: var(--space-1);
+  }
+  .kpi-delta { font-size: var(--text-xs); display: flex; align-items: center; gap: 4px; }
+  .kpi-delta.up { color: var(--color-success); }
+  .kpi-delta.down { color: var(--color-danger); }
+
+  .alert-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: var(--text-xs);
+    font-weight: 600;
+  }
+  .alert-badge.critical { background: #FBE8E8; color: var(--color-danger); }
+  .alert-badge.warning { background: #FFF0E0; color: var(--color-warning); }
+  .alert-badge.ok { background: #E8F5EE; color: var(--color-success); }
+
+  .charts-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+  }
+  .chart-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    box-shadow: var(--shadow-sm);
+  }
+  .chart-card.full { grid-column: 1 / -1; }
+  .chart-title {
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
+    color: var(--color-primary-dark);
+    margin-bottom: var(--space-4);
+  }
+
+  .bar-chart { display: flex; align-items: flex-end; gap: 4px; height: 200px; padding-top: 10px; }
+  .bar { flex: 1; min-width: 12px; border-radius: 3px 3px 0 0; position: relative; }
+  .bar-label { position: absolute; bottom: -22px; left: 50%; transform: rotate(-45deg); transform-origin: left top; font-size: 10px; color: var(--color-text-muted); white-space: nowrap; }
+  .bar-value { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); font-size: 10px; color: var(--color-primary-dark); font-weight: 600; }
+  .bar-negative { background: var(--color-danger); opacity: 0.7; }
+
+  .legend { display: flex; gap: var(--space-4); margin-top: var(--space-3); flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-xs); color: var(--color-text-secondary); }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  .table-wrapper { overflow-x: auto; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+  }
+  th {
+    background: var(--color-primary);
+    color: white;
+    text-align: left;
+    padding: var(--space-2) var(--space-3);
+    font-weight: 600;
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  td {
+    padding: var(--space-2) var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+  }
+  tr:nth-child(even) td { background: #FAF8F5; }
+  tr:hover td { background: #F0EBE6; }
+  td.num { text-align: right; }
+
+  .progress-bar {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--color-border);
+    overflow: hidden;
+    min-width: 80px;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 3px;
+  }
+
+  .footer {
+    text-align: center;
+    padding: var(--space-6);
+    color: var(--color-text-muted);
+    font-size: var(--text-xs);
+  }
+
+  @media (max-width: 1024px) {
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .charts-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .kpi-row { grid-template-columns: 1fr; }
+    .header { flex-direction: column; gap: var(--space-3); }
+  }
+</style>
+</head>
+<body>
+
+<div class="watermark"><span>WIREFRAME — layout prototype, not production data</span></div>
+
+<div class="app">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div>
+      <h1>Chez Violeta</h1>
+      <div class="subtitle">Operational Intelligence · Estoque</div>
+    </div>
+    <nav class="nav-tabs">
+      <button class="nav-tab">Vendas</button>
+      <button class="nav-tab active">Estoque</button>
+      <button class="nav-tab">Compras</button>
+      <button class="nav-tab">Financeiro</button>
+    </nav>
+  </header>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <div class="filter-group">
+      <label>Período</label>
+      <input class="filter-input" type="text" value="Últimos 12 meses" style="width:160px">
+    </div>
+    <div class="filter-group">
+      <label>Loja</label>
+      <select class="filter-select">
+        <option>Todas as lojas</option>
+        <option>INDAIATUBA</option>
+        <option>ATIBAIA</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Categoria</label>
+      <select class="filter-select">
+        <option>Todas</option>
+        <option>UNDERWARE</option>
+        <option>MODA PRAIA</option>
+        <option>VESTUARIO</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Nível Estoque</label>
+      <select class="filter-select">
+        <option>Todos</option>
+        <option>⚠ Crítico (&lt; 30 dias)</option>
+        <option>⚠ Atenção (30-60 dias)</option>
+        <option>✅ OK (&gt; 60 dias)</option>
+      </select>
+    </div>
+    <span class="clear-link">Limpar filtros</span>
+  </div>
+
+  <!-- KPI ROW -->
+  <div class="kpi-row">
+    <div class="kpi-card gold">
+      <div class="kpi-label">Valor Total em Estoque</div>
+      <div class="kpi-value">R$ 30,2M</div>
+      <div class="kpi-delta down">▼ 2,1% vs. mês anterior</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Giro de Estoque (anual)</div>
+      <div class="kpi-value">59.181×</div>
+      <div class="kpi-delta up">▲ +8,3% vs. período anterior</div>
+      <div style="font-size:var(--text-xs);color:var(--color-text-muted);margin-top:4px">Underware: 59.181× | Moda Praia: 23.695×</div>
+    </div>
+    <div class="kpi-card danger">
+      <div class="kpi-label">Cobertura Média</div>
+      <div class="kpi-value">47 dias</div>
+      <div class="kpi-delta down">▼ 5 dias vs. mês anterior</div>
+    </div>
+    <div class="kpi-card info">
+      <div class="kpi-label">Produtos em Ruptura</div>
+      <div class="kpi-value" style="color:var(--color-danger)">342</div>
+      <div class="kpi-delta down">▲ +28 vs. mês anterior</div>
+      <div style="display:flex;gap:var(--space-2);margin-top:var(--space-2)">
+        <span class="alert-badge critical">Crítico: 127</span>
+        <span class="alert-badge warning">Atenção: 215</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHARTS GRID -->
+  <div class="charts-grid">
+    <!-- Top Produtos por Valor Estoque -->
+    <div class="chart-card full">
+      <div class="chart-title">Top 10 Produtos por Valor em Estoque</div>
+      <div class="bar-chart" style="gap:6px;">
+        <div class="bar" style="height:100%;background:var(--chart-1);">
+          <span class="bar-value">R$ 9,0M</span>
+        </div>
+        <div class="bar" style="height:72%;background:var(--chart-1);">
+          <span class="bar-value">R$ 6,2M</span>
+        </div>
+        <div class="bar" style="height:65%;background:var(--chart-2);">
+          <span class="bar-value">R$ 5,7M</span>
+        </div>
+        <div class="bar" style="height:55%;background:var(--chart-1);">
+          <span class="bar-value">R$ 4,8M</span>
+        </div>
+        <div class="bar" style="height:18%;background:var(--chart-7);">
+          <span class="bar-value">R$ 1,3M</span>
+        </div>
+        <div class="bar" style="height:15%;background:var(--chart-3);">
+          <span class="bar-value">R$ 1,2M</span>
+        </div>
+        <div class="bar" style="height:14%;background:var(--color-info);">
+          <span class="bar-value">R$ 1,1M</span>
+        </div>
+        <div class="bar" style="height:9%;background:var(--chart-6);">
+          <span class="bar-value">R$ 649k</span>
+        </div>
+        <div class="bar" style="height:7%;background:var(--chart-2);">
+          <span class="bar-value">R$ 503k</span>
+        </div>
+        <div class="bar" style="height:5%;background:var(--chart-6);">
+          <span class="bar-value">R$ 359k</span>
+        </div>
+      </div>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot" style="background:var(--chart-1)"></span> SOUTIEN</span>
+        <span class="legend-item"><span class="legend-dot" style="background:var(--chart-1)"></span> CALCINHA</span>
+        <span class="legend-item"><span class="legend-dot" style="background:var(--chart-2)"></span> CALCA-BIQUINI</span>
+        <span class="legend-item"><span class="legend-dot" style="background:var(--chart-7)"></span> TOP</span>
+        <span class="legend-item"><span class="legend-dot" style="background:var(--chart-6)"></span> Outros</span>
+      </div>
+    </div>
+
+    <!-- Giro por Categoria -->
+    <div class="chart-card">
+      <div class="chart-title">Giro de Estoque por Categoria</div>
+      <svg width="100%" height="220" viewBox="0 0 400 220">
+        <!-- Horizontal bars -->
+        <text x="110" y="30" font-size="11" fill="#6B5E5A" text-anchor="end">UNDERWARE</text>
+        <rect x="115" y="18" width="250" height="16" rx="3" fill="#7B2D4E"/>
+        <text x="370" y="30" font-size="10" fill="#5A1E38" font-weight="600" text-anchor="end">59.181</text>
+
+        <text x="110" y="60" font-size="11" fill="#6B5E5A" text-anchor="end">MODA PRAIA</text>
+        <rect x="115" y="48" width="100" height="16" rx="3" fill="#C9A84C"/>
+        <text x="220" y="60" font-size="10" fill="#5A1E38" font-weight="600" text-anchor="end">23.695</text>
+
+        <text x="110" y="90" font-size="11" fill="#6B5E5A" text-anchor="end">VESTUARIO</text>
+        <rect x="115" y="78" width="133" height="16" rx="3" fill="#4A7BA8"/>
+        <text x="253" y="90" font-size="10" fill="#5A1E38" font-weight="600" text-anchor="end">31.463</text>
+
+        <text x="110" y="120" font-size="11" fill="#6B5E5A" text-anchor="end">LINHA NOITE</text>
+        <rect x="115" y="108" width="68" height="16" rx="3" fill="#8B6F9C"/>
+        <text x="188" y="120" font-size="10" fill="#5A1E38" font-weight="600" text-anchor="end">16.048</text>
+
+        <text x="110" y="150" font-size="11" fill="#6B5E5A" text-anchor="end">EROTICA</text>
+        <rect x="115" y="138" width="12" height="16" rx="3" fill="#B34A4A"/>
+        <text x="132" y="150" font-size="10" fill="#5A1E38" font-weight="600" text-anchor="end">2.510</text>
+
+        <text x="110" y="180" font-size="11" fill="#6B5E5A" text-anchor="end">FITNESS</text>
+        <rect x="115" y="168" width="8" height="16" rx="3" fill="#2E7D5E"/>
+        <text x="128" y="180" font-size="10" fill="#5A1E38" font-weight="600" text-anchor="end">1.634</text>
+      </svg>
+    </div>
+
+    <!-- Estoque Mensal Timeline -->
+    <div class="chart-card">
+      <div class="chart-title">Evolução do Estoque (Unidades)</div>
+      <svg width="100%" height="220" viewBox="0 0 400 220">
+        <line x1="0" y1="40" x2="400" y2="40" stroke="#E5DDD6" stroke-dasharray="4 4"/>
+        <line x1="0" y1="90" x2="400" y2="90" stroke="#E5DDD6" stroke-dasharray="4 4"/>
+        <line x1="0" y1="140" x2="400" y2="140" stroke="#E5DDD6" stroke-dasharray="4 4"/>
+        <line x1="0" y1="190" x2="400" y2="190" stroke="#E5DDD6" stroke-dasharray="4 4"/>
+        <!-- Estoque line (solid) -->
+        <path d="M 20,60 Q 60,50 100,55 Q 140,40 180,45 Q 220,30 260,35 Q 300,25 340,30 Q 380,20 390,25"
+              stroke="#7B2D4E" stroke-width="2" fill="none"/>
+        <circle cx="20" cy="60" r="3" fill="#7B2D4E"/>
+        <circle cx="100" cy="55" r="3" fill="#7B2D4E"/>
+        <circle cx="180" cy="45" r="3" fill="#7B2D4E"/>
+        <circle cx="260" cy="35" r="3" fill="#7B2D4E"/>
+        <circle cx="340" cy="30" r="3" fill="#7B2D4E"/>
+        <circle cx="390" cy="25" r="3" fill="#7B2D4E"/>
+        <!-- Vendas line (dashed) -->
+        <path d="M 20,170 Q 60,160 100,150 Q 140,130 180,120 Q 220,100 260,90 Q 300,80 340,75 Q 380,70 390,65"
+              stroke="#C9A84C" stroke-width="2" stroke-dasharray="6 4" fill="none"/>
+        <text x="10" y="56" font-size="10" fill="#7B2D4E">Estoque</text>
+        <text x="10" y="166" font-size="10" fill="#C9A84C">Vendas</text>
+        <text x="395" y="194" font-size="10" fill="#6B5E5A" text-anchor="end">Jan 2018 → Mai 2020</text>
+      </svg>
+    </div>
+
+    <!-- Indicadores de Cobertura -->
+    <div class="chart-card full">
+      <div class="chart-title">Cobertura de Estoque por Categoria (dias)</div>
+      <div class="bar-chart" style="gap:12px;padding:0 20px;">
+        <div class="bar" style="height:100%;background:var(--chart-1);">
+          <span class="bar-value">89d</span>
+          <span class="bar-label">UNDERWARE</span>
+        </div>
+        <div class="bar" style="height:60%;background:var(--chart-2);">
+          <span class="bar-value">47d</span>
+          <span class="bar-label">MODA PRAIA</span>
+        </div>
+        <div class="bar" style="height:35%;background:var(--chart-3);">
+          <span class="bar-value">32d</span>
+          <span class="bar-label">VESTUARIO</span>
+        </div>
+        <div class="bar" style="height:25%;background:var(--chart-6);">
+          <span class="bar-value">22d</span>
+          <span class="bar-label">LINHA NOITE</span>
+        </div>
+        <div class="bar" style="height:18%;background:var(--chart-5);">
+          <span class="bar-value">15d</span>
+          <span class="bar-label">FITNESS</span>
+        </div>
+        <div class="bar" style="height:12%;background:var(--chart-7);">
+          <span class="bar-value">10d</span>
+          <span class="bar-label">EROTICA</span>
+        </div>
+      </div>
+      <div style="margin-top:var(--space-4);display:flex;gap:var(--space-4);align-items:center">
+        <span style="display:flex;align-items:center;gap:4px;font-size:var(--text-xs);color:var(--color-text-secondary)">
+          <span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:var(--color-danger)"></span>
+          Crítico (&lt; 30 dias)
+        </span>
+        <span style="display:flex;align-items:center;gap:4px;font-size:var(--text-xs);color:var(--color-text-secondary)">
+          <span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:var(--color-warning)"></span>
+          Atenção (30–60 dias)
+        </span>
+        <span style="display:flex;align-items:center;gap:4px;font-size:var(--text-xs);color:var(--color-text-secondary)">
+          <span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:var(--color-success)"></span>
+          OK (&gt; 60 dias)
+        </span>
+      </div>
+    </div>
+
+    <!-- Ruptura / Produtos Acabando -->
+    <div class="chart-card full">
+      <div class="chart-title">Produtos com Estoque Crítico</div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Produto</th>
+              <th>Categoria</th>
+              <th style="text-align:right">Estoque</th>
+              <th style="text-align:right">Vendas (mês)</th>
+              <th style="text-align:right">Cobertura</th>
+              <th>Status</th>
+              <th>Progresso</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>TOP PRETO</strong></td>
+              <td>MODA PRAIA</td>
+              <td class="num">4</td>
+              <td class="num">12</td>
+              <td class="num" style="color:var(--color-danger)">10 dias</td>
+              <td><span class="alert-badge critical">Crítico</span></td>
+              <td><div class="progress-bar"><div class="progress-fill" style="width:15%;background:var(--color-danger)"></div></div></td>
+            </tr>
+            <tr>
+              <td><strong>BODY RENDA</strong></td>
+              <td>UNDERWARE</td>
+              <td class="num">7</td>
+              <td class="num">15</td>
+              <td class="num" style="color:var(--color-danger)">14 dias</td>
+              <td><span class="alert-badge critical">Crítico</span></td>
+              <td><div class="progress-bar"><div class="progress-fill" style="width:20%;background:var(--color-danger)"></div></div></td>
+            </tr>
+            <tr>
+              <td><strong>CALCA FIO</strong></td>
+              <td>MODA PRAIA</td>
+              <td class="num">0</td>
+              <td class="num">22</td>
+              <td class="num" style="color:var(--color-danger)">0 dias</td>
+              <td><span class="alert-badge critical">Ruptura</span></td>
+              <td><div class="progress-bar"><div class="progress-fill" style="width:0%;background:var(--color-danger)"></div></div></td>
+            </tr>
+            <tr>
+              <td><strong>MEIA 7/8</strong></td>
+              <td>VESTUARIO</td>
+              <td class="num">18</td>
+              <td class="num">20</td>
+              <td class="num" style="color:var(--color-warning)">27 dias</td>
+              <td><span class="alert-badge warning">Atenção</span></td>
+              <td><div class="progress-bar"><div class="progress-fill" style="width:40%;background:var(--color-warning)"></div></div></td>
+            </tr>
+            <tr>
+              <td><strong>SOUTIEN LISOS</strong></td>
+              <td>UNDERWARE</td>
+              <td class="num">22</td>
+              <td class="num">18</td>
+              <td class="num" style="color:var(--color-warning)">37 dias</td>
+              <td><span class="alert-badge warning">Atenção</span></td>
+              <td><div class="progress-bar"><div class="progress-fill" style="width:55%;background:var(--color-warning)"></div></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Chez Violeta Intelligence · Dados do gold.fato_estoque_diario (DuckDB) · Wireframe v1.0
+  </div>
+</div>
+</body>
+</html>

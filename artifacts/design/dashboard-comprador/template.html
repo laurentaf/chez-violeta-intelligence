@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chez Violeta — Dashboard do Comprador</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --vinho: #7B2D4E; --vinho-light: #9E3F6A; --vinho-dark: #5C1F3A;
+  --dourado: #C9A84C; --dourado-light: #E0C66A; --off-white: #FAF8F5;
+  --warm-white: #F5F0EB; --text-primary: #2D1B24; --text-secondary: #5C4B55;
+  --text-muted: #8C7A86; --bg-body: #FAF8F5; --bg-card: #FFFFFF;
+  --border: #E8E0DA; --critical: #DC3545; --high: #FD7E14; --medium: #FFC107;
+  --low: #28A745; --success: #28A745;
+  --shadow: 0 2px 8px rgba(123,45,78,0.08);
+  --radius: 12px; --radius-sm: 8px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg-body);color:var(--text-primary);line-height:1.6}
+h1,h2,h3,h4{font-family:'Cormorant Garamond',serif;font-weight:600}
+h1{color:#fff;font-size:1.75rem}
+h1 small{font-family:'Inter',sans-serif;font-weight:300;font-size:0.7rem;opacity:0.7;display:block}
+h2{color:var(--vinho);font-size:1.4rem;border-bottom:2px solid var(--dourado);padding-bottom:6px;margin-bottom:16px}
+.synthetic-banner{background:repeating-linear-gradient(45deg,#FFEAA7,#FFEAA7 20px,#FFF3CD 20px,#FFF3CD 40px);color:#856404;text-align:center;font-size:0.75rem;font-weight:600;padding:3px 0;letter-spacing:0.5px}
+.header{background:linear-gradient(135deg,var(--vinho-dark),var(--vinho));color:#fff;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.header-date{font-size:0.8rem;opacity:0.8}
+.container{max-width:1440px;margin:0 auto;padding:16px 20px}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:24px}
+.kpi-card{background:var(--bg-card);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);border-left:4px solid var(--dourado);transition:transform 0.15s}
+.kpi-card:hover{transform:translateY(-2px)}
+.kpi-card .label{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);margin-bottom:4px}
+.kpi-card .value{font-size:1.6rem;font-weight:700;color:var(--vinho)}
+.kpi-card .sub{font-size:0.75rem;color:var(--text-secondary);margin-top:2px}
+.kpi-card.critical{border-left-color:var(--critical)}.kpi-card.critical .value{color:var(--critical)}
+.kpi-card.warning{border-left-color:var(--high)}.kpi-card.warning .value{color:var(--high)}
+.kpi-card.success{border-left-color:var(--success)}.kpi-card.success .value{color:var(--success)}
+.filters{background:var(--bg-card);border-radius:var(--radius);padding:14px 18px;box-shadow:var(--shadow);margin-bottom:20px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.filters label{font-size:0.75rem;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.3px}
+.filters select,.filters input{padding:6px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);font-family:'Inter',sans-serif;font-size:0.85rem;background:#fff;color:var(--text-primary);min-width:140px}
+.filters select:focus{outline:2px solid var(--dourado);outline-offset:1px}
+.filter-count{margin-left:auto;font-size:0.8rem;color:var(--text-muted);background:var(--warm-white);padding:4px 10px;border-radius:20px}
+.section{margin-bottom:28px}
+.card{background:var(--bg-card);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;overflow:hidden}
+.chart-row{display:grid;grid-template-columns:2fr 1fr;gap:16px}
+@media(max-width:900px){.chart-row{grid-template-columns:1fr}}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:0.82rem}
+thead th{background:var(--vinho);color:#fff;text-align:left;padding:9px 10px;font-weight:600;white-space:nowrap;position:sticky;top:0}
+tbody td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:middle}
+tbody tr:hover{background:#F8F4F0}
+tbody tr.critical-row{background:#FFF5F5}
+tbody tr.critical-row:hover{background:#FFECEC}
+.badge{display:inline-block;font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;padding:2px 8px;border-radius:20px;color:#fff}
+.badge-critical{background:var(--critical)}.badge-high{background:var(--high)}
+.badge-medium{background:var(--medium);color:#7B5A00}.badge-low{background:var(--low)}
+.bar-wrap{display:flex;align-items:center;gap:8px}
+.bar-bg{flex:1;height:8px;background:#E8E0DA;border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;background:var(--vinho)}
+.bar-fill.good{background:var(--success)}.bar-fill.ok{background:var(--dourado)}
+.bar-fill.bad{background:var(--high)}.bar-fill.crit{background:var(--critical)}
+.sortable{cursor:pointer;user-select:none}
+@media(max-width:640px){
+  .header{flex-direction:column;align-items:flex-start}
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  .filters{flex-direction:column;align-items:stretch}
+  .filters select{min-width:auto}.filter-count{margin-left:0}
+}
+.text-muted{color:var(--text-muted)}
+.empty-state{text-align:center;padding:32px;color:var(--text-muted);font-style:italic}
+</style>
+</head>
+<body>
+<div class="synthetic-banner">⚠ MOCK — Dados de simulação, não para produção</div>
+<header class="header">
+  <div><h1>Chez Violeta <small>Dashboard do Comprador — Simulação 360 dias</small></h1></div>
+  <div class="header-date" id="headerDate">—</div>
+</header>
+<div class="container" id="app"></div>
+<script>
+/* ═══════════════ DATA ═══════════════ */
+const DATA = __DATA_JSON__;
+
+const DAILY_LOG = DATA.DAILY_LOG;
+const SUPPLIERS = DATA.SUPPLIERS;
+const SLOW_MOVERS = DATA.SLOW_MOVERS;
+const ALERT_ENTRIES = DATA.ALERT_ENTRIES;
+const URGENCY_COUNTS = DATA.URGENCY_COUNTS;
+const CATEGORY_LABELS = DATA.CATEGORY_LABELS;
+const CATEGORY_VALUES = DATA.CATEGORY_VALUES;
+const TOP10_LABELS = DATA.TOP10_LABELS;
+const TOP10_VALUES = DATA.TOP10_VALUES;
+const TOTAL_ALERT_COST = DATA.TOTAL_ALERT_COST;
+const RECENT_CRITICAL = DATA.RECENT_CRITICAL;
+const WORST_SUPPLIERS = DATA.WORST_SUPPLIERS;
+
+/* ═══════════════ ENGINE ═══════════════ */
+const lastDay = DAILY_LOG[DAILY_LOG.length - 1];
+document.getElementById('headerDate').textContent = 'Ultimo dia: ' + lastDay.date + ' | Estoque: ' + lastDay.stock.toLocaleString() + ' | Vendas: ' + lastDay.salesQty;
+
+const allSuppliers = [...new Set(ALERT_ENTRIES.map(a => a.supplier))].sort();
+const allCategories = [...new Set(ALERT_ENTRIES.map(a => a.cat))].sort();
+const allDates = [...new Set(ALERT_ENTRIES.map(a => a.date))].sort();
+
+function renderKPIs() {
+  const grid = document.getElementById('kpiGrid');
+  const critToday = ALERT_ENTRIES.filter(a => a.date === lastDay.date && a.urgency === 'CRITICAL').length;
+  const critTotal = ALERT_ENTRIES.filter(a => a.urgency === 'CRITICAL').length;
+  const worst3 = WORST_SUPPLIERS.slice(0, 3).map(s => s.name).join(', ');
+  const stockoutRisk = ALERT_ENTRIES.filter(a => a.coverage <= 5).length;
+
+  grid.innerHTML = `
+    <div class="kpi-card critical">
+      <div class="label">Alertas Pendentes (R$)</div>
+      <div class="value">R$ ${TOTAL_ALERT_COST.toLocaleString('pt-BR', {minimumFractionDigits:2})}</div>
+      <div class="sub">${critTotal} alertas criticos no periodo</div>
+    </div>
+    <div class="kpi-card critical">
+      <div class="label">Criticos Hoje</div>
+      <div class="value">${critToday}</div>
+      <div class="sub">${RECENT_CRITICAL} nos ultimos 7 dias</div>
+    </div>
+    <div class="kpi-card warning">
+      <div class="label">Pior Compliance</div>
+      <div class="value">${worst3}</div>
+      <div class="sub">Fornecedores com menor taxa de entrega</div>
+    </div>
+    <div class="kpi-card ${stockoutRisk > 0 ? 'critical' : 'success'}">
+      <div class="label">Risco de Ruptura</div>
+      <div class="value">${stockoutRisk}</div>
+      <div class="sub">Produtos com cobertura ≤ 5 dias</div>
+    </div>
+  `;
+}
+
+function setupFilters() {
+  const dateSel = document.getElementById('filterDate');
+  const urgSel = document.getElementById('filterUrgency');
+  const supSel = document.getElementById('filterSupplier');
+  const catSel = document.getElementById('filterCategory');
+
+  dateSel.innerHTML = '<option value="all">Todos os dias</option>' +
+    allDates.map(d => '<option value="' + d + '">' + d + '</option>').join('');
+  dateSel.value = 'all';
+
+  supSel.innerHTML = '<option value="all">Todos</option>' +
+    allSuppliers.map(s => '<option value="' + s + '">' + s + '</option>').join('');
+
+  catSel.innerHTML = '<option value="all">Todas</option>' +
+    allCategories.map(c => '<option value="' + c + '">' + c + '</option>').join('');
+
+  [dateSel, urgSel, supSel, catSel].forEach(el => {
+    el.addEventListener('change', renderAlertTable);
+  });
+}
+
+function getFilteredAlerts() {
+  const dateVal = document.getElementById('filterDate').value;
+  const urgVal = document.getElementById('filterUrgency').value;
+  const supVal = document.getElementById('filterSupplier').value;
+  const catVal = document.getElementById('filterCategory').value;
+
+  return ALERT_ENTRIES.filter(a => {
+    if (dateVal !== 'all' && a.date !== dateVal) return false;
+    if (urgVal !== 'all' && a.urgency !== urgVal) return false;
+    if (supVal !== 'all' && a.supplier !== supVal) return false;
+    if (catVal !== 'all' && a.cat !== catVal) return false;
+    return true;
+  });
+}
+
+function renderAlertTable() {
+  const filtered = getFilteredAlerts();
+  const tbody = document.getElementById('alertsBody');
+  document.getElementById('filterCount').textContent = filtered.length + ' alertas';
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="9" class="empty-state">Nenhum alerta encontrado</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(a => {
+    const urgClass = 'badge-' + a.urgency.toLowerCase();
+    const rowClass = a.urgency === 'CRITICAL' ? 'critical-row' : '';
+    return '<tr class="' + rowClass + '">' +
+      '<td>' + a.date + '</td>' +
+      '<td>#' + a.id + '</td>' +
+      '<td>' + a.cat + '</td>' +
+      '<td>' + a.supplier + '</td>' +
+      '<td>' + a.qty + '</td>' +
+      '<td>' + a.coverage.toFixed(0) + 'd</td>' +
+      '<td><span class="badge ' + urgClass + '">' + a.urgency + '</span></td>' +
+      '<td>' + (a.unitCost > 0 ? 'R$ ' + a.unitCost.toFixed(2) : '—') + '</td>' +
+      '<td>' + (a.totalCost > 0 ? 'R$ ' + a.totalCost.toFixed(2) : '—') + '</td>' +
+    '</tr>';
+  }).join('');
+}
+
+let charts = {};
+
+function initCharts() {
+  const step = Math.max(1, Math.floor(DAILY_LOG.length / 180));
+  const sampledLabels = DAILY_LOG.filter((_, i) => i % step === 0).map(d => d.date);
+  const sampledStock = DAILY_LOG.filter((_, i) => i % step === 0).map(d => d.stock);
+  const sampledSales = DAILY_LOG.filter((_, i) => i % step === 0).map(d => d.salesQty);
+  const sampledSalesVal = DAILY_LOG.filter((_, i) => i % step === 0).map(d => d.salesValue);
+
+  // Line: Sales vs Stock
+  const ctx1 = document.getElementById('chartSalesStock').getContext('2d');
+  charts.salesStock = new Chart(ctx1, {
+    type: 'line',
+    data: {
+      labels: sampledLabels,
+      datasets: [
+        { label: 'Estoque Total', data: sampledStock, borderColor: '#7B2D4E', backgroundColor: 'rgba(123,45,78,0.06)', fill: true, tension: 0.3, pointRadius: 1, yAxisID: 'y' },
+        { label: 'Vendas (R$)', data: sampledSalesVal, borderColor: '#C9A84C', backgroundColor: 'rgba(201,168,76,0.1)', fill: true, tension: 0.3, pointRadius: 1, yAxisID: 'y1' }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { intersect: false, mode: 'index' },
+      plugins: { legend: { position: 'top', labels: { font: { family: 'Inter' } } } },
+      scales: {
+        x: { ticks: { maxTicksLimit: 12, font: { size: 9, family: 'Inter' } } },
+        y: { type: 'linear', position: 'left', title: { display: true, text: 'Estoque', font: { family: 'Inter', size: 10 } }, ticks: { font: { size: 9 } } },
+        y1: { type: 'linear', position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: 'Vendas (R$)', font: { family: 'Inter', size: 10 } }, ticks: { font: { size: 9 } } }
+      }
+    }
+  });
+
+  // Pie: Alerts by Category
+  const ctx2 = document.getElementById('chartCategory').getContext('2d');
+  const colors = ['#7B2D4E','#C9A84C','#5C1F3A','#E0C66A','#9E3F6A','#F5F0EB','#8C7A86','#2D1B24'];
+  charts.category = new Chart(ctx2, {
+    type: 'doughnut',
+    data: { labels: CATEGORY_LABELS, datasets: [{ data: CATEGORY_VALUES, backgroundColor: colors.slice(0, CATEGORY_LABELS.length), borderWidth: 0 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { font: { size: 10, family: 'Inter' }, padding: 8 } } } }
+  });
+
+  // Bar: Top 10 Suppliers
+  const ctx3 = document.getElementById('chartSupplier').getContext('2d');
+  charts.supplier = new Chart(ctx3, {
+    type: 'bar',
+    data: {
+      labels: TOP10_LABELS,
+      datasets: [{ label: 'Valor Total (R$)', data: TOP10_VALUES, backgroundColor: '#7B2D4E', borderRadius: 4 }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: function(ctx) { return 'R$ ' + ctx.parsed.x.toLocaleString('pt-BR', {minimumFractionDigits:2}); } } }
+      },
+      scales: {
+        x: { ticks: { font: { size: 9, family: 'Inter' }, callback: function(v) { return 'R$ ' + v.toLocaleString('pt-BR'); } } },
+        y: { ticks: { font: { size: 9, family: 'Inter' } } }
+      }
+    }
+  });
+}
+
+let supplierSort = { field: 'compliance', asc: true };
+
+function renderSupplierTable() {
+  const tbody = document.getElementById('supplierBody');
+  const sorted = [...SUPPLIERS].filter(s => s.orders >= 2).sort((a, b) => {
+    const mul = supplierSort.asc ? 1 : -1;
+    if (supplierSort.field === 'name') return mul * a.name.localeCompare(b.name);
+    if (supplierSort.field === 'compliance') return mul * (a.compliance - b.compliance);
+    if (supplierSort.field === 'orders') return mul * (a.orders - b.orders);
+    if (supplierSort.field === 'ontime') return mul * (a.onTime - b.onTime);
+    if (supplierSort.field === 'late') return mul * (a.late - b.late);
+    if (supplierSort.field === 'delay') return mul * (a.avgDelay - b.avgDelay);
+    return 0;
+  });
+
+  tbody.innerHTML = sorted.map(s => {
+    const pct = (s.compliance * 100).toFixed(1);
+    let barClass = 'good';
+    if (s.compliance < 0.85) barClass = 'crit';
+    else if (s.compliance < 0.90) barClass = 'bad';
+    else if (s.compliance < 0.95) barClass = 'ok';
+
+    return '<tr>' +
+      '<td><strong>' + s.name + '</strong></td>' +
+      '<td>' + s.orders + '</td>' +
+      '<td>' + s.onTime + '</td>' +
+      '<td style="color:' + (s.late > 10 ? 'var(--critical)' : 'inherit') + '">' + s.late + '</td>' +
+      '<td>' + s.avgDelay.toFixed(1) + '</td>' +
+      '<td><div class="bar-wrap"><span style="font-weight:600;font-size:0.75rem;width:38px">' + pct + '%</span><div class="bar-bg"><div class="bar-fill ' + barClass + '" style="width:' + pct + '%"></div></div></div></td>' +
+      '<td>' + s.leadTime + ' dias</td>' +
+    '</tr>';
+  }).join('');
+}
+
+function sortSuppliers(field) {
+  if (supplierSort.field === field) supplierSort.asc = !supplierSort.asc;
+  else { supplierSort.field = field; supplierSort.asc = true; }
+  renderSupplierTable();
+}
+
+function renderSlowMovers() {
+  const sortVal = document.getElementById('slowSort').value;
+  const tbody = document.getElementById('slowBody');
+  const sorted = [...SLOW_MOVERS].sort((a, b) => {
+    if (sortVal === 'days_desc') return b.dws - a.dws;
+    if (sortVal === 'days_asc') return a.dws - b.dws;
+    if (sortVal === 'stock_desc') return b.stock - a.stock;
+    if (sortVal === 'stock_asc') return a.stock - b.stock;
+    return 0;
+  });
+  document.getElementById('slowTotal').textContent = SLOW_MOVERS.length;
+  tbody.innerHTML = sorted.map(s => {
+    const riskClass = s.dws > 500 ? 'critical-row' : '';
+    let discClass = 'high';
+    if (s.disc === '10%') discClass = 'low';
+    else if (s.disc === '20%') discClass = 'medium';
+    return '<tr class="' + riskClass + '">' +
+      '<td>#' + s.id + '</td>' +
+      '<td>' + s.cat + '</td>' +
+      '<td>' + s.stock + '</td>' +
+      '<td><strong>' + s.dws + '</strong> dias</td>' +
+      '<td><span class="badge badge-' + discClass + '">' + s.disc + '</span></td>' +
+      '<td>' + s.lastSale + '</td>' +
+    '</tr>';
+  }).join('');
+}
+
+/* ═══════════════ BOOT ═══════════════ */
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('app').innerHTML = [
+    '<div class="kpi-grid" id="kpiGrid"></div>',
+    '<div class="filters" id="filterBar">',
+      '<label>Dia</label><select id="filterDate"><option value="all">Todos os dias</option></select>',
+      '<label>Urgencia</label><select id="filterUrgency">',
+        '<option value="all">Todas</option>',
+        '<option value="CRITICAL">CRITICAL</option>',
+        '<option value="HIGH">HIGH</option>',
+        '<option value="MEDIUM">MEDIUM</option>',
+        '<option value="LOW">LOW</option>',
+      '</select>',
+      '<label>Fornecedor</label><select id="filterSupplier"><option value="all">Todos</option></select>',
+      '<label>Categoria</label><select id="filterCategory"><option value="all">Todas</option></select>',
+      '<span class="filter-count" id="filterCount">0 alertas</span>',
+    '</div>',
+    '<div class="section">',
+      '<h2>Alertas de Compra</h2>',
+      '<div class="card" style="padding:0;">',
+        '<div class="table-wrap" style="max-height:500px;overflow-y:auto;">',
+          '<table><thead><tr>',
+            '<th>Data</th><th>Produto</th><th>Categoria</th><th>Fornecedor</th>',
+            '<th>Qtd</th><th>Cobertura</th><th>Urgencia</th><th>Custo Unit.</th><th>Custo Total</th>',
+          '</tr></thead><tbody id="alertsBody"></tbody></table>',
+        '</div>',
+      '</div>',
+    '</div>',
+    '<div class="section"><div class="chart-row">',
+      '<div class="chart-col"><h2>Vendas vs Estoque</h2><div class="card"><canvas id="chartSalesStock" height="280"></canvas></div></div>',
+      '<div class="chart-col"><h2>Alertas por Categoria</h2><div class="card"><canvas id="chartCategory" height="280"></canvas></div></div>',
+    '</div></div>',
+    '<div class="section">',
+      '<h2>Top Fornecedores por Valor de Alerta</h2>',
+      '<div class="card"><canvas id="chartSupplier" height="260"></canvas></div>',
+    '</div>',
+    '<div class="section">',
+      '<h2>Performance de Fornecedores</h2>',
+      '<div class="card" style="padding:0;">',
+        '<div class="table-wrap" style="max-height:450px;overflow-y:auto;">',
+          '<table><thead><tr>',
+            '<th class="sortable" onclick="sortSuppliers(\'name\')">Fornecedor</th>',
+            '<th class="sortable" onclick="sortSuppliers(\'orders\')">Pedidos</th>',
+            '<th class="sortable" onclick="sortSuppliers(\'ontime\')">No Prazo</th>',
+            '<th class="sortable" onclick="sortSuppliers(\'late\')">Atrasos</th>',
+            '<th class="sortable" onclick="sortSuppliers(\'delay\')">Atraso Medio</th>',
+            '<th class="sortable" onclick="sortSuppliers(\'compliance\')">Compliance</th>',
+            '<th>Lead Time</th>',
+          '</tr></thead><tbody id="supplierBody"></tbody></table>',
+        '</div>',
+      '</div>',
+    '</div>',
+    '<div class="section">',
+      '<h2>Produtos Lentos (Slow Movers)</h2>',
+      '<div class="card" style="padding:0;">',
+        '<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--warm-white);flex-wrap:wrap;gap:8px;">',
+          '<span style="font-size:0.8rem;color:var(--text-secondary);"><strong>Total:</strong> <span id="slowTotal">—</span> produtos</span>',
+          '<div style="display:flex;gap:8px;align-items:center;">',
+            '<label style="font-size:0.7rem;font-weight:600;color:var(--text-secondary);">Ordenar:</label>',
+            '<select id="slowSort" onchange="renderSlowMovers()" style="padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-size:0.8rem;">',
+              '<option value="days_desc">Dias sem venda ↓</option>',
+              '<option value="days_asc">Dias sem venda ↑</option>',
+              '<option value="stock_desc">Estoque ↓</option>',
+              '<option value="stock_asc">Estoque ↑</option>',
+            '</select>',
+          '</div>',
+        '</div>',
+        '<div class="table-wrap" style="max-height:400px;overflow-y:auto;">',
+          '<table><thead><tr>',
+            '<th>Produto</th><th>Categoria</th><th>Estoque</th><th>Dias sem Venda</th><th>Desconto</th><th>Ultima Venda</th>',
+          '</tr></thead><tbody id="slowBody"></tbody></table>',
+        '</div>',
+      '</div>',
+    '</div>'
+  ].join('\n');
+
+  renderKPIs();
+  setupFilters();
+  renderAlertTable();
+  initCharts();
+  renderSupplierTable();
+  renderSlowMovers();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,3138 @@
+{
+  "product_profile": [
+    {
+      "categoria": "UNDERWARE",
+      "linha": "BASICO",
+      "colecao": "CONTINUO",
+      "n_skus": 1457,
+      "total_vendido": 1700,
+      "preco_medio": 23.750342789598108,
+      "custo_medio": 61.398486997635935
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "RENDA",
+      "colecao": "SEMI-CONTINUO",
+      "n_skus": 2469,
+      "total_vendido": 1306,
+      "preco_medio": 20.317034482758622,
+      "custo_medio": 57.02722605363984
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "BASICO",
+      "colecao": "INVERNO - 2020",
+      "n_skus": 88,
+      "total_vendido": 1100,
+      "preco_medio": 70.45310282074614,
+      "custo_medio": 76.30042766151047
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "CASUAL",
+      "colecao": "INVERNO - 2020",
+      "n_skus": 40,
+      "total_vendido": 618,
+      "preco_medio": 19.92606796116505,
+      "custo_medio": 46.26066343042071
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "BASICO",
+      "colecao": "VERAO - 2018",
+      "n_skus": 456,
+      "total_vendido": 526,
+      "preco_medio": 54.197851711026615,
+      "custo_medio": 64.50062737642585
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "MASCULINO",
+      "colecao": "CONTINUO",
+      "n_skus": 372,
+      "total_vendido": 488,
+      "preco_medio": 14.554173913043478,
+      "custo_medio": 67.88980434782609
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "BASICO",
+      "colecao": "INDEFINIDA",
+      "n_skus": 502,
+      "total_vendido": 357,
+      "preco_medio": 16.223725490196077,
+      "custo_medio": 66.5447619047619
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "INDEFINIDA",
+      "colecao": "INVERNO - 2020",
+      "n_skus": 153,
+      "total_vendido": 342,
+      "preco_medio": 70.10038011695906,
+      "custo_medio": 82.7546783625731
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "INDEFINIDA",
+      "colecao": "INVERNO - 2019",
+      "n_skus": 195,
+      "total_vendido": 311,
+      "preco_medio": 55.58623794212219,
+      "custo_medio": 80.03819935691318
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "CASUAL",
+      "colecao": "VERAO - 2019",
+      "n_skus": 1164,
+      "total_vendido": 251,
+      "preco_medio": 65.76553784860558,
+      "custo_medio": 74.39426294820717
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "CASUAL",
+      "colecao": "INVERNO - 2020",
+      "n_skus": 364,
+      "total_vendido": 242,
+      "preco_medio": 105.87702479338843,
+      "custo_medio": 122.51661157024793
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "BASICO",
+      "colecao": "INVERNO - 2020",
+      "n_skus": 185,
+      "total_vendido": 219,
+      "preco_medio": 45.28356164383562,
+      "custo_medio": 100.45794520547945
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "CASUAL",
+      "colecao": "VERAO - 2020",
+      "n_skus": 2184,
+      "total_vendido": 217,
+      "preco_medio": 47.54382488479263,
+      "custo_medio": 121.72147465437789
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "BASICO",
+      "colecao": "VERAO - 2019",
+      "n_skus": 527,
+      "total_vendido": 213,
+      "preco_medio": 53.17568075117371,
+      "custo_medio": 65.91929577464789
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "RENDA",
+      "colecao": "INDEFINIDA",
+      "n_skus": 420,
+      "total_vendido": 200,
+      "preco_medio": 19.0122,
+      "custo_medio": 44.69895
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "MEIA",
+      "colecao": "CONTINUO",
+      "n_skus": 180,
+      "total_vendido": 195,
+      "preco_medio": 17.101743589743588,
+      "custo_medio": 56.88712820512821
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "BASICO",
+      "colecao": "INDEFINIDA",
+      "n_skus": 348,
+      "total_vendido": 161,
+      "preco_medio": 53.13509316770186,
+      "custo_medio": 65.66105590062112
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "SHAPEWARE",
+      "colecao": "CONTINUO",
+      "n_skus": 300,
+      "total_vendido": 144,
+      "preco_medio": 66.23729166666666,
+      "custo_medio": 61.798611111111114
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "JOVEM",
+      "colecao": "VERAO - 2019",
+      "n_skus": 510,
+      "total_vendido": 119,
+      "preco_medio": 39.94420168067227,
+      "custo_medio": 65.45638655462184
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "INDEFINIDA",
+      "colecao": "VERAO - 2020",
+      "n_skus": 142,
+      "total_vendido": 113,
+      "preco_medio": 44.8646017699115,
+      "custo_medio": 84.91823008849558
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "INDEFINIDA",
+      "colecao": "INDEFINIDA",
+      "n_skus": 610,
+      "total_vendido": 110,
+      "preco_medio": 42.70890909090909,
+      "custo_medio": 78.166
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "FASHION",
+      "colecao": "VERAO - 2018",
+      "n_skus": 103,
+      "total_vendido": 105,
+      "preco_medio": 56.24790476190476,
+      "custo_medio": 69.86495238095237
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "BASICO",
+      "colecao": "VERAO - 2020",
+      "n_skus": 126,
+      "total_vendido": 105,
+      "preco_medio": 55.517809523809525,
+      "custo_medio": 77.666
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "MATERNITY",
+      "colecao": "CONTINUO",
+      "n_skus": 84,
+      "total_vendido": 98,
+      "preco_medio": 38.79244897959184,
+      "custo_medio": 74.7804081632653
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "CASUAL",
+      "colecao": "INDEFINIDA",
+      "n_skus": 182,
+      "total_vendido": 96,
+      "preco_medio": 22.86375,
+      "custo_medio": 99.53364583333334
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "CASUAL",
+      "colecao": "VERAO - 2020",
+      "n_skus": 40,
+      "total_vendido": 78,
+      "preco_medio": 31.291153846153847,
+      "custo_medio": 68.97307692307692
+    },
+    {
+      "categoria": "FITNESS",
+      "linha": "BASICO",
+      "colecao": "SEMI-CONTINUO",
+      "n_skus": 554,
+      "total_vendido": 77,
+      "preco_medio": 39.46441558441558,
+      "custo_medio": 80.74207792207793
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "MATERNITY",
+      "colecao": "INDEFINIDA",
+      "n_skus": 49,
+      "total_vendido": 76,
+      "preco_medio": 47.60078947368421,
+      "custo_medio": 77.53644736842105
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "JUVENIL",
+      "colecao": "CONTINUO",
+      "n_skus": 241,
+      "total_vendido": 59,
+      "preco_medio": 20.79779661016949,
+      "custo_medio": 66.14372881355932
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "BASICO",
+      "colecao": "VERAO - 2020",
+      "n_skus": 528,
+      "total_vendido": 58,
+      "preco_medio": 36.396206896551725,
+      "custo_medio": 102.36120689655172
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "CASUAL",
+      "colecao": "INVERNO - 2019",
+      "n_skus": 1138,
+      "total_vendido": 50,
+      "preco_medio": 63.6336,
+      "custo_medio": 108.4362
+    },
+    {
+      "categoria": "BIJU / JOIAS",
+      "linha": "BIJOUTERIA",
+      "colecao": "VERAO - 2020",
+      "n_skus": 144,
+      "total_vendido": 45,
+      "preco_medio": 8.412222222222223,
+      "custo_medio": 92.47933333333333
+    },
+    {
+      "categoria": "EROTICA",
+      "linha": "EROTICA",
+      "colecao": "SEMI-CONTINUO",
+      "n_skus": 144,
+      "total_vendido": 43,
+      "preco_medio": 23.1309756097561,
+      "custo_medio": 62.247317073170734
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "BASICO",
+      "colecao": "SEMI-CONTINUO",
+      "n_skus": 84,
+      "total_vendido": 40,
+      "preco_medio": 31.722,
+      "custo_medio": 71.42375
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "BASICO",
+      "colecao": "INVERNO - 2019",
+      "n_skus": 22,
+      "total_vendido": 39,
+      "preco_medio": 95.82897435897436,
+      "custo_medio": 117.26974358974358
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "CASUAL",
+      "colecao": "SEMI-CONTINUO",
+      "n_skus": 152,
+      "total_vendido": 38,
+      "preco_medio": 24.806578947368422,
+      "custo_medio": 70.23868421052632
+    },
+    {
+      "categoria": null,
+      "linha": null,
+      "colecao": null,
+      "n_skus": 1,
+      "total_vendido": 36,
+      "preco_medio": 37.66972222222222,
+      "custo_medio": 62.437777777777775
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "FASHION",
+      "colecao": "VERAO - 2019",
+      "n_skus": 85,
+      "total_vendido": 35,
+      "preco_medio": 55.959714285714284,
+      "custo_medio": 68.114
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "INDEFINIDA",
+      "colecao": "VERAO - 2019",
+      "n_skus": 96,
+      "total_vendido": 34,
+      "preco_medio": 42.754705882352944,
+      "custo_medio": 64.81794117647058
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "CASUAL",
+      "colecao": "VERAO - 2018",
+      "n_skus": 1915,
+      "total_vendido": 32,
+      "preco_medio": 30.1378125,
+      "custo_medio": 65.164375
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "MASCULINO",
+      "colecao": "VERAO - 2020",
+      "n_skus": 12,
+      "total_vendido": 28,
+      "preco_medio": 49.67071428571428,
+      "custo_medio": 102.60214285714285
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "MASCULINO",
+      "colecao": "INDEFINIDA",
+      "n_skus": 55,
+      "total_vendido": 27,
+      "preco_medio": 17.645384615384614,
+      "custo_medio": 82.29538461538462
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "RENDA",
+      "colecao": "INDEFINIDA",
+      "n_skus": 16,
+      "total_vendido": 25,
+      "preco_medio": 49.2644,
+      "custo_medio": 75.6688
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "SHAPEWARE",
+      "colecao": "INDEFINIDA",
+      "n_skus": 31,
+      "total_vendido": 22,
+      "preco_medio": 79.55,
+      "custo_medio": 71.01272727272728
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "BASICO",
+      "colecao": "VERAO - 2019",
+      "n_skus": 191,
+      "total_vendido": 19,
+      "preco_medio": 29.99,
+      "custo_medio": 61.53947368421053
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "JUVENIL",
+      "colecao": "VERAO - 2018",
+      "n_skus": 28,
+      "total_vendido": 17,
+      "preco_medio": 66.84117647058824,
+      "custo_medio": 45.851176470588236
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "RENDA",
+      "colecao": "VERAO - 2017",
+      "n_skus": 12,
+      "total_vendido": 17,
+      "preco_medio": 48.101176470588236,
+      "custo_medio": 49.195882352941176
+    },
+    {
+      "categoria": "EROTICA",
+      "linha": "FASHION",
+      "colecao": "SEMI-CONTINUO",
+      "n_skus": 28,
+      "total_vendido": 17,
+      "preco_medio": 15.9,
+      "custo_medio": 43.87764705882353
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "CASUAL",
+      "colecao": "CONTINUO",
+      "n_skus": 8,
+      "total_vendido": 16,
+      "preco_medio": 129.9,
+      "custo_medio": 101.103125
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "CASUAL",
+      "colecao": "INVERNO - 2018",
+      "n_skus": 960,
+      "total_vendido": 16,
+      "preco_medio": 50.336875,
+      "custo_medio": 98.80375
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "INFANTIL",
+      "colecao": "VERAO - 2018",
+      "n_skus": 25,
+      "total_vendido": 15,
+      "preco_medio": 62.03333333333333,
+      "custo_medio": 62.12133333333333
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "WORK",
+      "colecao": "VERAO - 2019",
+      "n_skus": 109,
+      "total_vendido": 15,
+      "preco_medio": 81.99,
+      "custo_medio": 72.50733333333334
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "JOVEM",
+      "colecao": "INDEFINIDA",
+      "n_skus": 48,
+      "total_vendido": 14,
+      "preco_medio": 15.918571428571429,
+      "custo_medio": 77.90714285714286
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "BASICO",
+      "colecao": "VERAO - 2017",
+      "n_skus": 406,
+      "total_vendido": 13,
+      "preco_medio": 54.207692307692305,
+      "custo_medio": 51.466153846153844
+    },
+    {
+      "categoria": "EROTICA",
+      "linha": "RENDA",
+      "colecao": "SEMI-CONTINUO",
+      "n_skus": 55,
+      "total_vendido": 11,
+      "preco_medio": 73.24454545454546,
+      "custo_medio": 61.49909090909091
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "EROTICA",
+      "colecao": "CONTINUO",
+      "n_skus": 13,
+      "total_vendido": 11,
+      "preco_medio": 22.081818181818182,
+      "custo_medio": 26.744545454545456
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "INDEFINIDA",
+      "colecao": "INDEFINIDA",
+      "n_skus": 193,
+      "total_vendido": 10,
+      "preco_medio": 9.9,
+      "custo_medio": 55.551
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "INDEFINIDA",
+      "colecao": "SEMI-CONTINUO",
+      "n_skus": 83,
+      "total_vendido": 9,
+      "preco_medio": 55.35777777777778,
+      "custo_medio": 96.27888888888889
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "BASICO",
+      "colecao": "CONTINUO",
+      "n_skus": 177,
+      "total_vendido": 7,
+      "preco_medio": 81.41857142857143,
+      "custo_medio": 84.94857142857143
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "RENDA",
+      "colecao": "INVERNO - 2019",
+      "n_skus": 4,
+      "total_vendido": 7,
+      "preco_medio": 49.9,
+      "custo_medio": 97.54714285714286
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "INFANTIL",
+      "colecao": "INDEFINIDA",
+      "n_skus": 12,
+      "total_vendido": 7,
+      "preco_medio": 33.56142857142857,
+      "custo_medio": 107.49571428571429
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "BASICO",
+      "colecao": "VERAO - 2019",
+      "n_skus": 10,
+      "total_vendido": 7,
+      "preco_medio": 39.99,
+      "custo_medio": 59.567142857142855
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "CASUAL",
+      "colecao": "INVERNO - 2017",
+      "n_skus": 481,
+      "total_vendido": 5,
+      "preco_medio": 20.99,
+      "custo_medio": 89.608
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "INDEFINIDA",
+      "colecao": "VERAO - 2016",
+      "n_skus": 536,
+      "total_vendido": 5,
+      "preco_medio": 39.99,
+      "custo_medio": 85.492
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "CASUAL",
+      "colecao": "SEMI-CONTINUO INVERNO",
+      "n_skus": 14,
+      "total_vendido": 4,
+      "preco_medio": 39.99,
+      "custo_medio": 89.8425
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "INDEFINIDA",
+      "colecao": "VERAO - 2015",
+      "n_skus": 3508,
+      "total_vendido": 4,
+      "preco_medio": 19.99,
+      "custo_medio": 75.6225
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "FASHION",
+      "colecao": "VERAO - 2017",
+      "n_skus": 137,
+      "total_vendido": 4,
+      "preco_medio": 54.9225,
+      "custo_medio": 62.0025
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "MASCULINO",
+      "colecao": "INDEFINIDA",
+      "n_skus": 8,
+      "total_vendido": 3,
+      "preco_medio": 39.99,
+      "custo_medio": 133.38666666666666
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "JOVEM",
+      "colecao": "INVERNO - 2019",
+      "n_skus": 41,
+      "total_vendido": 3,
+      "preco_medio": 59.99,
+      "custo_medio": 245.39666666666668
+    },
+    {
+      "categoria": "ACESSORIOS",
+      "linha": "FUNCAO",
+      "colecao": "CONTINUO",
+      "n_skus": 43,
+      "total_vendido": 3,
+      "preco_medio": 5.9,
+      "custo_medio": 11.77
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "INDEFINIDA",
+      "colecao": "VERAO - 2018",
+      "n_skus": 46,
+      "total_vendido": 3,
+      "preco_medio": 59.00666666666667,
+      "custo_medio": 95.37
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "BASICO",
+      "colecao": "VERAO - 2020",
+      "n_skus": 27,
+      "total_vendido": 3,
+      "preco_medio": 45.99,
+      "custo_medio": 69.02
+    },
+    {
+      "categoria": "FITNESS",
+      "linha": "BASICO",
+      "colecao": "CONTINUO",
+      "n_skus": 48,
+      "total_vendido": 3,
+      "preco_medio": 32.9,
+      "custo_medio": 49.11666666666667
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "JUVENIL",
+      "colecao": "VERAO - 2017",
+      "n_skus": 27,
+      "total_vendido": 3,
+      "preco_medio": 55.233333333333334,
+      "custo_medio": 73.44
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "JUVENIL",
+      "colecao": "INVERNO - 2020",
+      "n_skus": 4,
+      "total_vendido": 3,
+      "preco_medio": 39.73,
+      "custo_medio": 170.7
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "INDEFINIDA",
+      "colecao": "SEMI-CONTINUO",
+      "n_skus": 4,
+      "total_vendido": 2,
+      "preco_medio": 9.9,
+      "custo_medio": 17.705
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "INDEFINIDA",
+      "colecao": "INVERNO - 2020",
+      "n_skus": 28,
+      "total_vendido": 2,
+      "preco_medio": 59.99,
+      "custo_medio": 127.005
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "BASICO",
+      "colecao": "INVERNO - 2018",
+      "n_skus": 8,
+      "total_vendido": 2,
+      "preco_medio": 9.99,
+      "custo_medio": 86.84
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "BASICO",
+      "colecao": "INDEFINIDA",
+      "n_skus": 7,
+      "total_vendido": 2,
+      "preco_medio": 69.99,
+      "custo_medio": 186.38
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "JOVEM",
+      "colecao": "INVERNO - 2018",
+      "n_skus": 161,
+      "total_vendido": 2,
+      "preco_medio": 34.99,
+      "custo_medio": 105.01
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "CASUAL",
+      "colecao": "VERAO - 2017",
+      "n_skus": 142,
+      "total_vendido": 1,
+      "preco_medio": 14.99,
+      "custo_medio": 188.27
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "INDEFINIDA",
+      "colecao": "INVERNO - 2017",
+      "n_skus": 576,
+      "total_vendido": 1,
+      "preco_medio": 34.99,
+      "custo_medio": 76.41
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "BASICO",
+      "colecao": "VERAO - 2015",
+      "n_skus": 365,
+      "total_vendido": 1,
+      "preco_medio": 135.9,
+      "custo_medio": 67.8
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "INDEFINIDA",
+      "colecao": "VERAO - 2017",
+      "n_skus": 254,
+      "total_vendido": 1,
+      "preco_medio": 14.99,
+      "custo_medio": 97.41
+    },
+    {
+      "categoria": "BIJU / JOIAS",
+      "linha": "INOX",
+      "colecao": "VERAO - 2020",
+      "n_skus": 1,
+      "total_vendido": 1,
+      "preco_medio": 9.99,
+      "custo_medio": 33.6
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "INDEFINIDA",
+      "colecao": "VERAO - 2020",
+      "n_skus": 70,
+      "total_vendido": 1,
+      "preco_medio": 49.99,
+      "custo_medio": 135.15
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "JOVEM",
+      "colecao": "INVERNO - 2017",
+      "n_skus": 45,
+      "total_vendido": 1,
+      "preco_medio": 14.99,
+      "custo_medio": 66.4
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "BASICO",
+      "colecao": "VERAO - 2014",
+      "n_skus": 305,
+      "total_vendido": 1,
+      "preco_medio": 59.99,
+      "custo_medio": 75.43
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "WORK",
+      "colecao": "INVERNO - 2018",
+      "n_skus": 69,
+      "total_vendido": 1,
+      "preco_medio": 49.9,
+      "custo_medio": 143.79
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "BASICO",
+      "colecao": "VERAO - 2016",
+      "n_skus": 493,
+      "total_vendido": 1,
+      "preco_medio": 99.9,
+      "custo_medio": 94.32
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "BASICO",
+      "colecao": "VERAO - 2018",
+      "n_skus": 151,
+      "total_vendido": 1,
+      "preco_medio": 19.9,
+      "custo_medio": 24.18
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "JOVEM",
+      "colecao": "VERAO - 2018",
+      "n_skus": 396,
+      "total_vendido": 1,
+      "preco_medio": 24.99,
+      "custo_medio": 58.5
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "CASUAL",
+      "colecao": "VERAO - 2015",
+      "n_skus": 171,
+      "total_vendido": 1,
+      "preco_medio": 34.99,
+      "custo_medio": 86.17
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "CASUAL",
+      "colecao": "INVERNO - 2016",
+      "n_skus": 12,
+      "total_vendido": 1,
+      "preco_medio": 79.99,
+      "custo_medio": 410.11
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "BASICO",
+      "colecao": "VERAO - 2015",
+      "n_skus": 4,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "RENDA",
+      "colecao": "CONTINUO",
+      "n_skus": 47,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "FASHION",
+      "colecao": "INDEFINIDA",
+      "n_skus": 8,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "EROTICA",
+      "linha": "INDEFINIDA",
+      "colecao": "INDEFINIDA",
+      "n_skus": 2,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "BIJU / JOIAS",
+      "linha": "FOLHEADO",
+      "colecao": "VERAO - 2020",
+      "n_skus": 68,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "CASUAL",
+      "colecao": "INDEFINIDA",
+      "n_skus": 12,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "FITNESS",
+      "linha": "BASICO",
+      "colecao": "INDEFINIDA",
+      "n_skus": 35,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "RENDA",
+      "colecao": "SEMI-CONTINUO",
+      "n_skus": 36,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "INDEFINIDA",
+      "colecao": "VERAO - 2014",
+      "n_skus": 119,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "INDEFINIDA",
+      "colecao": "SEMI-CONTINUO VERAO",
+      "n_skus": 16,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "BASICO",
+      "colecao": "VERAO - 2015",
+      "n_skus": 12,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "EROTICA",
+      "colecao": "SEMI-CONTINUO",
+      "n_skus": 8,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "BASICO",
+      "colecao": "INVERNO - 2016",
+      "n_skus": 17,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "EROTICA",
+      "linha": "INDEFINIDA",
+      "colecao": "SEMI-CONTINUO",
+      "n_skus": 3,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "INDEFINIDA",
+      "colecao": "INVERNO - 2015",
+      "n_skus": 148,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "WORK",
+      "colecao": "VERAO - 2018",
+      "n_skus": 117,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "INDEFINIDA",
+      "colecao": "CONTINUO",
+      "n_skus": 167,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "BASICO",
+      "colecao": "VERAO - 2017",
+      "n_skus": 36,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "JUVENIL",
+      "colecao": "VERAO - 2015",
+      "n_skus": 26,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "EROTICA",
+      "linha": "INDEFINIDA",
+      "colecao": "CONTINUO",
+      "n_skus": 140,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "INDEFINIDA",
+      "colecao": "INVERNO - 2014",
+      "n_skus": 210,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "INDEFINIDA",
+      "colecao": "CONTINUO",
+      "n_skus": 20,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "MASCULINO",
+      "colecao": "VERAO - 2015",
+      "n_skus": 1,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "FASHION",
+      "colecao": "VERAO - 2014",
+      "n_skus": 22,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "NATACAO",
+      "colecao": "VERAO - 2016",
+      "n_skus": 6,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "MEIA",
+      "colecao": "SEMI-CONTINUO",
+      "n_skus": 4,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "INFANTIL",
+      "colecao": "VERAO - 2016",
+      "n_skus": 9,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "ACESSORIOS",
+      "linha": "INDEFINIDA",
+      "colecao": "SEMI-CONTINUO",
+      "n_skus": 31,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "EROTICA",
+      "linha": "EROTICA",
+      "colecao": "CONTINUO",
+      "n_skus": 25,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "PRECO",
+      "colecao": "VERAO - 2013",
+      "n_skus": 26,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "INDEFINIDA",
+      "colecao": "INVERNO - 2016",
+      "n_skus": 227,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "EROTICA",
+      "linha": "MASCULINO",
+      "colecao": "SEMI-CONTINUO",
+      "n_skus": 3,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "RENDA",
+      "colecao": "INVERNO - 2016",
+      "n_skus": 24,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "EROTICA",
+      "colecao": "INDEFINIDA",
+      "n_skus": 1,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "PLUS SIZE",
+      "colecao": "INVERNO - 2020",
+      "n_skus": 48,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "INDEFINIDA",
+      "colecao": "VERAO - 2019",
+      "n_skus": 12,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "INDEFINIDA",
+      "colecao": "VERAO - 2016",
+      "n_skus": 803,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "JUVENIL",
+      "colecao": "INVERNO - 2016",
+      "n_skus": 7,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "JUVENIL",
+      "colecao": "VERAO - 2014",
+      "n_skus": 9,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "ACESSORIOS",
+      "linha": "INDEFINIDA",
+      "colecao": "VERAO - 2015",
+      "n_skus": 9,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "BASICO",
+      "colecao": "VERAO - 2012",
+      "n_skus": 39,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "PRECO",
+      "colecao": "VERAO - 2014",
+      "n_skus": 40,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "INDEFINIDA",
+      "colecao": "VERAO - 2018",
+      "n_skus": 32,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "INFANTIL",
+      "colecao": "VERAO - 2017",
+      "n_skus": 25,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "CASUAL",
+      "colecao": "VERAO - 2016",
+      "n_skus": 219,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "INDEFINIDA",
+      "colecao": "VERAO - 2015",
+      "n_skus": 616,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "INDEFINIDA",
+      "colecao": "SEMI-CONTINUO INVERNO",
+      "n_skus": 43,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "BIJU / JOIAS",
+      "linha": "INDEFINIDA",
+      "colecao": "INDEFINIDA",
+      "n_skus": 164,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "FASHION",
+      "colecao": "VERAO - 2020",
+      "n_skus": 1,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "INDEFINIDA",
+      "colecao": "VERAO - 2013",
+      "n_skus": 21,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "INDEFINIDA",
+      "colecao": "VERAO - 2014",
+      "n_skus": 210,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "ACESSORIOS",
+      "linha": "INDEFINIDA",
+      "colecao": "INDEFINIDA",
+      "n_skus": 9,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "WORK",
+      "colecao": "VERAO - 2015",
+      "n_skus": 8,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "JUVENIL",
+      "colecao": "VERAO - 2016",
+      "n_skus": 18,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "FASHION",
+      "colecao": "VERAO - 2016",
+      "n_skus": 140,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "INDEFINIDA",
+      "colecao": "INVERNO - 2015",
+      "n_skus": 178,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "CASUAL",
+      "colecao": "CONTINUO",
+      "n_skus": 45,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "INDEFINIDA",
+      "colecao": "VERAO - 2012",
+      "n_skus": 12,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "BASICO",
+      "colecao": "VERAO - 2014",
+      "n_skus": 5,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "INDEFINIDA",
+      "colecao": "VERAO - 2013",
+      "n_skus": 358,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "EROTICA",
+      "colecao": "INDEFINIDA",
+      "n_skus": 16,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "JOVEM",
+      "colecao": "VERAO - 2014",
+      "n_skus": 9,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "BIJU / JOIAS",
+      "linha": "BASICO",
+      "colecao": "INDEFINIDA",
+      "n_skus": 4,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "NATACAO",
+      "colecao": "VERAO - 2015",
+      "n_skus": 4,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "INFANTIL",
+      "colecao": "VERAO - 2015",
+      "n_skus": 3,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "BASICO",
+      "colecao": "VERAO - 2016",
+      "n_skus": 5,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "CASUAL",
+      "colecao": "VERAO - 2016",
+      "n_skus": 17,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "INDEFINIDA",
+      "colecao": "INVERNO - 2014",
+      "n_skus": 29,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "INDEFINIDA",
+      "colecao": "VERAO - 2017",
+      "n_skus": 172,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "MASCULINO",
+      "colecao": "SEMI-CONTINUO",
+      "n_skus": 24,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "BIJU / JOIAS",
+      "linha": "BIJOUTERIA",
+      "colecao": "INDEFINIDA",
+      "n_skus": 1,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "BIJU / JOIAS",
+      "linha": "SEMI JOIA",
+      "colecao": "VERAO - 2020",
+      "n_skus": 6,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "INDEFINIDA",
+      "colecao": "VERAO - 2015",
+      "n_skus": 38,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "JUVENIL",
+      "colecao": "INVERNO - 2015",
+      "n_skus": 3,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "BASICO",
+      "colecao": "VERAO - 2016",
+      "n_skus": 8,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "BASICO",
+      "colecao": "CONTINUO",
+      "n_skus": 1,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "INDEFINIDA",
+      "colecao": "INVERNO - 2013",
+      "n_skus": 24,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "BASICO",
+      "colecao": "VERAO - 2013",
+      "n_skus": 115,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "SHAPEWARE",
+      "colecao": "SEMI-CONTINUO",
+      "n_skus": 7,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "JUVENIL",
+      "colecao": "VERAO - 2013",
+      "n_skus": 10,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "INFANTIL",
+      "colecao": "CONTINUO",
+      "n_skus": 12,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "FUNCAO",
+      "colecao": "CONTINUO",
+      "n_skus": 10,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "RENDA",
+      "colecao": "CONTINUO",
+      "n_skus": 75,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "FASHION",
+      "colecao": "VERAO - 2015",
+      "n_skus": 98,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "WORK",
+      "colecao": "VERAO - 2016",
+      "n_skus": 17,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "JUVENIL",
+      "colecao": "SEMI-CONTINUO",
+      "n_skus": 60,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "SEGUNDA PELE",
+      "colecao": "CONTINUO",
+      "n_skus": 9,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "EROTICA",
+      "linha": "EROTICA",
+      "colecao": "VERAO - 2015",
+      "n_skus": 28,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "INDEFINIDA",
+      "colecao": "INDEFINIDA",
+      "n_skus": 1,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "INDEFINIDA",
+      "colecao": "INVERNO - 2016",
+      "n_skus": 105,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "NATACAO",
+      "colecao": "VERAO - 2014",
+      "n_skus": 2,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "JOVEM",
+      "colecao": "VERAO - 2015",
+      "n_skus": 17,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "ACESSORIOS",
+      "linha": "INDEFINIDA",
+      "colecao": "CONTINUO",
+      "n_skus": 13,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "BASICO",
+      "colecao": "INVERNO - 2019",
+      "n_skus": 30,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "BASICO",
+      "colecao": "SEMI-CONTINUO VERAO",
+      "n_skus": 21,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "JUVENIL",
+      "colecao": "INDEFINIDA",
+      "n_skus": 10,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "INDEFINIDA",
+      "colecao": "VERAO - 2016",
+      "n_skus": 1,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "BASICO",
+      "colecao": "VERAO - 2015",
+      "n_skus": 50,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "WORK",
+      "colecao": "INVERNO - 2017",
+      "n_skus": 5,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "INDEFINIDA",
+      "colecao": "INVERNO - 2013",
+      "n_skus": 7,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "INDEFINIDA",
+      "colecao": "VERAO - 2013",
+      "n_skus": 140,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "INDEFINIDA",
+      "colecao": "VERAO - 2014",
+      "n_skus": 267,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "BASICO",
+      "colecao": "INVERNO - 2014",
+      "n_skus": 4,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "JOVEM",
+      "colecao": "VERAO - 2017",
+      "n_skus": 50,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "ACESSORIOS",
+      "linha": "INDEFINIDA",
+      "colecao": "VERAO - 2016",
+      "n_skus": 1,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "BASICO",
+      "colecao": "INDEFINIDA",
+      "n_skus": 7,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    },
+    {
+      "categoria": "ACESSORIOS",
+      "linha": "INDEFINIDA",
+      "colecao": "VERAO - 2020",
+      "n_skus": 13,
+      "total_vendido": 0,
+      "preco_medio": 0,
+      "custo_medio": 0
+    }
+  ],
+  "suppliers": [
+    {
+      "cod": "BRAS",
+      "categoria": null,
+      "n_pedidos": 332,
+      "qtd_media": 4.364609924662226,
+      "val_medio": 28.91468028142706
+    },
+    {
+      "cod": "CLASS",
+      "categoria": null,
+      "n_pedidos": 222,
+      "qtd_media": 7.3471103430094615,
+      "val_medio": 14.379691848033042
+    },
+    {
+      "cod": "ZEE RUCCI",
+      "categoria": null,
+      "n_pedidos": 219,
+      "qtd_media": 9.226616170512594,
+      "val_medio": 10.85132288180377
+    },
+    {
+      "cod": "VI LINGERIE",
+      "categoria": null,
+      "n_pedidos": 181,
+      "qtd_media": 3.3790449588446796,
+      "val_medio": 20.205833060945533
+    },
+    {
+      "cod": "LU MODAS",
+      "categoria": null,
+      "n_pedidos": 146,
+      "qtd_media": 4.846129690689276,
+      "val_medio": 24.15431307897629
+    },
+    {
+      "cod": "TRIFIL",
+      "categoria": null,
+      "n_pedidos": 144,
+      "qtd_media": 10.436510609632872,
+      "val_medio": 12.095670259346582
+    },
+    {
+      "cod": "DIVA DONNA",
+      "categoria": null,
+      "n_pedidos": 132,
+      "qtd_media": 4.24386558249982,
+      "val_medio": 5.396188745772469
+    },
+    {
+      "cod": "SONHO DE PIJAMA",
+      "categoria": null,
+      "n_pedidos": 79,
+      "qtd_media": 11.991904559011504,
+      "val_medio": 24.562143161482744
+    },
+    {
+      "cod": "RIVANNA",
+      "categoria": null,
+      "n_pedidos": 70,
+      "qtd_media": 16.76239627605748,
+      "val_medio": 35.76943331309452
+    },
+    {
+      "cod": "EXINIA",
+      "categoria": null,
+      "n_pedidos": 70,
+      "qtd_media": 16.75166163141994,
+      "val_medio": 27.412592145015104
+    },
+    {
+      "cod": "MENSAGEIRO DOS SONHOS",
+      "categoria": null,
+      "n_pedidos": 67,
+      "qtd_media": 14.36591086786552,
+      "val_medio": 35.90684128225176
+    },
+    {
+      "cod": "CATIVA",
+      "categoria": null,
+      "n_pedidos": 64,
+      "qtd_media": 2.900497512437811,
+      "val_medio": 28.123597397627247
+    },
+    {
+      "cod": "FEMINIS",
+      "categoria": null,
+      "n_pedidos": 56,
+      "qtd_media": 7.2732846715328465,
+      "val_medio": 14.17476204379562
+    },
+    {
+      "cod": "SENSARE",
+      "categoria": null,
+      "n_pedidos": 49,
+      "qtd_media": 22.27799227799228,
+      "val_medio": 25.634234234234235
+    },
+    {
+      "cod": "LIZ",
+      "categoria": null,
+      "n_pedidos": 46,
+      "qtd_media": 3.9873556899395273,
+      "val_medio": 48.24159978009896
+    },
+    {
+      "cod": "LAIBEL",
+      "categoria": null,
+      "n_pedidos": 43,
+      "qtd_media": 10.83291770573566,
+      "val_medio": 28.289384871155445
+    },
+    {
+      "cod": "M25",
+      "categoria": null,
+      "n_pedidos": 39,
+      "qtd_media": 12.850202429149798,
+      "val_medio": 24.08502024291498
+    },
+    {
+      "cod": "TOQUE INTIMO",
+      "categoria": null,
+      "n_pedidos": 37,
+      "qtd_media": 9.763969171483623,
+      "val_medio": 37.53290944123314
+    },
+    {
+      "cod": "LUPO",
+      "categoria": null,
+      "n_pedidos": 33,
+      "qtd_media": 23.825183374083128,
+      "val_medio": 12.979559902200489
+    },
+    {
+      "cod": "CENSATO",
+      "categoria": null,
+      "n_pedidos": 29,
+      "qtd_media": 13.192307692307692,
+      "val_medio": 37.602961538461535
+    }
+  ],
+  "current_stock": [
+    {
+      "categoria": "UNDERWARE",
+      "linha": "BASICO",
+      "skus": 1256,
+      "total": 38899,
+      "medio": 4.17684956512402
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "BASICO",
+      "skus": 1012,
+      "total": 24150,
+      "medio": 3.940283896231033
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "RENDA",
+      "skus": 1046,
+      "total": 19467,
+      "medio": 3.725028702640643
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "CASUAL",
+      "skus": 2638,
+      "total": 12300,
+      "medio": 1.5565679574791191
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "MASCULINO",
+      "skus": 175,
+      "total": 6493,
+      "medio": 8.01604938271605
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "FASHION",
+      "skus": 269,
+      "total": 4801,
+      "medio": 3.813343923749007
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "INDEFINIDA",
+      "skus": 454,
+      "total": 4139,
+      "medio": 1.9985514244326412
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "SHAPEWARE",
+      "skus": 175,
+      "total": 3398,
+      "medio": 2.6138461538461537
+    },
+    {
+      "categoria": "FITNESS",
+      "linha": "BASICO",
+      "skus": 225,
+      "total": 3228,
+      "medio": 3.1008645533141213
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "CASUAL",
+      "skus": 177,
+      "total": 3212,
+      "medio": 2.9226569608735216
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "BASICO",
+      "skus": 204,
+      "total": 2940,
+      "medio": 2.6110124333925397
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "BASICO",
+      "skus": 456,
+      "total": 2709,
+      "medio": 1.6338962605548855
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "MATERNITY",
+      "skus": 110,
+      "total": 2364,
+      "medio": 2.2929194956353056
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "CASUAL",
+      "skus": 36,
+      "total": 1895,
+      "medio": 6.035031847133758
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "MEIA",
+      "skus": 68,
+      "total": 1887,
+      "medio": 5.360795454545454
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "JUVENIL",
+      "skus": 103,
+      "total": 1359,
+      "medio": 2.0907692307692307
+    },
+    {
+      "categoria": "EROTICA",
+      "linha": "EROTICA",
+      "skus": 97,
+      "total": 1015,
+      "medio": 1.7652173913043478
+    },
+    {
+      "categoria": null,
+      "linha": null,
+      "skus": 1,
+      "total": 824,
+      "medio": 2.7194719471947195
+    },
+    {
+      "categoria": "BIJU / JOIAS",
+      "linha": "INDEFINIDA",
+      "skus": 145,
+      "total": 778,
+      "medio": 2.7785714285714285
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "RENDA",
+      "skus": 34,
+      "total": 613,
+      "medio": 2.4817813765182186
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "JOVEM",
+      "skus": 261,
+      "total": 611,
+      "medio": 1.0989208633093526
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "WORK",
+      "skus": 132,
+      "total": 561,
+      "medio": 1.2116630669546435
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "MASCULINO",
+      "skus": 20,
+      "total": 466,
+      "medio": 2.574585635359116
+    },
+    {
+      "categoria": "EROTICA",
+      "linha": "FASHION",
+      "skus": 17,
+      "total": 392,
+      "medio": 3.161290322580645
+    },
+    {
+      "categoria": "ACESSORIOS",
+      "linha": "INDEFINIDA",
+      "skus": 18,
+      "total": 353,
+      "medio": 2.6946564885496183
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "EROTICA",
+      "skus": 7,
+      "total": 315,
+      "medio": 6.176470588235294
+    },
+    {
+      "categoria": "EROTICA",
+      "linha": "RENDA",
+      "skus": 40,
+      "total": 236,
+      "medio": 1.6978417266187051
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "INDEFINIDA",
+      "skus": 95,
+      "total": 190,
+      "medio": 1.484375
+    },
+    {
+      "categoria": "BIJU / JOIAS",
+      "linha": "BIJOUTERIA",
+      "skus": 54,
+      "total": 169,
+      "medio": 3.1296296296296298
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "JOVEM",
+      "skus": 41,
+      "total": 162,
+      "medio": 1.1911764705882353
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "INFANTIL",
+      "skus": 12,
+      "total": 152,
+      "medio": 1.6703296703296704
+    },
+    {
+      "categoria": "EROTICA",
+      "linha": "INDEFINIDA",
+      "skus": 23,
+      "total": 132,
+      "medio": 5.739130434782608
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "JUVENIL",
+      "skus": 34,
+      "total": 124,
+      "medio": 1.4090909090909092
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "EROTICA",
+      "skus": 8,
+      "total": 65,
+      "medio": 1.1818181818181819
+    },
+    {
+      "categoria": "BIJU / JOIAS",
+      "linha": "FOLHEADO",
+      "skus": 21,
+      "total": 54,
+      "medio": 2.5714285714285716
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "INDEFINIDA",
+      "skus": 7,
+      "total": 49,
+      "medio": 2.227272727272727
+    },
+    {
+      "categoria": "ACESSORIOS",
+      "linha": "FUNCAO",
+      "skus": 12,
+      "total": 46,
+      "medio": 1.0952380952380953
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "INFANTIL",
+      "skus": 14,
+      "total": 29,
+      "medio": 1.1153846153846154
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "INDEFINIDA",
+      "skus": 13,
+      "total": 16,
+      "medio": 1.1428571428571428
+    },
+    {
+      "categoria": "BIJU / JOIAS",
+      "linha": "BASICO",
+      "skus": 4,
+      "total": 9,
+      "medio": 1.2857142857142858
+    },
+    {
+      "categoria": "BIJU / JOIAS",
+      "linha": "SEMI JOIA",
+      "skus": 5,
+      "total": 9,
+      "medio": 1.8
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "SEGUNDA PELE",
+      "skus": 3,
+      "total": 3,
+      "medio": 1.0
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "FUNCAO",
+      "skus": 3,
+      "total": 3,
+      "medio": 1.0
+    },
+    {
+      "categoria": "EROTICA",
+      "linha": "MASCULINO",
+      "skus": 1,
+      "total": 1,
+      "medio": 1.0
+    }
+  ],
+  "sales_velocity_90d": [],
+  "seasonality_monthly": {
+    "ACESSORIOS": {
+      "10": 2,
+      "11": 1
+    },
+    "BIJU / JOIAS": {
+      "4": 3,
+      "5": 42,
+      "11": 1
+    },
+    "EROTICA": {
+      "4": 6,
+      "5": 40,
+      "10": 3,
+      "11": 14,
+      "12": 8
+    },
+    "FITNESS": {
+      "4": 6,
+      "5": 34,
+      "10": 12,
+      "11": 20,
+      "12": 8
+    },
+    "LINHA NOITE": {
+      "4": 101,
+      "5": 2234,
+      "9": 93,
+      "10": 88,
+      "11": 390,
+      "12": 216
+    },
+    "MODA PRAIA": {
+      "4": 3,
+      "5": 17,
+      "10": 159,
+      "11": 476,
+      "12": 282
+    },
+    "UNDERWARE": {
+      "4": 208,
+      "5": 2410,
+      "9": 101,
+      "10": 285,
+      "11": 1232,
+      "12": 647
+    },
+    "VESTUARIO": {
+      "4": 45,
+      "5": 618,
+      "9": 23,
+      "10": 80,
+      "11": 316,
+      "12": 216
+    },
+    "null": {
+      "5": 13,
+      "11": 9,
+      "12": 14
+    }
+  },
+  "purchase_regime": [
+    {
+      "categoria": "ACESSORIOS",
+      "linha": "INDEFINIDA",
+      "regime": "pouca_repetição",
+      "n_skus": 12
+    },
+    {
+      "categoria": "ACESSORIOS",
+      "linha": "INDEFINIDA",
+      "regime": "repetição_moderada",
+      "n_skus": 1
+    },
+    {
+      "categoria": "ACESSORIOS",
+      "linha": "FUNCAO",
+      "regime": "única",
+      "n_skus": 21
+    },
+    {
+      "categoria": "ACESSORIOS",
+      "linha": "INDEFINIDA",
+      "regime": "única",
+      "n_skus": 29
+    },
+    {
+      "categoria": "BIJU / JOIAS",
+      "linha": "BIJOUTERIA",
+      "regime": "alta_repetição",
+      "n_skus": 10
+    },
+    {
+      "categoria": "BIJU / JOIAS",
+      "linha": "BIJOUTERIA",
+      "regime": "pouca_repetição",
+      "n_skus": 7
+    },
+    {
+      "categoria": "BIJU / JOIAS",
+      "linha": "BASICO",
+      "regime": "pouca_repetição",
+      "n_skus": 4
+    },
+    {
+      "categoria": "BIJU / JOIAS",
+      "linha": "INDEFINIDA",
+      "regime": "pouca_repetição",
+      "n_skus": 135
+    },
+    {
+      "categoria": "BIJU / JOIAS",
+      "linha": "FOLHEADO",
+      "regime": "pouca_repetição",
+      "n_skus": 5
+    },
+    {
+      "categoria": "BIJU / JOIAS",
+      "linha": "BIJOUTERIA",
+      "regime": "repetição_moderada",
+      "n_skus": 12
+    },
+    {
+      "categoria": "BIJU / JOIAS",
+      "linha": "SEMI JOIA",
+      "regime": "única",
+      "n_skus": 6
+    },
+    {
+      "categoria": "BIJU / JOIAS",
+      "linha": "INOX",
+      "regime": "única",
+      "n_skus": 1
+    },
+    {
+      "categoria": "BIJU / JOIAS",
+      "linha": "BIJOUTERIA",
+      "regime": "única",
+      "n_skus": 116
+    },
+    {
+      "categoria": "BIJU / JOIAS",
+      "linha": "FOLHEADO",
+      "regime": "única",
+      "n_skus": 62
+    },
+    {
+      "categoria": "BIJU / JOIAS",
+      "linha": "INDEFINIDA",
+      "regime": "única",
+      "n_skus": 10
+    },
+    {
+      "categoria": "EROTICA",
+      "linha": "FASHION",
+      "regime": "alta_repetição",
+      "n_skus": 24
+    },
+    {
+      "categoria": "EROTICA",
+      "linha": "EROTICA",
+      "regime": "alta_repetição",
+      "n_skus": 38
+    },
+    {
+      "categoria": "EROTICA",
+      "linha": "INDEFINIDA",
+      "regime": "pouca_repetição",
+      "n_skus": 25
+    },
+    {
+      "categoria": "EROTICA",
+      "linha": "RENDA",
+      "regime": "pouca_repetição",
+      "n_skus": 25
+    },
+    {
+      "categoria": "EROTICA",
+      "linha": "EROTICA",
+      "regime": "pouca_repetição",
+      "n_skus": 61
+    },
+    {
+      "categoria": "EROTICA",
+      "linha": "EROTICA",
+      "regime": "repetição_moderada",
+      "n_skus": 60
+    },
+    {
+      "categoria": "EROTICA",
+      "linha": "FASHION",
+      "regime": "repetição_moderada",
+      "n_skus": 4
+    },
+    {
+      "categoria": "EROTICA",
+      "linha": "RENDA",
+      "regime": "repetição_moderada",
+      "n_skus": 15
+    },
+    {
+      "categoria": "EROTICA",
+      "linha": "INDEFINIDA",
+      "regime": "repetição_moderada",
+      "n_skus": 13
+    },
+    {
+      "categoria": "EROTICA",
+      "linha": "INDEFINIDA",
+      "regime": "única",
+      "n_skus": 81
+    },
+    {
+      "categoria": "EROTICA",
+      "linha": "RENDA",
+      "regime": "única",
+      "n_skus": 15
+    },
+    {
+      "categoria": "EROTICA",
+      "linha": "EROTICA",
+      "regime": "única",
+      "n_skus": 13
+    },
+    {
+      "categoria": "EROTICA",
+      "linha": "MASCULINO",
+      "regime": "única",
+      "n_skus": 3
+    },
+    {
+      "categoria": "FITNESS",
+      "linha": "BASICO",
+      "regime": "alta_repetição",
+      "n_skus": 29
+    },
+    {
+      "categoria": "FITNESS",
+      "linha": "BASICO",
+      "regime": "pouca_repetição",
+      "n_skus": 384
+    },
+    {
+      "categoria": "FITNESS",
+      "linha": "BASICO",
+      "regime": "repetição_moderada",
+      "n_skus": 60
+    },
+    {
+      "categoria": "FITNESS",
+      "linha": "BASICO",
+      "regime": "única",
+      "n_skus": 135
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "RENDA",
+      "regime": "alta_repetição",
+      "n_skus": 8
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "INDEFINIDA",
+      "regime": "alta_repetição",
+      "n_skus": 205
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "BASICO",
+      "regime": "alta_repetição",
+      "n_skus": 14
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "JUVENIL",
+      "regime": "alta_repetição",
+      "n_skus": 3
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "INDEFINIDA",
+      "regime": "pouca_repetição",
+      "n_skus": 641
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "RENDA",
+      "regime": "pouca_repetição",
+      "n_skus": 31
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "MASCULINO",
+      "regime": "pouca_repetição",
+      "n_skus": 8
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "BASICO",
+      "regime": "pouca_repetição",
+      "n_skus": 146
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "CASUAL",
+      "regime": "pouca_repetição",
+      "n_skus": 30
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "EROTICA",
+      "regime": "pouca_repetição",
+      "n_skus": 8
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "JUVENIL",
+      "regime": "pouca_repetição",
+      "n_skus": 7
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "RENDA",
+      "regime": "repetição_moderada",
+      "n_skus": 44
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "BASICO",
+      "regime": "repetição_moderada",
+      "n_skus": 115
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "MASCULINO",
+      "regime": "repetição_moderada",
+      "n_skus": 4
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "INDEFINIDA",
+      "regime": "repetição_moderada",
+      "n_skus": 1026
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "INDEFINIDA",
+      "regime": "única",
+      "n_skus": 1169
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "CASUAL",
+      "regime": "única",
+      "n_skus": 50
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "RENDA",
+      "regime": "única",
+      "n_skus": 40
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "EROTICA",
+      "regime": "única",
+      "n_skus": 16
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "INFANTIL",
+      "regime": "única",
+      "n_skus": 12
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "MASCULINO",
+      "regime": "única",
+      "n_skus": 8
+    },
+    {
+      "categoria": "LINHA NOITE",
+      "linha": "BASICO",
+      "regime": "única",
+      "n_skus": 376
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "BASICO",
+      "regime": "alta_repetição",
+      "n_skus": 468
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "FASHION",
+      "regime": "alta_repetição",
+      "n_skus": 135
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "INFANTIL",
+      "regime": "pouca_repetição",
+      "n_skus": 9
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "BASICO",
+      "regime": "pouca_repetição",
+      "n_skus": 578
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "JUVENIL",
+      "regime": "pouca_repetição",
+      "n_skus": 16
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "NATACAO",
+      "regime": "pouca_repetição",
+      "n_skus": 5
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "FASHION",
+      "regime": "pouca_repetição",
+      "n_skus": 131
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "INDEFINIDA",
+      "regime": "pouca_repetição",
+      "n_skus": 22
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "INFANTIL",
+      "regime": "repetição_moderada",
+      "n_skus": 50
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "JUVENIL",
+      "regime": "repetição_moderada",
+      "n_skus": 68
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "BASICO",
+      "regime": "repetição_moderada",
+      "n_skus": 816
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "INDEFINIDA",
+      "regime": "repetição_moderada",
+      "n_skus": 109
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "FASHION",
+      "regime": "repetição_moderada",
+      "n_skus": 211
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "PRECO",
+      "regime": "repetição_moderada",
+      "n_skus": 11
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "FASHION",
+      "regime": "única",
+      "n_skus": 90
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "INFANTIL",
+      "regime": "única",
+      "n_skus": 3
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "NATACAO",
+      "regime": "única",
+      "n_skus": 7
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "INDEFINIDA",
+      "regime": "única",
+      "n_skus": 41
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "BASICO",
+      "regime": "única",
+      "n_skus": 622
+    },
+    {
+      "categoria": "MODA PRAIA",
+      "linha": "JUVENIL",
+      "regime": "única",
+      "n_skus": 10
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "MASCULINO",
+      "regime": "alta_repetição",
+      "n_skus": 85
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "BASICO",
+      "regime": "alta_repetição",
+      "n_skus": 1072
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "MEIA",
+      "regime": "alta_repetição",
+      "n_skus": 49
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "CASUAL",
+      "regime": "alta_repetição",
+      "n_skus": 53
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "RENDA",
+      "regime": "alta_repetição",
+      "n_skus": 691
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "MATERNITY",
+      "regime": "alta_repetição",
+      "n_skus": 96
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "JUVENIL",
+      "regime": "alta_repetição",
+      "n_skus": 9
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "EROTICA",
+      "regime": "alta_repetição",
+      "n_skus": 7
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "SHAPEWARE",
+      "regime": "alta_repetição",
+      "n_skus": 235
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "INDEFINIDA",
+      "regime": "pouca_repetição",
+      "n_skus": 3
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "MASCULINO",
+      "regime": "pouca_repetição",
+      "n_skus": 93
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "CASUAL",
+      "regime": "pouca_repetição",
+      "n_skus": 62
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "BASICO",
+      "regime": "pouca_repetição",
+      "n_skus": 210
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "MEIA",
+      "regime": "pouca_repetição",
+      "n_skus": 32
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "MATERNITY",
+      "regime": "pouca_repetição",
+      "n_skus": 4
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "RENDA",
+      "regime": "pouca_repetição",
+      "n_skus": 433
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "JUVENIL",
+      "regime": "pouca_repetição",
+      "n_skus": 92
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "EROTICA",
+      "regime": "pouca_repetição",
+      "n_skus": 1
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "SHAPEWARE",
+      "regime": "pouca_repetição",
+      "n_skus": 36
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "SHAPEWARE",
+      "regime": "repetição_moderada",
+      "n_skus": 16
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "RENDA",
+      "regime": "repetição_moderada",
+      "n_skus": 922
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "INDEFINIDA",
+      "regime": "repetição_moderada",
+      "n_skus": 80
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "FUNCAO",
+      "regime": "repetição_moderada",
+      "n_skus": 6
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "BASICO",
+      "regime": "repetição_moderada",
+      "n_skus": 442
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "MEIA",
+      "regime": "repetição_moderada",
+      "n_skus": 33
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "MASCULINO",
+      "regime": "repetição_moderada",
+      "n_skus": 89
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "EROTICA",
+      "regime": "repetição_moderada",
+      "n_skus": 2
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "CASUAL",
+      "regime": "repetição_moderada",
+      "n_skus": 177
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "JUVENIL",
+      "regime": "repetição_moderada",
+      "n_skus": 150
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "INDEFINIDA",
+      "regime": "única",
+      "n_skus": 13
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "JOVEM",
+      "regime": "única",
+      "n_skus": 48
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "SHAPEWARE",
+      "regime": "única",
+      "n_skus": 45
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "RENDA",
+      "regime": "única",
+      "n_skus": 556
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "CASUAL",
+      "regime": "única",
+      "n_skus": 79
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "MEIA",
+      "regime": "única",
+      "n_skus": 12
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "MATERNITY",
+      "regime": "única",
+      "n_skus": 33
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "JUVENIL",
+      "regime": "única",
+      "n_skus": 41
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "SEGUNDA PELE",
+      "regime": "única",
+      "n_skus": 1
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "BASICO",
+      "regime": "única",
+      "n_skus": 232
+    },
+    {
+      "categoria": "UNDERWARE",
+      "linha": "MASCULINO",
+      "regime": "única",
+      "n_skus": 69
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "CASUAL",
+      "regime": "alta_repetição",
+      "n_skus": 25
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "BASICO",
+      "regime": "alta_repetição",
+      "n_skus": 20
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "INDEFINIDA",
+      "regime": "alta_repetição",
+      "n_skus": 34
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "INDEFINIDA",
+      "regime": "pouca_repetição",
+      "n_skus": 737
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "JOVEM",
+      "regime": "pouca_repetição",
+      "n_skus": 118
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "WORK",
+      "regime": "pouca_repetição",
+      "n_skus": 12
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "BASICO",
+      "regime": "pouca_repetição",
+      "n_skus": 113
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "CASUAL",
+      "regime": "pouca_repetição",
+      "n_skus": 455
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "INDEFINIDA",
+      "regime": "repetição_moderada",
+      "n_skus": 2045
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "BASICO",
+      "regime": "repetição_moderada",
+      "n_skus": 104
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "WORK",
+      "regime": "repetição_moderada",
+      "n_skus": 22
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "JOVEM",
+      "regime": "repetição_moderada",
+      "n_skus": 40
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "CASUAL",
+      "regime": "repetição_moderada",
+      "n_skus": 270
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "JOVEM",
+      "regime": "única",
+      "n_skus": 1062
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "CASUAL",
+      "regime": "única",
+      "n_skus": 7907
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "BASICO",
+      "regime": "única",
+      "n_skus": 1052
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "WORK",
+      "regime": "única",
+      "n_skus": 287
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "INDEFINIDA",
+      "regime": "única",
+      "n_skus": 2953
+    },
+    {
+      "categoria": "VESTUARIO",
+      "linha": "PLUS SIZE",
+      "regime": "única",
+      "n_skus": 40
+    },
+    {
+      "categoria": null,
+      "linha": null,
+      "regime": "alta_repetição",
+      "n_skus": 1
+    }
+  ],
+  "max_date": "2030-12-31",
+  "fato_vendas_count": 10435,
+  "fato_estoque_diario_count": 10124888,
+  "fato_compras_count": 187935,
+  "dim_produto_count": 35258
+}

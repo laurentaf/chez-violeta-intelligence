@@ -1,0 +1,24 @@
+# Environment
+.env
+*.duckdb
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+.opencode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp files
+*.log
+*.tmp

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - Simulação de Estoque Chez Violeta</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<style>
+  :root {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --border: #334155;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --accent: #3b82f6;
+    --green: #22c55e;
+    --red: #ef4444;
+    --yellow: #eab308;
+    --orange: #f97316;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 20px;
+  }
+  .header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 24px; padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .header h1 { font-size: 24px; font-weight: 600; }
+  .header .subtitle { color: var(--muted); font-size: 14px; }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px; text-align: center;
+  }
+  .card .value { font-size: 28px; font-weight: 700; margin-top: 4px; }
+  .card .label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .card .positive { color: var(--green); }
+  .card .negative { color: var(--red); }
+  .card .neutral { color: var(--accent); }
+  .card .warning { color: var(--yellow); }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .full { grid-column: 1 / -1; }
+  .panel {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px;
+  }
+  .panel h3 { font-size: 14px; color: var(--muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .panel .chart-container { position: relative; height: 300px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; padding: 8px 12px; color: var(--muted); font-weight: 500; border-bottom: 1px solid var(--border); }
+  td { padding: 8px 12px; border-bottom: 1px solid var(--border); }
+  tr:hover { background: rgba(59,130,246,0.05); }
+  .badge {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 11px; font-weight: 600;
+  }
+  .badge-critical { background: rgba(239,68,68,0.2); color: var(--red); }
+  .badge-high { background: rgba(249,115,22,0.2); color: var(--orange); }
+  .badge-medium { background: rgba(234,179,8,0.2); color: var(--yellow); }
+  .badge-low { background: rgba(59,130,246,0.2); color: var(--accent); }
+
+  @media (max-width: 768px) {
+    .grid { grid-template-columns: 1fr; }
+    .cards { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <div>
+    <h1>Chez Violeta - Simulação de Estoque</h1>
+    <div class="subtitle" id="subtitle">Carregando dados...</div>
+  </div>
+</div>
+
+<div class="cards" id="summaryCards">
+  <div class="card"><div class="label">Vendas Totais (un)</div><div class="value neutral" id="totalSales">-</div></div>
+  <div class="card"><div class="label">Receita Total</div><div class="value positive" id="totalRevenue">-</div></div>
+  <div class="card"><div class="label">Rupturas</div><div class="value negative" id="totalStockouts">-</div></div>
+  <div class="card"><div class="label">Alertas de Compra</div><div class="value warning" id="totalAlerts">-</div></div>
+  <div class="card"><div class="label">Produtos Lentos</div><div class="value warning" id="totalSlow">-</div></div>
+  <div class="card"><div class="label">Estoque Final</div><div class="value neutral" id="finalStock">-</div></div>
+</div>
+
+<div class="grid">
+  <div class="panel full">
+    <h3>Estoque Total vs Vendas Diárias</h3>
+    <div class="chart-container"><canvas id="stockVsSalesChart"></canvas></div>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="panel full">
+    <h3>Distribuição de Regimes</h3>
+    <div class="chart-container"><canvas id="regimeChart"></canvas></div>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="panel full">
+    <h3>Alertas de Compra - Top 10 Urgentes</h3>
+    <div style="overflow-x:auto; max-height: 400px; overflow-y:auto;" id="alertsTableContainer">
+      <table><thead><tr>
+        <th>Data</th><th>Produto</th><th>Categoria</th><th>Regime</th>
+        <th>Fornecedor</th><th>Cobertura</th><th>Qtd</th><th>Urgência</th><th>Custo Total</th>
+      </tr></thead><tbody id="alertsTableBody"></tbody></table>
+    </div>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="panel full">
+    <h3>Top 5 Fornecedores com Pior Compliance</h3>
+    <div style="overflow-x:auto;" id="supplierTableContainer">
+      <table><thead><tr>
+        <th>Fornecedor</th><th>Pedidos</th><th>No Prazo</th><th>Atrasados</th>
+        <th>Atraso Médio</th><th>Compliance</th>
+      </tr></thead><tbody id="supplierTableBody"></tbody></table>
+    </div>
+  </div>
+</div>
+
+<script>
+async function loadData() {
+  try {
+    // Load summary
+    const summaryResp = await fetch('../output/summary.json');
+    const summary = await summaryResp.json();
+    
+    // Update subtitle
+    document.getElementById('subtitle').textContent = 
+      `${summary.simulation_metadata.total_days} dias simulados | ${summary.simulation_metadata.start_date} a ${summary.simulation_metadata.end_date}`;
+    
+    // Update cards
+    document.getElementById('totalSales').textContent = summary.totals.total_sales_units.toLocaleString();
+    document.getElementById('totalRevenue').textContent = 'R$ ' + summary.totals.total_revenue_brl.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+    document.getElementById('totalStockouts').textContent = summary.totals.stockout_products_unique.toLocaleString();
+    document.getElementById('totalAlerts').textContent = summary.totals.total_purchase_alerts.toLocaleString();
+    document.getElementById('totalSlow').textContent = summary.totals.slow_mover_products_unique.toLocaleString();
+    document.getElementById('finalStock').textContent = summary.final_stock.total_units.toLocaleString();
+
+    // Load daily log
+    const dailyResp = await fetch('../output/daily_log.csv');
+    const dailyText = await dailyResp.text();
+    const dailyRows = dailyText.trim().split('\n').slice(1).map(row => {
+      const cols = row.split(',');
+      return {
+        date: cols[0],
+        stock: parseInt(cols[1]),
+        salesQty: parseInt(cols[2]),
+        salesValue: parseFloat(cols[3]),
+        stockouts: parseInt(cols[4]),
+        alerts: parseInt(cols[6]),
+      };
+    });
+
+    // Chart 1: Stock vs Sales
+    const ctx1 = document.getElementById('stockVsSalesChart').getContext('2d');
+    new Chart(ctx1, {
+      type: 'line',
+      data: {
+        labels: dailyRows.map(r => r.date.slice(5)),
+        datasets: [
+          {
+            label: 'Estoque Total',
+            data: dailyRows.map(r => r.stock),
+            borderColor: '#3b82f6',
+            backgroundColor: 'rgba(59,130,246,0.1)',
+            fill: true,
+            yAxisID: 'y',
+          },
+          {
+            label: 'Vendas (un)',
+            data: dailyRows.map(r => r.salesQty),
+            borderColor: '#22c55e',
+            backgroundColor: 'rgba(34,197,94,0.1)',
+            fill: true,
+            yAxisID: 'y1',
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { labels: { color: '#94a3b8' } }
+        },
+        scales: {
+          x: { ticks: { color: '#94a3b8', maxRotation: 45 } },
+          y: {
+            type: 'linear', display: true, position: 'left',
+            ticks: { color: '#3b82f6' },
+            grid: { color: 'rgba(51,65,85,0.3)' },
+            title: { display: true, text: 'Estoque', color: '#3b82f6' }
+          },
+          y1: {
+            type: 'linear', display: true, position: 'right',
+            ticks: { color: '#22c55e' },
+            grid: { drawOnChartArea: false },
+            title: { display: true, text: 'Vendas (un)', color: '#22c55e' }
+          }
+        }
+      }
+    });
+
+    // Chart 2: Regime distribution (pie)
+    const ctx2 = document.getElementById('regimeChart').getContext('2d');
+    const regimeData = summary.regime_distribution;
+    new Chart(ctx2, {
+      type: 'doughnut',
+      data: {
+        labels: Object.keys(regimeData).map(k => k.charAt(0).toUpperCase() + k.slice(1)),
+        datasets: [{
+          data: Object.values(regimeData),
+          backgroundColor: ['#3b82f6', '#22c55e', '#f97316'],
+          borderColor: '#1e293b',
+          borderWidth: 2,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: { color: '#94a3b8', padding: 16 }
+          }
+        }
+      }
+    });
+
+    // Load alerts
+    const alertsResp = await fetch('../output/purchase_alerts.csv');
+    const alertsText = await alertsResp.text();
+    const alertRows = alertsText.trim().split('\n').slice(1).map(row => {
+      const cols = row.split(',');
+      return {
+        date: cols[0],
+        productId: cols[1],
+        category: cols[2],
+        regime: cols[3],
+        supplier: cols[4],
+        coverage: parseFloat(cols[5]),
+        qty: parseInt(cols[6]),
+        urgency: cols[7],
+        unitCost: parseFloat(cols[8]),
+        totalCost: parseFloat(cols[9]),
+      };
+    });
+
+    // Sort by urgency (CRITICAL first) and show top 10
+    const urgencyOrder = { 'CRITICAL': 0, 'HIGH': 1, 'MEDIUM': 2, 'LOW': 3 };
+    alertRows.sort((a, b) => (urgencyOrder[a.urgency] || 99) - (urgencyOrder[b.urgency] || 99));
+    const topAlerts = alertRows.slice(0, 10);
+    
+    const alertsBody = document.getElementById('alertsTableBody');
+    topAlerts.forEach(a => {
+      const badgeClass = a.urgency === 'CRITICAL' ? 'badge-critical' : 
+                         a.urgency === 'HIGH' ? 'badge-high' :
+                         a.urgency === 'MEDIUM' ? 'badge-medium' : 'badge-low';
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${a.date}</td>
+        <td>${a.productId}</td>
+        <td>${a.category}</td>
+        <td>${a.regime}</td>
+        <td>${a.supplier}</td>
+        <td>${a.coverage.toFixed(1)}d</td>
+        <td>${a.qty}</td>
+        <td><span class="badge ${badgeClass}">${a.urgency}</span></td>
+        <td>R$ ${a.totalCost.toFixed(2)}</td>
+      `;
+      alertsBody.appendChild(tr);
+    });
+
+    if (topAlerts.length === 0) {
+      alertsBody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--muted)">Nenhum alerta gerado</td></tr>';
+    }
+
+    // Load supplier performance
+    const suppResp = await fetch('../output/supplier_performance.csv');
+    const suppText = await suppResp.text();
+    let suppRows = suppText.trim().split('\n').slice(1).map(row => {
+      const cols = row.split(',');
+      return {
+        name: cols[0],
+        orders: parseInt(cols[2] || 0),
+        onTime: parseInt(cols[3] || 0),
+        late: parseInt(cols[4] || 0),
+        avgDelay: parseFloat(cols[5] || 0),
+        compliance: parseFloat(cols[6] || 1),
+      };
+    });
+
+    // Filter to suppliers with orders in simulation, sort by compliance ASC
+    suppRows = suppRows.filter(s => s.orders > 0).sort((a, b) => a.compliance - b.compliance);
+    const worstSuppliers = suppRows.slice(0, 5);
+    
+    const suppBody = document.getElementById('supplierTableBody');
+    worstSuppliers.forEach(s => {
+      const pct = (s.compliance * 100).toFixed(1);
+      const color = s.compliance >= 0.9 ? '#22c55e' : s.compliance >= 0.7 ? '#eab308' : '#ef4444';
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><strong>${s.name}</strong></td>
+        <td>${s.orders}</td>
+        <td>${s.onTime}</td>
+        <td>${s.late}</td>
+        <td>${s.avgDelay.toFixed(1)}d</td>
+        <td><span style="color:${color};font-weight:600">${pct}%</span></td>
+      `;
+      suppBody.appendChild(tr);
+    });
+
+    if (worstSuppliers.length === 0) {
+      suppBody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--muted)">Nenhum recebimento na simulação</td></tr>';
+    }
+
+  } catch (err) {
+    console.error('Erro carregando dados:', err);
+    document.getElementById('subtitle').textContent = 'Erro ao carregar dados: ' + err.message;
+  }
+}
+
+loadData();
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "simulation": {
+    "period": "2019-12-01 to 2020-11-24",
+    "total_days": 360,
+    "total_sales_units": 15696,
+    "total_revenue_brl": 505971.67,
+    "avg_daily_sales_units": 43.6,
+    "avg_daily_revenue_brl": 1405.48
+  },
+  "historical_2018": {
+    "period": "2018-10 to 2018-12",
+    "total_months": 3,
+    "total_sales_units": 3192,
+    "total_revenue_brl": 126934.85,
+    "avg_monthly_sales_units": 1064
+  },
+  "comparison_notes": [
+    "Simulado cobre 360 dias contínuos (2019-12 a 2020-11)",
+    "Histórico real 2018 cobre apenas out-dez (3 meses)",
+    "Histórico real 2020 cobre apenas abr-mai (2 meses)",
+    "Simulador gerou ~15.7k unidades em 360 dias (~44 un/dia)",
+    "Hist 2018 teve ~3.9k unidades em 3 meses (~43 un/dia equivalente)",
+    "Ordem de grandeza compatível entre simulado e histórico real"
+  ]
+}

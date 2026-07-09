@@ -1,0 +1,311 @@
+
+
+######################################################################
+# 0. RECORD COUNTS
+######################################################################
+
+============================================================
+  All table row counts
+============================================================
+  {'tabela': 'dim_cliente', 'linhas': 1086}
+  {'tabela': 'dim_fornecedor', 'linhas': 189}
+  {'tabela': 'dim_loja', 'linhas': 29}
+  {'tabela': 'dim_produto', 'linhas': 35258}
+  {'tabela': 'dim_tempo', 'linhas': 7306}
+  {'tabela': 'dim_vendedor', 'linhas': 221}
+  {'tabela': 'fato_compras', 'linhas': 187935}
+  {'tabela': 'fato_estoque_diario', 'linhas': 10124888}
+  {'tabela': 'fato_trocas', 'linhas': 300827}
+  {'tabela': 'fato_vendas', 'linhas': 10435}
+
+
+######################################################################
+# 1. PK UNIQUENESS
+######################################################################
+
+============================================================
+  PK: dim_tempo.id_data
+============================================================
+  {'pk_check': 'dim_tempo.id_data', 'total_rows': 7306, 'distinct_values': 7306, 'status': 'PASS'}
+
+============================================================
+  PK: dim_produto.id_produto
+============================================================
+  {'pk_check': 'dim_produto.id_produto', 'total_rows': 35258, 'distinct_values': 35258, 'status': 'PASS'}
+
+============================================================
+  PK: dim_loja.id_loja
+============================================================
+  {'pk_check': 'dim_loja.id_loja', 'total_rows': 29, 'distinct_values': 29, 'status': 'PASS'}
+
+============================================================
+  PK: dim_fornecedor.id_fornecedor
+============================================================
+  {'pk_check': 'dim_fornecedor.id_fornecedor', 'total_rows': 189, 'distinct_values': 189, 'status': 'PASS'}
+
+============================================================
+  PK: dim_cliente.id_cliente
+============================================================
+  {'pk_check': 'dim_cliente.id_cliente', 'total_rows': 1086, 'distinct_values': 1086, 'status': 'PASS'}
+
+============================================================
+  PK: dim_vendedor.id_vendedor
+============================================================
+  {'pk_check': 'dim_vendedor.id_vendedor', 'total_rows': 221, 'distinct_values': 221, 'status': 'PASS'}
+
+============================================================
+  BK: dim_loja.cod_estabelecimento
+============================================================
+  {'bk_check': 'dim_loja.cod_estabelecimento', 'total_rows': 29, 'distinct_values': 29, 'status': 'PASS'}
+
+============================================================
+  BK: dim_fornecedor.cod_fornecedor
+============================================================
+  {'bk_check': 'dim_fornecedor.cod_fornecedor', 'total_rows': 189, 'distinct_values': 189, 'status': 'PASS'}
+
+============================================================
+  BK: dim_cliente.codigo_cliente
+============================================================
+  {'bk_check': 'dim_cliente.codigo_cliente', 'total_rows': 1086, 'distinct_values': 1086, 'status': 'PASS'}
+
+============================================================
+  BK: dim_vendedor.cod_vendedor
+============================================================
+  {'bk_check': 'dim_vendedor.cod_vendedor', 'total_rows': 221, 'distinct_values': 221, 'status': 'PASS'}
+
+============================================================
+  SCD2 BK: dim_produto (cod_artigo, cod_cor, cod_tamanho) ATIVO
+============================================================
+  {'bk_check': 'dim_produto SCD2 (cod_artigo,cod_cor,cod_tamanho) ativo', 'total_rows': 35257, 'active_rows': 35257, 'status': 'PASS'}
+
+
+######################################################################
+# 2. FK REFERENTIAL INTEGRITY
+######################################################################
+
+============================================================
+  FK: fato_vendas.id_data -> dim_tempo.id_data
+============================================================
+  {'fk_check': 'fato_vendas.id_data->dim_tempo', 'fact_rows': 10435, 'distinct_fk': 93, 'orphans': 0, 'status': 'PASS'}
+
+============================================================
+  FK: fato_vendas.id_loja -> dim_loja.id_loja
+============================================================
+  {'fk_check': 'fato_vendas.id_loja->dim_loja', 'fact_rows': 10435, 'distinct_fk': 10, 'orphans': 0, 'status': 'PASS'}
+
+============================================================
+  FK: fato_vendas.id_produto -> dim_produto.id_produto
+============================================================
+  {'fk_check': 'fato_vendas.id_produto->dim_produto', 'fact_rows': 10435, 'distinct_fk': 3546, 'orphans': 0, 'status': 'PASS'}
+
+============================================================
+  FK: fato_vendas.id_cliente -> dim_cliente.id_cliente (nullable)
+============================================================
+  {'fk_check': 'fato_vendas.id_cliente->dim_cliente', 'fact_rows': 10435, 'distinct_fk': 0, 'null_fks': 10435, 'orphans': 0, 'status': 'PASS'}
+
+============================================================
+  FK: fato_vendas.id_vendedor -> dim_vendedor.id_vendedor (nullable)
+============================================================
+  {'fk_check': 'fato_vendas.id_vendedor->dim_vendedor', 'fact_rows': 10435, 'distinct_fk': 0, 'null_fks': 10435, 'orphans': 0, 'status': 'PASS'}
+
+============================================================
+  FK: fato_estoque_diario.id_data -> dim_tempo.id_data
+============================================================
+  {'fk_check': 'estoque.id_data->dim_tempo', 'fact_rows': 10124888, 'distinct_fk': 632, 'orphans': 0, 'status': 'PASS'}
+
+============================================================
+  FK: fato_estoque_diario.id_loja -> dim_loja.id_loja
+============================================================
+  {'fk_check': 'estoque.id_loja->dim_loja', 'fact_rows': 10124888, 'distinct_fk': 24, 'orphans': 0, 'status': 'PASS'}
+
+============================================================
+  FK: fato_estoque_diario.id_produto -> dim_produto.id_produto
+============================================================
+  {'fk_check': 'estoque.id_produto->dim_produto', 'fact_rows': 10124888, 'distinct_fk': 33363, 'orphans': 0, 'status': 'PASS'}
+
+============================================================
+  FK: fato_compras.id_data_pedido -> dim_tempo.id_data
+============================================================
+  {'fk_check': 'compras.id_data_pedido->dim_tempo', 'fact_rows': 187935, 'distinct_fk': 791, 'orphans': 0, 'status': 'PASS'}
+
+============================================================
+  FK: fato_compras.id_loja -> dim_loja.id_loja
+============================================================
+  {'fk_check': 'compras.id_loja->dim_loja', 'fact_rows': 187935, 'distinct_fk': 11, 'orphans': 0, 'status': 'PASS'}
+
+============================================================
+  FK: fato_compras.id_fornecedor -> dim_fornecedor.id_fornecedor
+============================================================
+  {'fk_check': 'compras.id_fornecedor->dim_fornecedor', 'fact_rows': 187935, 'distinct_fk': 178, 'orphans': 0, 'status': 'PASS'}
+
+============================================================
+  FK: fato_compras.id_produto -> dim_produto.id_produto
+============================================================
+  {'fk_check': 'compras.id_produto->dim_produto', 'fact_rows': 187935, 'distinct_fk': 32385, 'orphans': 0, 'status': 'PASS'}
+
+============================================================
+  FK: fato_trocas.id_data -> dim_tempo.id_data
+============================================================
+  {'fk_check': 'trocas.id_data->dim_tempo', 'fact_rows': 300827, 'distinct_fk': 2005, 'orphans': 0, 'status': 'PASS'}
+
+============================================================
+  FK: fato_trocas.id_loja -> dim_loja.id_loja
+============================================================
+  {'fk_check': 'trocas.id_loja->dim_loja', 'fact_rows': 300827, 'distinct_fk': 11, 'orphans': 0, 'status': 'PASS'}
+
+============================================================
+  FK: fato_trocas.id_produto_devolvido -> dim_produto.id_produto
+============================================================
+  {'fk_check': 'trocas.id_produto_devolvido->dim_produto', 'fact_rows': 300827, 'distinct_fk': 15310, 'orphans': 0, 'status': 'PASS'}
+
+============================================================
+  FK: fato_trocas.id_produto_substituto -> dim_produto.id_produto (nullable)
+============================================================
+  {'fk_check': 'trocas.id_produto_substituto->dim_produto', 'fact_rows': 300827, 'distinct_fk': 28151, 'null_fks': 42506, 'orphans': 0, 'status': 'PASS'}
+
+
+######################################################################
+# 3. NULL FK VALUES
+######################################################################
+
+============================================================
+  fato_vendas.id_cliente
+============================================================
+  {'null_check': 'fato_vendas.id_cliente', 'total_rows': 10435, 'null_count': 10435, 'null_pct': 100.0}
+
+============================================================
+  fato_vendas.id_vendedor
+============================================================
+  {'null_check': 'fato_vendas.id_vendedor', 'total_rows': 10435, 'null_count': 10435, 'null_pct': 100.0}
+
+============================================================
+  fato_trocas.id_produto_substituto
+============================================================
+  {'null_check': 'fato_trocas.id_produto_substituto', 'total_rows': 300827, 'null_count': 42506, 'null_pct': 14.13}
+
+
+######################################################################
+# 4. DATE RANGES
+######################################################################
+
+============================================================
+  dim_tempo coverage
+============================================================
+  {'min_date': datetime.date(1900, 1, 1), 'max_date': datetime.date(2030, 12, 31), 'total_days': 7306}
+
+============================================================
+  fato_vendas date range vs dim_tempo
+============================================================
+  {'tabela': 'fato_vendas', 'min_data': datetime.date(2017, 11, 21), 'max_data': datetime.date(2020, 5, 28), 'total_rows': 10435, 'before_dim': 0, 'after_dim': 0}
+
+============================================================
+  fato_estoque_diario date range vs dim_tempo
+============================================================
+  {'tabela': 'fato_estoque_diario', 'min_data': datetime.date(2017, 12, 1), 'max_data': datetime.date(2019, 11, 30), 'total_rows': 10124888, 'before_dim': 0, 'after_dim': 0}
+
+============================================================
+  fato_compras date range vs dim_tempo
+============================================================
+  {'tabela': 'fato_compras', 'min_data': datetime.date(1900, 1, 1), 'max_data': datetime.date(2020, 5, 14), 'total_rows': 187935, 'before_dim': 0, 'after_dim': 0}
+
+============================================================
+  fato_trocas date range vs dim_tempo
+============================================================
+  {'tabela': 'fato_trocas', 'min_data': datetime.date(2013, 10, 23), 'max_data': datetime.date(2020, 5, 28), 'total_rows': 300827, 'before_dim': 0, 'after_dim': 0}
+
+
+######################################################################
+# 5. ORPHAN DETAILS
+######################################################################
+
+============================================================
+  Orphans: fato_vendas.id_data
+============================================================
+
+============================================================
+  Orphans: fato_vendas.id_loja
+============================================================
+
+============================================================
+  Orphans: fato_vendas.id_produto
+============================================================
+
+============================================================
+  Orphans: fato_vendas.id_cliente
+============================================================
+  {'fact_table': 'fato_vendas', 'fk_column': 'id_cliente', 'fk_value': None, 'occurrences': 10435}
+
+============================================================
+  Orphans: fato_vendas.id_vendedor
+============================================================
+  {'fact_table': 'fato_vendas', 'fk_column': 'id_vendedor', 'fk_value': None, 'occurrences': 10435}
+
+============================================================
+  Orphans: fato_estoque_diario.id_data
+============================================================
+
+============================================================
+  Orphans: fato_estoque_diario.id_loja
+============================================================
+
+============================================================
+  Orphans: fato_estoque_diario.id_produto
+============================================================
+
+============================================================
+  Orphans: fato_compras.id_data_pedido
+============================================================
+
+============================================================
+  Orphans: fato_compras.id_loja
+============================================================
+
+============================================================
+  Orphans: fato_compras.id_fornecedor
+============================================================
+
+============================================================
+  Orphans: fato_compras.id_produto
+============================================================
+
+============================================================
+  Orphans: fato_trocas.id_data
+============================================================
+
+============================================================
+  Orphans: fato_trocas.id_loja
+============================================================
+
+============================================================
+  Orphans: fato_trocas.id_produto_devolvido
+============================================================
+
+============================================================
+  Orphans: fato_trocas.id_produto_substituto
+============================================================
+  {'fact_table': 'fato_trocas', 'fk_column': 'id_produto_substituto', 'fk_value': None, 'occurrences': 42506}
+
+
+######################################################################
+# 6. UNUSED DIMENSION RECORDS
+######################################################################
+
+============================================================
+  Products not referenced in any fact
+============================================================
+  {'unused_count': 59}
+
+============================================================
+  Stores not referenced in any fact
+============================================================
+  {'unused_count': 5}
+
+============================================================
+  Customers never purchased
+============================================================
+  {'unused_count': 1086}
+
+============================================================
+  Sellers never sold
+============================================================
+  {'unused_count': 221}
