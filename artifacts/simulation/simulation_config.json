@@ -40,6 +40,17 @@
       "order_multiple": 12,
       "no_reorder": false,
       "reorder_if_sell_through": 0.70
+    },
+    "inactive": {
+      "coverage_days": 0,
+      "reorder_point_days": 0,
+      "lead_time_days": 0,
+      "lead_time_std": 0,
+      "processamento_dias": 0,
+      "safety_stock_days": 0,
+      "min_order_qty": 0,
+      "order_multiple": 0,
+      "no_reorder": true
     }
   },
 

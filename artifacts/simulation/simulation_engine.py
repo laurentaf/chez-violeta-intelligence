@@ -58,6 +58,7 @@ class Produto:
     des_categoria: Optional[str]
     des_linha: Optional[str]
     des_colecao: Optional[str]
+    des_status: Optional[str]
     cod_fornecedor: Optional[str]
     val_custo_inicial: float = 0.0
     preco_medio: float = 0.0
@@ -175,6 +176,11 @@ def classify_regime(produto: Produto) -> str:
     Classifica produto em commodity, fashion ou seasonal.
     Baseado na Seção 5 do spec.
     """
+    # Produtos com status diferente de ATIVO não devem ser repostos
+    status = (produto.des_status or "").strip().upper()
+    if status not in ("ATIVO", "ATIVO", "ATIVA", ""):
+        return "inactive"
+
     cat = (produto.des_categoria or "").strip().upper()
     linha = (produto.des_linha or "").strip().upper()
     colecao = (produto.des_colecao or "").strip().upper()
@@ -359,7 +365,7 @@ def extract_data(db_path: str, verbose: bool = False) -> SimulationState:
         print("? Carregando produtos ativos...")
     products_df = con.execute("""
         SELECT p.id_produto, p.cod_artigo, p.des_categoria, p.des_linha,
-               p.des_colecao, p.cod_fornecedor, p.val_custo_inicial
+               p.des_colecao, p.des_status, p.cod_fornecedor, p.val_custo_inicial
         FROM gold.dim_produto p
         WHERE p.dat_fim_vigencia IS NULL
           AND p.id_produto > 0
@@ -451,6 +457,7 @@ def extract_data(db_path: str, verbose: bool = False) -> SimulationState:
             des_categoria=str(row.get("des_categoria") or "") if row.get("des_categoria") else None,
             des_linha=str(row.get("des_linha") or "") if row.get("des_linha") else None,
             des_colecao=str(row.get("des_colecao") or "") if row.get("des_colecao") else None,
+            des_status=str(row.get("des_status") or "") if row.get("des_status") else None,
             cod_fornecedor=str(row.get("cod_fornecedor") or "") if row.get("cod_fornecedor") else None,
             val_custo_inicial=custo,
             preco_medio=preco,

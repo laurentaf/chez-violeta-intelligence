@@ -1,0 +1,7 @@
+=== STATUS DE PRODUTOS ATIVOS ===
+  ATIVO                          ->  17457 produtos
+  INATIVO                        ->   7684 produtos
+  SALDO                          ->   5836 produtos
+  AGRUPADO                       ->   2947 produtos
+  FORA DE LINHA                  ->   1333 produtos
+  (NULL)                         ->      1 produtos
