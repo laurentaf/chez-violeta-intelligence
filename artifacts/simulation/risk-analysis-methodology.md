@@ -138,10 +138,11 @@ lead_time: 35 days
 
 The `supplier_performance.csv` now includes an `explanation` column with the following methodology:
 
-- **compliance_rate** = `on_time / total_orders`
-- **on_time** = deliveries where `delay_days == 0` (no delay)
-- **avg_delay_days** = mean delay days only for deliveries WITH delay
-- **estimated_lead_time_mean** = standard contracted lead time in days
+- **compliance_rate** = `entregas_no_prazo / total_pedidos`
+- **No prazo** = mercadoria chegou em ate 45 dias da data do pedido
+- **Atraso** = mais de 45 dias para chegar
+- **avg_delay_days** = mean delay days only for deliveries WITH delay (>45d)
+- **lead_time_esperado** = ~30 dias (varia por regime)
 - Suppliers with `total_orders = 0` show `compliance_rate = 1.0` (no data, assumed compliant)
 
 ## 6. Data Freshness
@@ -152,6 +153,6 @@ All data is sourced from the simulation output v2 (360-day simulation, seed=42).
 |---------|------|-----------|
 | product_lookup.csv | 35258 | Current (dat_fim_vigencia IS NULL) |
 | stock_by_store.csv | 45050 | Last simulation day (20191130) |
-| purchase_alerts_enriched.csv | 7111 | 2019-12-01 to 2020-11-24 |
+| purchase_alerts_enriched.csv | 5404 | 2019-12-01 to 2020-11-24 |
 | supplier_performance.csv | 178 | 178 suppliers tracked |
 | daily_pending_detail.json | 198310 entries | 360 days of pending orders |

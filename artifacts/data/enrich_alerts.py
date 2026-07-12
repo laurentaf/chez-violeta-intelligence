@@ -241,13 +241,13 @@ print("[4/5] Enhancing supplier performance with explanation...")
 
 n_suppliers = len(df_suppliers)
 explanation = (
-    f"{n_suppliers} fornecedores. "
-    "compliance_rate = on_time / total_orders. "
-    "on_time = entregas onde delay_days == 0 (sem atraso). "
-    "avg_delay_days = média de dias de atraso apenas nas entregas com atraso. "
-    "estimated_lead_time_mean = lead time médio em dias contratado com o fornecedor. "
-    "Suppliers with total_orders=0 show compliance_rate=1.0 (no data, assumed compliant)."
-)
+        f"{n_suppliers} fornecedores. "
+        "compliance_rate = entregas_no_prazo / total_pedidos. "
+        "No prazo = mercadoria chegou em ate 45 dias da data do pedido. "
+        "Atraso = mais de 45 dias para chegar. "
+        "avg_delay_days = media de dias de atraso apenas nas entregas com atraso (>45d). "
+        "lead_time_esperado = ~30 dias (varia por regime)."
+    )
 df_suppliers['explanation'] = explanation
 
 df_suppliers.to_csv(SUPPLIER_PERF_CSV, index=False)
@@ -398,10 +398,11 @@ lead_time: 35 days
 
 The `supplier_performance.csv` now includes an `explanation` column with the following methodology:
 
-- **compliance_rate** = `on_time / total_orders`
-- **on_time** = deliveries where `delay_days == 0` (no delay)
-- **avg_delay_days** = mean delay days only for deliveries WITH delay
-- **estimated_lead_time_mean** = standard contracted lead time in days
+- **compliance_rate** = `entregas_no_prazo / total_pedidos`
+- **No prazo** = mercadoria chegou em ate 45 dias da data do pedido
+- **Atraso** = mais de 45 dias para chegar
+- **avg_delay_days** = mean delay days only for deliveries WITH delay (>45d)
+- **lead_time_esperado** = ~30 dias (varia por regime)
 - Suppliers with `total_orders = 0` show `compliance_rate = 1.0` (no data, assumed compliant)
 
 ## 6. Data Freshness

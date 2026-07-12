@@ -7,25 +7,26 @@
     "seed": 42
   },
   "totals": {
-    "total_sales_units": 97049,
-    "total_revenue_brl": 3073456.9,
-    "total_stockouts": 6067,
-    "stockout_products_unique": 6067,
-    "total_purchase_alerts": 7111,
-    "total_receipts": 7025,
-    "total_slow_movers": 240125,
-    "slow_mover_products_unique": 2820
+    "total_sales_units": 73444,
+    "total_revenue_brl": 2336357.16,
+    "total_stockouts": 6516,
+    "stockout_products_unique": 6516,
+    "total_purchase_alerts": 5404,
+    "total_receipts": 5319,
+    "total_slow_movers": 285257,
+    "slow_mover_products_unique": 3060
   },
   "final_stock": {
-    "total_units": 560649,
-    "unique_products": 4087,
-    "zero_stock_products": 5438
+    "total_units": 395980,
+    "unique_products": 3469,
+    "zero_stock_products": 6056
   },
   "regime_distribution": {
-    "commodity": 4858,
-    "fashion": 3795,
-    "seasonal": 872
+    "commodity": 2636,
+    "inactive": 3687,
+    "fashion": 2639,
+    "seasonal": 563
   },
   "suppliers_tracked": 178,
-  "suppliers_with_receipts": 125
+  "suppliers_with_receipts": 90
 }

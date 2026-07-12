@@ -722,7 +722,8 @@ def simulate_day(
                 receipt.status = "tagging"
                 receipt.actual_arrival = actual_arrival
                 receipt.delay_days = delay
-                receipt.on_time = (delay == 0)
+                days_from_order = (actual_arrival - receipt.order_date).days
+                receipt.on_time = days_from_order <= 45
                 receipt.tagging_until = day + timedelta(days=10)  # 10 days processing for ALL merchandise
 
     # Phase B: tagging -> received (10-day processing complete, enters stock)
