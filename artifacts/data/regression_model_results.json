@@ -1,0 +1,95 @@
+{
+  "modelo": "OLS (statsmodels)",
+  "formula": "qtd_log ~ C(categoria) + C(quarter) + t",
+  "r2": 0.726,
+  "r2_ajustado": 0.6942,
+  "aic": 277.2,
+  "bic": 305.5,
+  "n_observacoes": 97,
+  "n_parametros": 11,
+  "data_extracao": "2026-07-12 13:33",
+  "fonte_dados": "chez_gold.duckdb (gold.fato_vendas + gold.dim_produto + gold.dim_tempo)",
+  "observacao": "Modelo usa quarter-level sazonalidade devido a esparsidade dos dados. Apenas 16 semanas com vendas entre 2018-2020. Categoria x interacao semanal nao viavel estatisticamente.",
+  "top_coeficientes": [
+    {
+      "termo": "C(categoria)[T.UNDERWARE]",
+      "coeficiente": 4.371425865254571,
+      "p_valor": 2.6130889561730027e-10,
+      "significancia": "***"
+    },
+    {
+      "termo": "C(categoria)[T.LINHA NOITE]",
+      "coeficiente": 3.263839658827115,
+      "p_valor": 7.443742817659471e-07,
+      "significancia": "***"
+    },
+    {
+      "termo": "C(categoria)[T.VESTUARIO]",
+      "coeficiente": 3.0285559057458284,
+      "p_valor": 3.5855386741013383e-06,
+      "significancia": "***"
+    },
+    {
+      "termo": "C(categoria)[T.MODA PRAIA]",
+      "coeficiente": 2.7003096176608956,
+      "p_valor": 3.447573861838786e-05,
+      "significancia": "***"
+    },
+    {
+      "termo": "C(quarter)[T.Q3]",
+      "coeficiente": -1.2312337570983503,
+      "p_valor": 0.009516834137043673,
+      "significancia": "***"
+    },
+    {
+      "termo": "Intercept",
+      "coeficiente": 0.9607251843433474,
+      "p_valor": 0.22174590770995617,
+      "significancia": ""
+    },
+    {
+      "termo": "C(categoria)[T.FITNESS]",
+      "coeficiente": 0.6538516186263085,
+      "p_valor": 0.2933187422614632,
+      "significancia": ""
+    },
+    {
+      "termo": "C(categoria)[T.BIJU / JOIAS]",
+      "coeficiente": 0.6377632744064518,
+      "p_valor": 0.38791548929629666,
+      "significancia": ""
+    },
+    {
+      "termo": "C(categoria)[T.EROTICA]",
+      "coeficiente": 0.42310855120299135,
+      "p_valor": 0.49541243189993533,
+      "significancia": ""
+    },
+    {
+      "termo": "C(quarter)[T.Q4]",
+      "coeficiente": -0.4226050006176475,
+      "p_valor": 0.3138499340587556,
+      "significancia": ""
+    },
+    {
+      "termo": "t",
+      "coeficiente": 0.007155092161580343,
+      "p_valor": 0.30724522582982133,
+      "significancia": ""
+    }
+  ],
+  "coeficientes_principais": {
+    "tendencia_linear": 0.0072,
+    "p_tendencia": 0.3072
+  },
+  "categorias_ordem_impacto": [
+    "UNDERWARE",
+    "LINHA NOITE",
+    "VESTUARIO",
+    "MODA PRAIA",
+    "FITNESS",
+    "BIJU / JOIAS",
+    "EROTICA",
+    "ACESSORIOS"
+  ]
+}
