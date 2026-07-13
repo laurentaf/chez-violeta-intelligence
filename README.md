@@ -181,6 +181,29 @@ model.add_regressor('dia_dos_namorados')
 
 ## Modelo de Previsao (Prophet)
 
+### Por que mensal (e nao diario ou semanal)?
+
+Com apenas **2 ciclos completos** (2018 e 2019), a granularidade diaria ou semanal introduz ruido que nao generaliza:
+
+| Problema | Exemplo | Impacto |
+|----------|---------|---------|
+| **Deslocamento de feriados** | Natal na segunda → compras na sexta | O dia 25 pode ter pico ou vale dependendo do ano |
+| **Dia da semana variavel** | 12/06 (Namorados) em 2018 foi terca, em 2019 foi quarta | O padrao dia-a-dia nao se repete |
+| **Poucos ciclos** | 2 Natais, 2 Dias das Maes, 2 Dias dos Namorados | Qualquer modelo diario vai decorar o ruido |
+
+**Solucao:** agregar por **mes** e usar sazonalidade **mensal** (12 pontos por ciclo). O Prophet com `yearly_seasonality=True` em dados diarios ja faz uma suavizacao similar (Fourier series), mas a decisao explicita por mes:
+
+- Suaviza o deslocamento de dia-da-semana (Natal na segunda ou quarta vira "Dezembro")
+- Cada estacao do ano tem 3 meses de dados consistentes
+- Dados mensais tem MENOS overfitting que diarios com 2 anos apenas
+
+```
+Proximo passo: quando houver 5+ anos de dados, migrar para sazonalidade diaria
+(5 Natais, 5 Dias das Maes = padrao estatistico confiavel)
+```
+
+### Resumo do modelo
+
 | Metrica | Valor |
 |---------|-------|
 | Modelo | Prophet 1.3.0 (Facebook) |
