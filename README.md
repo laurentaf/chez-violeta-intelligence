@@ -63,55 +63,110 @@ O projeto comecou com uma regressao OLS semanal (`vendas ~ categoria + trimestre
 - O dado real de vendas estava em `fato_estoque_diario.qtd_venda` (676.630 linhas)
 - Com 64x mais dados, o cenario mudou completamente
 
-**2. Modelagem de feriados brasileiros**
-- O OLS com dummies de trimestre nao captura Dia das Maes, Natal, Black Friday
-- Prophet tem `add_country_holidays('BR')' nativo — 11 feriados automaticos
+**2. Modelagem de feriados e datas comerciais brasileiras**
+- O OLS com dummies de trimestre nao captura dia especifico algum
+- Prophet captura feriados oficiais BR, mas datas comerciais (12/06, Black Friday) precisam ser adicionadas manualmente
 
-### Arvore de decisao
+### Arvore de decisao completa
 
 ```
-Temos 24 meses de dados continuos?
-  ├── NAO (< 12 meses) → Regressao OLS simples (poucos dados, poucos params)
-  ├── SIM (12-24 meses) → Prophet (ideal para este cenario)
-  └── SIM (> 36 meses) → SARIMA ou Prophet (ambos viaveis)
+Quantos meses de dados historicos continuos temos?
+  ├── 0-6 meses   → Media movel simples (dados insuficientes para qualquer modelo)
+  ├── 6-12 meses  → Regressao OLS com dummies de mes (poucos dados, evitar overfitting)
+  ├── 12-24 meses → Prophet (ideal: minimo de 1 ciclo sazonal completo)  ← ESTAMOS AQUI
+  ├── 24-36 meses → Prophet ou SARIMA (ambos viaveis com 2+ ciclos)
+  └── 36+ meses   → Prophet, SARIMA ou XGBoost (dados suficientes para ML)
 
-Precisamos de interpretabilidade para o comprador?
-  ├── SIM → Prophet (componentes sazonais visiveis) ou OLS (coeficientes)
-  └── NAO → XGBoost/LightGBM (maior precisao, menor explicabilidade)
+Quantas observacoes (linhas de venda)?
+  ├── < 1.000     → Regressao simples (evitar qualquer modelo complexo)
+  ├── 1.000-50.000 → OLS com dummies (suficiente para 10-20 parametros)
+  ├── 50.000-500.000 → Prophet (ideal para este volume)  ← ESTAMOS AQUI (676k)
+  └── 500.000+    → Prophet ou XGBoost (ML comeca a ser viavel)
 
-Temos feriados brasileiros como driver de vendas?
-  ├── SIM → Prophet (nativo, sem trabalho manual)
-  └── NAO → OLS ou SARIMA
+Precisamos capturar feriados e datas comerciais?
+  ├── SIM, feriados oficiais → Prophet.add_country_holidays('BR')
+  │    (Natal, Ano Novo, Tiradentes, 7 Setembro, 15 Novembro, etc.)
+  ├── SIM, datas comerciais → Prophet.add_regressor() manual
+  │    (12/06 - Dia dos Namorados, Black Friday, Dias das Maes/Pais)
+  │    NOTA: Dia das Maes e Dia dos Pais NAO sao feriados nacionais brasileiros
+  └── NAO → OLS ou SARIMA (sazonalidade fixa basta)
+
+O comprador precisa entender o "por que" da previsao?
+  ├── SIM → Prophet (componentes sazonais plotaveis) ou OLS (coeficientes)
+  └── NAO → XGBoost/LightGBM (maior precisao possivel, menor explicabilidade)
+  
+As vendas tem sazonalidade multipla (ano + mes + dia da semana)?
+  ├── SIM → Prophet (multiplas sazonalidades nativas)  ← ESTAMOS AQUI
+  └── NAO → OLS ou SARIMA (sazonalidade unica)
 ```
+
+### Feriados vs Datas Comerciais no Brasil
+
+O Prophet `add_country_holidays('BR')` inclui **apenas feriados nacionais oficiais**:
+
+| Feriado | Data | Prophet captura? | Impacto vendas |
+|---------|:----:|:----------------:|:--------------:|
+| Confraternizacao Universal | 01/Jan | ✅ | Medio |
+| Carnaval | movel | **Nao** (precisa add manual) | Alto |
+| Sexta-Feira Santa | movel | ✅ | Baixo |
+| Tiradentes | 21/Abr | ✅ | Baixo |
+| Dia do Trabalho | 01/Mai | ✅ | Medio |
+| **Dia das Maes** | **2º dom Maio** | **NAO** 🔴 | **Altissimo** |
+| Corpo de Deus | movel | ✅ | Baixo |
+| **Dia dos Namorados** | **12/Jun** | **NAO** 🔴 | **Muito Alto** |
+| Independencia | 07/Set | ✅ | Medio |
+| **Dia das Criancas** | **12/Out** | ✅ | Alto |
+| Finados | 02/Nov | ✅ | Baixo |
+| Proclamacao da Republica | 15/Nov | ✅ | Medio |
+| **Black Friday** | **nov (variavel)** | **NAO** 🔴 | **Altissimo** |
+| **Dia dos Pais** | **2º dom Ago** | **NAO** 🔴 | **Alto** |
+| Natal | 25/Dez | ✅ | **Altissimo** |
+| Reveillon | 31/Dez | ✅ | Alto |
+
+**⚠️ Importante:** O Prophet `add_country_holidays('BR')` usa a biblioteca `holidays` do Python, que inclui apenas feriados federais. **Dia das Maes, Dia dos Pais, Dia dos Namorados e Black Friday NAO sao feriados nacionais** e precisam ser adicionados manualmente como regressores.
+
+Para este projeto, os dados historicos (2017-2019) tem apenas **2 ocorrencias** de cada data comercial — insuficiente para o Prophet aprender o efeito sozinho. A solucao adotada foi:
+- Usar **sazonalidade anual multiplicativa** (captura o padrao geral por epoca do ano)
+- As datas comerciais ficam "embutidas" na curva sazonal (ex: Dezembro tem +38% em UNDERWARE = Natal + Reveillon + confraternizacoes)
+- Conforme mais dados forem acumulados, adicionar regressores especificos para cada data comercial
 
 ### Comparacao detalhada
 
 | Aspecto | OLS com dummies | Prophet | Random Forest / XGBoost |
 |---------|:--------------:|:-------:|:-----------------------:|
-| **Dados necessarios** | 50+ obs | **24 meses** (temos) | 5000+ obs |
-| **Sazonalidade anual** | Dummy de mes/trimestre | **Nativa** (Fourier) | Nao captura sozinha |
-| **Feriados BR** | Feature engineering manual | **`add_country_holidays('BR')`** | Feature engineering |
-| **Tendencia nao-linear**| Polynomial features | **Changepoints nativos** | Captura |
+| **Dados necessarios (linhas)** | 50+ | **1.000 - 500.000** (temos 676k) | 5.000+ |
+| **Dados necessarios (temporal)** | 6+ meses | **12-24 meses** (temos 24) | 24+ meses |
+| **Sazonalidade anual** | Dummy de mes/trimestre | **Nativa** (Fourier, suave) | Nao captura sozinha |
+| **Multiplas sazonalidades** | Manual (2 sets de dummies) | **Nativa** (ano + semana + dia) | Feature engineering |
+| **Feriados oficiais BR** | Feature engineering manual | **`add_country_holidays('BR')`** | Feature engineering |
+| **Datas comerciais BR** | Feature engineering manual | **Manual** (regressor) | Feature engineering |
+| **Tendencia nao-linear** | Polynomial features | **Changepoints nativos** | Captura |
 | **Incerteza** (IC) | Nao nativa | **Intervalos de confianca** | Nao nativa |
 | **Interpretabilidade** | Coeficientes (claros) | Componentes + plot | SHAP (aproximado) |
-| **Overfitting com 676k pts**| Baixo | Baixo (regularizacao) | **Alto** (100+ arvores) |
+| **Overfitting com 676k pts** | Baixo | Baixo (regularizacao) | **Alto** (100+ arvores) |
 | **Instalacao** | statsmodels (ok) | **`pip install prophet`** | sklearn (ok) |
 | **Tempo de treino** | Milissegundos | 2-5 segundos por modelo | Segundos |
 
 ### Veredito
 
 **Prophet foi a escolha certa porque:**
-1. Temos **exatamente 24 meses** de dados — o minimo que o Prophet precisa para sazonalidade anual
-2. **Feriados brasileiros sao o principal driver sazonal** — Dia das Maes (Maio) e Natal (Dezembro) sao os maiores picos de todas as categorias
-3. O **comprador precisa entender** "por que comprar agora?" — os graficos de componentes do Prophet mostram visualmente o pico de cada mes
-4. Com **676 mil registros**, ML como XGBoost sofreria overfitting ou exigiria feature engineering caro
-5. OLS com dummies de semana exigiria ~60 parametros para capturar 52 semanas — Prophet faz isso com ~20 termos de Fourier
+1. Temos **exatamente 24 meses** de dados — o minimo que o Prophet precisa para sazonalidade anual, e o maximo que temos disponivel
+2. **676.634 registros** de venda — volume ideal para Prophet (acima de 500k ML comeca a ser viavel, mas ainda arriscado sem feature engineering)
+3. Os **feriados oficiais sao capturados automaticamente** — Natal e Ano Novo (dez/jan) sao os maiores picos
+4. As **datas comerciais** (12/06, Black Friday, Dia das Maes) ficam embutidas na curva sazonal anual, mas idealmente deveriam ser regressores manuais quando houver mais dados
+5. O **comprador precisa entender** "por que comprar agora?" — os graficos de componentes do Prophet mostram visualmente o pico de cada mes
+6. Com **676 mil registros e apenas 24 meses**, ML como XGBoost sofreria overfitting por ter mais arvores que ciclos sazonais completos
+7. OLS com dummies de semana exigiria ~60 parametros para capturar 52 semanas — Prophet faz isso com ~20 termos de Fourier, mais estavel
 
 ### Quando reavaliar
 
-- **ML (XGBoost/LightGBM)** valeria a pena se tivessemos 3+ anos de dados e features externas (clima, preco de concorrente, dados de rede social)
-- **SARIMA** valeria se o padrao sazonal fosse muito estavel ano a ano (o que nao e o caso de moda)
-- **Deep Learning (LSTM/Transformer)** exigiria 5+ anos de dados diarios — inviavel no momento
+| Cenario | Modelo recomendado | Gatilho |
+|---------|-------------------|---------|
+| Acumular 36+ meses de dados | Prophet ou SARIMA | 2021 |
+| Acumular 5+ anos de dados | XGBoost/LightGBM | 2023+ |
+| Incluir features externas (clima, preco) | Prophet ou XGBoost | Quando disponivel |
+| Precisao > 95% exigida | XGBoost | Quando houver 50k+ obs por categoria |
+| Sem comprador (compra automatica) | XGBoost + regras | Quando houver 3+ anos de dados |
 
 ## Modelo de Previsao (Prophet)
 
