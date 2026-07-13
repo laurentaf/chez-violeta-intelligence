@@ -102,33 +102,44 @@ As vendas tem sazonalidade multipla (ano + mes + dia da semana)?
 
 ### Feriados vs Datas Comerciais no Brasil
 
-O Prophet `add_country_holidays('BR')` inclui **apenas feriados nacionais oficiais**:
+**O que foi implementado de fato:**
+```python
+model.add_country_holidays('BR')  # So feriados OFICIAIS
+```
+Isso adiciona **apenas** os feriados nacionais reconhecidos pela biblioteca `holidays`. As **datas comerciais** abaixo NAO foram adicionadas como regressores manuais — elas ficam "embutidas" na curva de sazonalidade anual do Prophet, mas sem um peso especifico:
 
-| Feriado | Data | Prophet captura? | Impacto vendas |
-|---------|:----:|:----------------:|:--------------:|
-| Confraternizacao Universal | 01/Jan | ✅ | Medio |
-| Carnaval | movel | **Nao** (precisa add manual) | Alto |
-| Sexta-Feira Santa | movel | ✅ | Baixo |
-| Tiradentes | 21/Abr | ✅ | Baixo |
-| Dia do Trabalho | 01/Mai | ✅ | Medio |
-| **Dia das Maes** | **2º dom Maio** | **NAO** 🔴 | **Altissimo** |
-| Corpo de Deus | movel | ✅ | Baixo |
+| Data Comercial | Data | Foi adicionada? | Impacto real |
+|:--------------|:----:|:--------------:|:-----------:|
+| **Dia das Maes** | 2° dom Maio | **NAO** 🔴 | **Altissimo** |
 | **Dia dos Namorados** | **12/Jun** | **NAO** 🔴 | **Muito Alto** |
-| Independencia | 07/Set | ✅ | Medio |
-| **Dia das Criancas** | **12/Out** | ✅ | Alto |
-| Finados | 02/Nov | ✅ | Baixo |
-| Proclamacao da Republica | 15/Nov | ✅ | Medio |
-| **Black Friday** | **nov (variavel)** | **NAO** 🔴 | **Altissimo** |
-| **Dia dos Pais** | **2º dom Ago** | **NAO** 🔴 | **Alto** |
-| Natal | 25/Dez | ✅ | **Altissimo** |
-| Reveillon | 31/Dez | ✅ | Alto |
+| **Dia dos Pais** | 2° dom Ago | **NAO** 🔴 | Alto |
+| **Black Friday** | Nov (variavel) | **NAO** 🔴 | **Altissimo** |
 
-**⚠️ Importante:** O Prophet `add_country_holidays('BR')` usa a biblioteca `holidays` do Python, que inclui apenas feriados federais. **Dia das Maes, Dia dos Pais, Dia dos Namorados e Black Friday NAO sao feriados nacionais** e precisam ser adicionados manualmente como regressores.
+**Por que nao foram adicionadas?**
+Com apenas **2 ocorrencias** de cada data nos dados (2018 e 2019), o Prophet nao consegue estimar um coeficiente confiavel para um regressor. Com 3+ anos de dados, cada data comercial teria 3+ pontos e poderia ser adicionada como:
 
-Para este projeto, os dados historicos (2017-2019) tem apenas **2 ocorrencias** de cada data comercial — insuficiente para o Prophet aprender o efeito sozinho. A solucao adotada foi:
-- Usar **sazonalidade anual multiplicativa** (captura o padrao geral por epoca do ano)
-- As datas comerciais ficam "embutidas" na curva sazonal (ex: Dezembro tem +38% em UNDERWARE = Natal + Reveillon + confraternizacoes)
-- Conforme mais dados forem acumulados, adicionar regressores especificos para cada data comercial
+```python
+# Exemplo para adicionar no futuro:
+df['dia_dos_namorados'] = (df['ds'].dt.month == 6) & (df['ds'].dt.day == 12)
+model.add_regressor('dia_dos_namorados')
+```
+
+**Feriados oficiais que SAO capturados:**
+
+| Feriado | Data | Prophet captura? |
+|---------|:----:|:----------------:|
+| Confraternizacao Universal | 01/Jan | ✅ |
+| Sexta-Feira Santa | movel | ✅ |
+| Tiradentes | 21/Abr | ✅ |
+| Dia do Trabalho | 01/Mai | ✅ |
+| Corpo de Deus | movel | ✅ |
+| Independencia | 07/Set | ✅ |
+| Nossa Senhora Aparecida | 12/Out | ✅ |
+| Finados | 02/Nov | ✅ |
+| Proclamacao da Republica | 15/Nov | ✅ |
+| Natal | 25/Dez | ✅ |
+
+**⚠️ Importante:** O Prophet `add_country_holidays('BR')` usa a biblioteca `holidays` do Python, que inclui apenas feriados federais. As datas comerciais (Dia das Maes, Dia dos Pais, 12/06, Black Friday) **nao foram adicionadas manualmente** nesta versao por falta de dados historicos suficientes (apenas 2 ocorrencias cada). Elas estao representadas indiretamente pela curva de sazonalidade anual, mas sem o peso individual que merecem.
 
 ### Comparacao detalhada
 
