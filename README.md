@@ -37,8 +37,11 @@ uv run python artifacts/simulation/simulation_engine.py --days 360 --seed 42
 ```
 
 ## Como abrir os dashboards
-- **Dashboard do Comprador**: Abrir `artifacts/design/dashboard-comprador/index.html` no navegador
+- **Dashboard do Comprador (v6)**: Abrir `artifacts/design/dashboard-comprador/index.html` no navegador
 - **Chatbot da Loja**: Abrir `artifacts/design/chatbot-loja/index.html` no navegador
+
+| Path | Conteúdo |
+|------|----------|
 | `artifacts/data/` | Modelo dimensional, DDL gold layer, pricing model |
 | `artifacts/data/chez_gold.duckdb` | Gold layer DuckDB (10M+ linhas) |
 | `artifacts/design/` | Design system, wireframes de dashboards |
@@ -49,5 +52,28 @@ uv run python artifacts/simulation/simulation_engine.py --days 360 --seed 42
 (Oracle Export 10.01.00, 2020-05-29). Domínios: vendas, estoque,
 compras, financeiro, RH, logística.
 
-## Status
-Stage 0 (SDD Scaffold) completo. Pronto para Stage 1 (Data Model).
+## Modelo de Previsao (Regressao Semanal)
+
+| Metrica | Valor |
+|---------|-------|
+| Modelo | OLS (statsmodels) |
+| R² | 0.726 |
+| R² Ajustado | 0.694 |
+| Formula | log(vendas) ~ categoria + trimestre + tendencia |
+| Observacoes | 97 semanas |
+| Parametros | 11 |
+
+### Coeficientes principais
+
+| Termo | Coeficiente | p-valor |
+|-------|:-----------:|:-------:|
+| UNDERWARE | +4.37 | <0.001 *** |
+| LINHA NOITE | +3.26 | <0.001 *** |
+| VESTUARIO | +3.03 | <0.001 *** |
+| MODA PRAIA | +2.70 | <0.001 *** |
+| Q3 (Jul-Set) | -1.23 | 0.009 ** |
+
+### Interpretacao
+O modelo explica 72.6% da variância das vendas semanais usando apenas categoria, trimestre e tendencia.
+Q3 (inverno) tem efeito negativo significativo (-1.23) - biquini vende menos no inverno.
+UNDERWARE e a categoria mais forte (+4.37), seguida por LINHA NOITE (+3.26).

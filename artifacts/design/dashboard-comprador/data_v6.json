@@ -1,0 +1,1683 @@
+{
+ "kpi": {
+  "fornecedores_comprar": 131,
+  "itens_vestuario_falta": 11901,
+  "valor_total_estimado": 428722.0
+ },
+ "visao1_vestuario": [
+  {
+   "produto": "BATA",
+   "tamanho": "UN",
+   "estoque": 12,
+   "necessidade": 15,
+   "diferenca": -3,
+   "acao": "COMPRAR"
+  },
+  {
+   "produto": "BERMUDA",
+   "tamanho": "36",
+   "estoque": 13,
+   "necessidade": 0,
+   "diferenca": 13,
+   "acao": "OK"
+  },
+  {
+   "produto": "BERMUDA",
+   "tamanho": "38",
+   "estoque": 18,
+   "necessidade": 0,
+   "diferenca": 18,
+   "acao": "OK"
+  },
+  {
+   "produto": "BERMUDA",
+   "tamanho": "40",
+   "estoque": 7,
+   "necessidade": 4,
+   "diferenca": 3,
+   "acao": "OK"
+  },
+  {
+   "produto": "BERMUDA",
+   "tamanho": "42",
+   "estoque": 11,
+   "necessidade": 0,
+   "diferenca": 11,
+   "acao": "OK"
+  },
+  {
+   "produto": "BERMUDA",
+   "tamanho": "44",
+   "estoque": 8,
+   "necessidade": 4,
+   "diferenca": 4,
+   "acao": "OK"
+  },
+  {
+   "produto": "BERMUDA",
+   "tamanho": "46",
+   "estoque": 5,
+   "necessidade": 0,
+   "diferenca": 5,
+   "acao": "OK"
+  },
+  {
+   "produto": "BERMUDA",
+   "tamanho": "G",
+   "estoque": 9,
+   "necessidade": 7,
+   "diferenca": 2,
+   "acao": "OK"
+  },
+  {
+   "produto": "BERMUDA",
+   "tamanho": "M",
+   "estoque": 14,
+   "necessidade": 0,
+   "diferenca": 14,
+   "acao": "OK"
+  },
+  {
+   "produto": "BERMUDA",
+   "tamanho": "P",
+   "estoque": 22,
+   "necessidade": 0,
+   "diferenca": 22,
+   "acao": "OK"
+  },
+  {
+   "produto": "BLAZER",
+   "tamanho": "G",
+   "estoque": 200,
+   "necessidade": 29,
+   "diferenca": 171,
+   "acao": "OK"
+  },
+  {
+   "produto": "BLAZER",
+   "tamanho": "GG",
+   "estoque": 27,
+   "necessidade": 7,
+   "diferenca": 20,
+   "acao": "OK"
+  },
+  {
+   "produto": "BLAZER",
+   "tamanho": "M",
+   "estoque": 168,
+   "necessidade": 23,
+   "diferenca": 145,
+   "acao": "OK"
+  },
+  {
+   "produto": "BLAZER",
+   "tamanho": "P",
+   "estoque": 127,
+   "necessidade": 23,
+   "diferenca": 104,
+   "acao": "OK"
+  },
+  {
+   "produto": "BLUSA MC",
+   "tamanho": "2G",
+   "estoque": 26,
+   "necessidade": 7,
+   "diferenca": 19,
+   "acao": "OK"
+  },
+  {
+   "produto": "BLUSA MC",
+   "tamanho": "G",
+   "estoque": 492,
+   "necessidade": 79,
+   "diferenca": 413,
+   "acao": "OK"
+  },
+  {
+   "produto": "BLUSA MC",
+   "tamanho": "GG",
+   "estoque": 205,
+   "necessidade": 24,
+   "diferenca": 181,
+   "acao": "OK"
+  },
+  {
+   "produto": "BLUSA MC",
+   "tamanho": "M",
+   "estoque": 497,
+   "necessidade": 66,
+   "diferenca": 431,
+   "acao": "OK"
+  },
+  {
+   "produto": "BLUSA MC",
+   "tamanho": "P",
+   "estoque": 524,
+   "necessidade": 75,
+   "diferenca": 449,
+   "acao": "OK"
+  },
+  {
+   "produto": "BLUSA ML",
+   "tamanho": "G",
+   "estoque": 12,
+   "necessidade": 8,
+   "diferenca": 4,
+   "acao": "OK"
+  },
+  {
+   "produto": "BLUSA ML",
+   "tamanho": "GG",
+   "estoque": 13,
+   "necessidade": 1,
+   "diferenca": 12,
+   "acao": "OK"
+  },
+  {
+   "produto": "BLUSA ML",
+   "tamanho": "M",
+   "estoque": 31,
+   "necessidade": 14,
+   "diferenca": 17,
+   "acao": "OK"
+  },
+  {
+   "produto": "BLUSA ML",
+   "tamanho": "P",
+   "estoque": 16,
+   "necessidade": 3,
+   "diferenca": 13,
+   "acao": "OK"
+  },
+  {
+   "produto": "BODY",
+   "tamanho": "G",
+   "estoque": 41,
+   "necessidade": 1,
+   "diferenca": 40,
+   "acao": "OK"
+  },
+  {
+   "produto": "BODY",
+   "tamanho": "M",
+   "estoque": 55,
+   "necessidade": 6,
+   "diferenca": 49,
+   "acao": "OK"
+  },
+  {
+   "produto": "BODY",
+   "tamanho": "P",
+   "estoque": 32,
+   "necessidade": 5,
+   "diferenca": 27,
+   "acao": "OK"
+  },
+  {
+   "produto": "CALCA",
+   "tamanho": "38",
+   "estoque": 6,
+   "necessidade": 0,
+   "diferenca": 6,
+   "acao": "OK"
+  },
+  {
+   "produto": "CALCA",
+   "tamanho": "40",
+   "estoque": 3,
+   "necessidade": 0,
+   "diferenca": 3,
+   "acao": "OK"
+  },
+  {
+   "produto": "CALCA",
+   "tamanho": "42",
+   "estoque": 3,
+   "necessidade": 0,
+   "diferenca": 3,
+   "acao": "OK"
+  },
+  {
+   "produto": "CALCA",
+   "tamanho": "44",
+   "estoque": 3,
+   "necessidade": 5,
+   "diferenca": -2,
+   "acao": "COMPRAR"
+  },
+  {
+   "produto": "CALCA",
+   "tamanho": "G",
+   "estoque": 507,
+   "necessidade": 53,
+   "diferenca": 454,
+   "acao": "OK"
+  },
+  {
+   "produto": "CALCA",
+   "tamanho": "GG",
+   "estoque": 255,
+   "necessidade": 22,
+   "diferenca": 233,
+   "acao": "OK"
+  },
+  {
+   "produto": "CALCA",
+   "tamanho": "M",
+   "estoque": 393,
+   "necessidade": 65,
+   "diferenca": 328,
+   "acao": "OK"
+  },
+  {
+   "produto": "CALCA",
+   "tamanho": "P",
+   "estoque": 311,
+   "necessidade": 33,
+   "diferenca": 278,
+   "acao": "OK"
+  },
+  {
+   "produto": "CALCA JEANS",
+   "tamanho": "36",
+   "estoque": 77,
+   "necessidade": 24,
+   "diferenca": 53,
+   "acao": "OK"
+  },
+  {
+   "produto": "CALCA JEANS",
+   "tamanho": "38",
+   "estoque": 83,
+   "necessidade": 21,
+   "diferenca": 62,
+   "acao": "OK"
+  },
+  {
+   "produto": "CALCA JEANS",
+   "tamanho": "40",
+   "estoque": 116,
+   "necessidade": 36,
+   "diferenca": 80,
+   "acao": "OK"
+  },
+  {
+   "produto": "CALCA JEANS",
+   "tamanho": "42",
+   "estoque": 100,
+   "necessidade": 26,
+   "diferenca": 74,
+   "acao": "OK"
+  },
+  {
+   "produto": "CALCA JEANS",
+   "tamanho": "44",
+   "estoque": 33,
+   "necessidade": 13,
+   "diferenca": 20,
+   "acao": "OK"
+  },
+  {
+   "produto": "CALCA JEANS",
+   "tamanho": "46",
+   "estoque": 31,
+   "necessidade": 18,
+   "diferenca": 13,
+   "acao": "OK"
+  },
+  {
+   "produto": "CAMISA",
+   "tamanho": "2G",
+   "estoque": 1,
+   "necessidade": 0,
+   "diferenca": 1,
+   "acao": "OK"
+  },
+  {
+   "produto": "CAMISA",
+   "tamanho": "G",
+   "estoque": 201,
+   "necessidade": 25,
+   "diferenca": 176,
+   "acao": "OK"
+  },
+  {
+   "produto": "CAMISA",
+   "tamanho": "GG",
+   "estoque": 110,
+   "necessidade": 26,
+   "diferenca": 84,
+   "acao": "OK"
+  },
+  {
+   "produto": "CAMISA",
+   "tamanho": "M",
+   "estoque": 146,
+   "necessidade": 26,
+   "diferenca": 120,
+   "acao": "OK"
+  },
+  {
+   "produto": "CAMISA",
+   "tamanho": "P",
+   "estoque": 130,
+   "necessidade": 32,
+   "diferenca": 98,
+   "acao": "OK"
+  },
+  {
+   "produto": "CAMISETA MC",
+   "tamanho": "G",
+   "estoque": 147,
+   "necessidade": 92,
+   "diferenca": 55,
+   "acao": "OK"
+  },
+  {
+   "produto": "CAMISETA MC",
+   "tamanho": "GG",
+   "estoque": 34,
+   "necessidade": 51,
+   "diferenca": -17,
+   "acao": "COMPRAR"
+  },
+  {
+   "produto": "CAMISETA MC",
+   "tamanho": "M",
+   "estoque": 218,
+   "necessidade": 90,
+   "diferenca": 128,
+   "acao": "OK"
+  },
+  {
+   "produto": "CAMISETA MC",
+   "tamanho": "P",
+   "estoque": 91,
+   "necessidade": 64,
+   "diferenca": 27,
+   "acao": "OK"
+  },
+  {
+   "produto": "CAMISETA MC",
+   "tamanho": "UN",
+   "estoque": 3,
+   "necessidade": 7,
+   "diferenca": -4,
+   "acao": "COMPRAR"
+  },
+  {
+   "produto": "CAMISETA ML",
+   "tamanho": "G",
+   "estoque": 16,
+   "necessidade": 2,
+   "diferenca": 14,
+   "acao": "OK"
+  },
+  {
+   "produto": "CAMISETA ML",
+   "tamanho": "GG",
+   "estoque": 18,
+   "necessidade": 5,
+   "diferenca": 13,
+   "acao": "OK"
+  },
+  {
+   "produto": "CAMISETA ML",
+   "tamanho": "M",
+   "estoque": 19,
+   "necessidade": 12,
+   "diferenca": 7,
+   "acao": "OK"
+  },
+  {
+   "produto": "CAMISETA ML",
+   "tamanho": "P",
+   "estoque": 10,
+   "necessidade": 0,
+   "diferenca": 10,
+   "acao": "OK"
+  },
+  {
+   "produto": "CARDIGAN",
+   "tamanho": "G",
+   "estoque": 23,
+   "necessidade": 0,
+   "diferenca": 23,
+   "acao": "OK"
+  },
+  {
+   "produto": "CARDIGAN",
+   "tamanho": "GG",
+   "estoque": 12,
+   "necessidade": 3,
+   "diferenca": 9,
+   "acao": "OK"
+  },
+  {
+   "produto": "CARDIGAN",
+   "tamanho": "M",
+   "estoque": 18,
+   "necessidade": 0,
+   "diferenca": 18,
+   "acao": "OK"
+  },
+  {
+   "produto": "CARDIGAN",
+   "tamanho": "P",
+   "estoque": 11,
+   "necessidade": 0,
+   "diferenca": 11,
+   "acao": "OK"
+  },
+  {
+   "produto": "CARDIGAN",
+   "tamanho": "UN",
+   "estoque": 149,
+   "necessidade": 21,
+   "diferenca": 128,
+   "acao": "OK"
+  },
+  {
+   "produto": "CASACO",
+   "tamanho": "2G",
+   "estoque": 2,
+   "necessidade": 0,
+   "diferenca": 2,
+   "acao": "OK"
+  },
+  {
+   "produto": "CASACO",
+   "tamanho": "G",
+   "estoque": 12,
+   "necessidade": 0,
+   "diferenca": 12,
+   "acao": "OK"
+  },
+  {
+   "produto": "CASACO",
+   "tamanho": "GG",
+   "estoque": 4,
+   "necessidade": 0,
+   "diferenca": 4,
+   "acao": "OK"
+  },
+  {
+   "produto": "CASACO",
+   "tamanho": "M",
+   "estoque": 7,
+   "necessidade": 0,
+   "diferenca": 7,
+   "acao": "OK"
+  },
+  {
+   "produto": "CASACO",
+   "tamanho": "P",
+   "estoque": 5,
+   "necessidade": 0,
+   "diferenca": 5,
+   "acao": "OK"
+  },
+  {
+   "produto": "COLETE",
+   "tamanho": "P",
+   "estoque": 3,
+   "necessidade": 0,
+   "diferenca": 3,
+   "acao": "OK"
+  },
+  {
+   "produto": "CONJUNTO",
+   "tamanho": "G",
+   "estoque": 15,
+   "necessidade": 7,
+   "diferenca": 8,
+   "acao": "OK"
+  },
+  {
+   "produto": "CONJUNTO",
+   "tamanho": "M",
+   "estoque": 15,
+   "necessidade": 5,
+   "diferenca": 10,
+   "acao": "OK"
+  },
+  {
+   "produto": "CONJUNTO",
+   "tamanho": "P",
+   "estoque": 11,
+   "necessidade": 11,
+   "diferenca": 0,
+   "acao": "OK"
+  },
+  {
+   "produto": "CROPPED",
+   "tamanho": "G",
+   "estoque": 117,
+   "necessidade": 12,
+   "diferenca": 105,
+   "acao": "OK"
+  },
+  {
+   "produto": "CROPPED",
+   "tamanho": "GG",
+   "estoque": 3,
+   "necessidade": 0,
+   "diferenca": 3,
+   "acao": "OK"
+  },
+  {
+   "produto": "CROPPED",
+   "tamanho": "M",
+   "estoque": 254,
+   "necessidade": 8,
+   "diferenca": 246,
+   "acao": "OK"
+  },
+  {
+   "produto": "CROPPED",
+   "tamanho": "P",
+   "estoque": 302,
+   "necessidade": 4,
+   "diferenca": 298,
+   "acao": "OK"
+  },
+  {
+   "produto": "CROPPED",
+   "tamanho": "UN",
+   "estoque": 0,
+   "necessidade": 7,
+   "diferenca": -7,
+   "acao": "COMPRAR"
+  },
+  {
+   "produto": "ECHARPE",
+   "tamanho": "ND",
+   "estoque": 43,
+   "necessidade": 0,
+   "diferenca": 43,
+   "acao": "OK"
+  },
+  {
+   "produto": "ECHARPE",
+   "tamanho": "UN",
+   "estoque": 87,
+   "necessidade": 0,
+   "diferenca": 87,
+   "acao": "OK"
+  },
+  {
+   "produto": "INDEFINIDO",
+   "tamanho": "G",
+   "estoque": 10,
+   "necessidade": 0,
+   "diferenca": 10,
+   "acao": "OK"
+  },
+  {
+   "produto": "INDEFINIDO",
+   "tamanho": "GG",
+   "estoque": 7,
+   "necessidade": 0,
+   "diferenca": 7,
+   "acao": "OK"
+  },
+  {
+   "produto": "INDEFINIDO",
+   "tamanho": "M",
+   "estoque": 10,
+   "necessidade": 0,
+   "diferenca": 10,
+   "acao": "OK"
+  },
+  {
+   "produto": "INDEFINIDO",
+   "tamanho": "P",
+   "estoque": 12,
+   "necessidade": 0,
+   "diferenca": 12,
+   "acao": "OK"
+  },
+  {
+   "produto": "JAQUETA",
+   "tamanho": "G",
+   "estoque": 14,
+   "necessidade": 7,
+   "diferenca": 7,
+   "acao": "OK"
+  },
+  {
+   "produto": "JAQUETA",
+   "tamanho": "GG",
+   "estoque": 2,
+   "necessidade": 0,
+   "diferenca": 2,
+   "acao": "OK"
+  },
+  {
+   "produto": "JAQUETA",
+   "tamanho": "M",
+   "estoque": 17,
+   "necessidade": 4,
+   "diferenca": 13,
+   "acao": "OK"
+  },
+  {
+   "produto": "JAQUETA",
+   "tamanho": "P",
+   "estoque": 13,
+   "necessidade": 4,
+   "diferenca": 9,
+   "acao": "OK"
+  },
+  {
+   "produto": "MACACAO",
+   "tamanho": "G",
+   "estoque": 67,
+   "necessidade": 8,
+   "diferenca": 59,
+   "acao": "OK"
+  },
+  {
+   "produto": "MACACAO",
+   "tamanho": "GG",
+   "estoque": 14,
+   "necessidade": 0,
+   "diferenca": 14,
+   "acao": "OK"
+  },
+  {
+   "produto": "MACACAO",
+   "tamanho": "M",
+   "estoque": 83,
+   "necessidade": 16,
+   "diferenca": 67,
+   "acao": "OK"
+  },
+  {
+   "produto": "MACACAO",
+   "tamanho": "P",
+   "estoque": 81,
+   "necessidade": 15,
+   "diferenca": 66,
+   "acao": "OK"
+  },
+  {
+   "produto": "MACAQUINHO",
+   "tamanho": "G",
+   "estoque": 49,
+   "necessidade": 4,
+   "diferenca": 45,
+   "acao": "OK"
+  },
+  {
+   "produto": "MACAQUINHO",
+   "tamanho": "GG",
+   "estoque": 26,
+   "necessidade": 0,
+   "diferenca": 26,
+   "acao": "OK"
+  },
+  {
+   "produto": "MACAQUINHO",
+   "tamanho": "M",
+   "estoque": 42,
+   "necessidade": 7,
+   "diferenca": 35,
+   "acao": "OK"
+  },
+  {
+   "produto": "MACAQUINHO",
+   "tamanho": "P",
+   "estoque": 31,
+   "necessidade": 4,
+   "diferenca": 27,
+   "acao": "OK"
+  },
+  {
+   "produto": "PARKA",
+   "tamanho": "2G",
+   "estoque": 12,
+   "necessidade": 9,
+   "diferenca": 3,
+   "acao": "OK"
+  },
+  {
+   "produto": "PARKA",
+   "tamanho": "G",
+   "estoque": 4,
+   "necessidade": 6,
+   "diferenca": -2,
+   "acao": "COMPRAR"
+  },
+  {
+   "produto": "PARKA",
+   "tamanho": "GG",
+   "estoque": 9,
+   "necessidade": 4,
+   "diferenca": 5,
+   "acao": "OK"
+  },
+  {
+   "produto": "PARKA",
+   "tamanho": "M",
+   "estoque": 2,
+   "necessidade": 8,
+   "diferenca": -6,
+   "acao": "COMPRAR"
+  },
+  {
+   "produto": "PARKA",
+   "tamanho": "P",
+   "estoque": 3,
+   "necessidade": 9,
+   "diferenca": -6,
+   "acao": "COMPRAR"
+  },
+  {
+   "produto": "REGATA FINA",
+   "tamanho": "2G",
+   "estoque": 45,
+   "necessidade": 1,
+   "diferenca": 44,
+   "acao": "OK"
+  },
+  {
+   "produto": "REGATA FINA",
+   "tamanho": "G",
+   "estoque": 717,
+   "necessidade": 56,
+   "diferenca": 661,
+   "acao": "OK"
+  },
+  {
+   "produto": "REGATA FINA",
+   "tamanho": "GG",
+   "estoque": 364,
+   "necessidade": 19,
+   "diferenca": 345,
+   "acao": "OK"
+  },
+  {
+   "produto": "REGATA FINA",
+   "tamanho": "M",
+   "estoque": 711,
+   "necessidade": 71,
+   "diferenca": 640,
+   "acao": "OK"
+  },
+  {
+   "produto": "REGATA FINA",
+   "tamanho": "P",
+   "estoque": 582,
+   "necessidade": 51,
+   "diferenca": 531,
+   "acao": "OK"
+  },
+  {
+   "produto": "REGATA LARGA",
+   "tamanho": "G",
+   "estoque": 316,
+   "necessidade": 7,
+   "diferenca": 309,
+   "acao": "OK"
+  },
+  {
+   "produto": "REGATA LARGA",
+   "tamanho": "GG",
+   "estoque": 137,
+   "necessidade": 4,
+   "diferenca": 133,
+   "acao": "OK"
+  },
+  {
+   "produto": "REGATA LARGA",
+   "tamanho": "M",
+   "estoque": 307,
+   "necessidade": 12,
+   "diferenca": 295,
+   "acao": "OK"
+  },
+  {
+   "produto": "REGATA LARGA",
+   "tamanho": "P",
+   "estoque": 283,
+   "necessidade": 11,
+   "diferenca": 272,
+   "acao": "OK"
+  },
+  {
+   "produto": "SAIA CURTA",
+   "tamanho": "36",
+   "estoque": 3,
+   "necessidade": 0,
+   "diferenca": 3,
+   "acao": "OK"
+  },
+  {
+   "produto": "SAIA CURTA",
+   "tamanho": "38",
+   "estoque": 5,
+   "necessidade": 0,
+   "diferenca": 5,
+   "acao": "OK"
+  },
+  {
+   "produto": "SAIA CURTA",
+   "tamanho": "40",
+   "estoque": 6,
+   "necessidade": 4,
+   "diferenca": 2,
+   "acao": "OK"
+  },
+  {
+   "produto": "SAIA CURTA",
+   "tamanho": "42",
+   "estoque": 4,
+   "necessidade": 0,
+   "diferenca": 4,
+   "acao": "OK"
+  },
+  {
+   "produto": "SAIA CURTA",
+   "tamanho": "G",
+   "estoque": 87,
+   "necessidade": 4,
+   "diferenca": 83,
+   "acao": "OK"
+  },
+  {
+   "produto": "SAIA CURTA",
+   "tamanho": "GG",
+   "estoque": 30,
+   "necessidade": 0,
+   "diferenca": 30,
+   "acao": "OK"
+  },
+  {
+   "produto": "SAIA CURTA",
+   "tamanho": "M",
+   "estoque": 91,
+   "necessidade": 5,
+   "diferenca": 86,
+   "acao": "OK"
+  },
+  {
+   "produto": "SAIA CURTA",
+   "tamanho": "P",
+   "estoque": 92,
+   "necessidade": 4,
+   "diferenca": 88,
+   "acao": "OK"
+  },
+  {
+   "produto": "SAIA LONGA",
+   "tamanho": "G",
+   "estoque": 95,
+   "necessidade": 8,
+   "diferenca": 87,
+   "acao": "OK"
+  },
+  {
+   "produto": "SAIA LONGA",
+   "tamanho": "GG",
+   "estoque": 36,
+   "necessidade": 0,
+   "diferenca": 36,
+   "acao": "OK"
+  },
+  {
+   "produto": "SAIA LONGA",
+   "tamanho": "M",
+   "estoque": 112,
+   "necessidade": 11,
+   "diferenca": 101,
+   "acao": "OK"
+  },
+  {
+   "produto": "SAIA LONGA",
+   "tamanho": "P",
+   "estoque": 82,
+   "necessidade": 0,
+   "diferenca": 82,
+   "acao": "OK"
+  },
+  {
+   "produto": "SHORT SAIA",
+   "tamanho": "G",
+   "estoque": 0,
+   "necessidade": 1,
+   "diferenca": -1,
+   "acao": "COMPRAR"
+  },
+  {
+   "produto": "SHORT SAIA",
+   "tamanho": "M",
+   "estoque": 0,
+   "necessidade": 0,
+   "diferenca": 0,
+   "acao": "OK"
+  },
+  {
+   "produto": "SHORT SAIA",
+   "tamanho": "P",
+   "estoque": 0,
+   "necessidade": 0,
+   "diferenca": 0,
+   "acao": "OK"
+  },
+  {
+   "produto": "SHORTS",
+   "tamanho": "36",
+   "estoque": 0,
+   "necessidade": 7,
+   "diferenca": -7,
+   "acao": "COMPRAR"
+  },
+  {
+   "produto": "SHORTS",
+   "tamanho": "38",
+   "estoque": 0,
+   "necessidade": 4,
+   "diferenca": -4,
+   "acao": "COMPRAR"
+  },
+  {
+   "produto": "SHORTS",
+   "tamanho": "40",
+   "estoque": 2,
+   "necessidade": 4,
+   "diferenca": -2,
+   "acao": "COMPRAR"
+  },
+  {
+   "produto": "SHORTS",
+   "tamanho": "42",
+   "estoque": 0,
+   "necessidade": 4,
+   "diferenca": -4,
+   "acao": "COMPRAR"
+  },
+  {
+   "produto": "SHORTS",
+   "tamanho": "44",
+   "estoque": 1,
+   "necessidade": 0,
+   "diferenca": 1,
+   "acao": "OK"
+  },
+  {
+   "produto": "SHORTS",
+   "tamanho": "G",
+   "estoque": 269,
+   "necessidade": 42,
+   "diferenca": 227,
+   "acao": "OK"
+  },
+  {
+   "produto": "SHORTS",
+   "tamanho": "GG",
+   "estoque": 27,
+   "necessidade": 0,
+   "diferenca": 27,
+   "acao": "OK"
+  },
+  {
+   "produto": "SHORTS",
+   "tamanho": "J36",
+   "estoque": 1,
+   "necessidade": 0,
+   "diferenca": 1,
+   "acao": "OK"
+  },
+  {
+   "produto": "SHORTS",
+   "tamanho": "M",
+   "estoque": 305,
+   "necessidade": 43,
+   "diferenca": 262,
+   "acao": "OK"
+  },
+  {
+   "produto": "SHORTS",
+   "tamanho": "P",
+   "estoque": 269,
+   "necessidade": 32,
+   "diferenca": 237,
+   "acao": "OK"
+  },
+  {
+   "produto": "SHORTS",
+   "tamanho": "UN",
+   "estoque": 0,
+   "necessidade": 4,
+   "diferenca": -4,
+   "acao": "COMPRAR"
+  },
+  {
+   "produto": "SHORTS JEANS",
+   "tamanho": "34",
+   "estoque": 13,
+   "necessidade": 4,
+   "diferenca": 9,
+   "acao": "OK"
+  },
+  {
+   "produto": "SHORTS JEANS",
+   "tamanho": "36",
+   "estoque": 43,
+   "necessidade": 0,
+   "diferenca": 43,
+   "acao": "OK"
+  },
+  {
+   "produto": "SHORTS JEANS",
+   "tamanho": "38",
+   "estoque": 45,
+   "necessidade": 8,
+   "diferenca": 37,
+   "acao": "OK"
+  },
+  {
+   "produto": "SHORTS JEANS",
+   "tamanho": "40",
+   "estoque": 40,
+   "necessidade": 22,
+   "diferenca": 18,
+   "acao": "OK"
+  },
+  {
+   "produto": "SHORTS JEANS",
+   "tamanho": "42",
+   "estoque": 44,
+   "necessidade": 4,
+   "diferenca": 40,
+   "acao": "OK"
+  },
+  {
+   "produto": "SHORTS JEANS",
+   "tamanho": "44",
+   "estoque": 29,
+   "necessidade": 4,
+   "diferenca": 25,
+   "acao": "OK"
+  },
+  {
+   "produto": "SHORTS JEANS",
+   "tamanho": "46",
+   "estoque": 4,
+   "necessidade": 0,
+   "diferenca": 4,
+   "acao": "OK"
+  },
+  {
+   "produto": "TRICOT ML",
+   "tamanho": "G",
+   "estoque": 33,
+   "necessidade": 19,
+   "diferenca": 14,
+   "acao": "OK"
+  },
+  {
+   "produto": "TRICOT ML",
+   "tamanho": "GG",
+   "estoque": 16,
+   "necessidade": 13,
+   "diferenca": 3,
+   "acao": "OK"
+  },
+  {
+   "produto": "TRICOT ML",
+   "tamanho": "M",
+   "estoque": 23,
+   "necessidade": 7,
+   "diferenca": 16,
+   "acao": "OK"
+  },
+  {
+   "produto": "TRICOT ML",
+   "tamanho": "P",
+   "estoque": 18,
+   "necessidade": 3,
+   "diferenca": 15,
+   "acao": "OK"
+  },
+  {
+   "produto": "TRICOT ML",
+   "tamanho": "UN",
+   "estoque": 72,
+   "necessidade": 14,
+   "diferenca": 58,
+   "acao": "OK"
+  },
+  {
+   "produto": "VESTIDO CURTO",
+   "tamanho": "G",
+   "estoque": 346,
+   "necessidade": 44,
+   "diferenca": 302,
+   "acao": "OK"
+  },
+  {
+   "produto": "VESTIDO CURTO",
+   "tamanho": "GG",
+   "estoque": 182,
+   "necessidade": 11,
+   "diferenca": 171,
+   "acao": "OK"
+  },
+  {
+   "produto": "VESTIDO CURTO",
+   "tamanho": "M",
+   "estoque": 394,
+   "necessidade": 71,
+   "diferenca": 323,
+   "acao": "OK"
+  },
+  {
+   "produto": "VESTIDO CURTO",
+   "tamanho": "ND",
+   "estoque": 5,
+   "necessidade": 10,
+   "diferenca": -5,
+   "acao": "COMPRAR"
+  },
+  {
+   "produto": "VESTIDO CURTO",
+   "tamanho": "P",
+   "estoque": 322,
+   "necessidade": 48,
+   "diferenca": 274,
+   "acao": "OK"
+  },
+  {
+   "produto": "VESTIDO LONGO",
+   "tamanho": "G",
+   "estoque": 72,
+   "necessidade": 1,
+   "diferenca": 71,
+   "acao": "OK"
+  },
+  {
+   "produto": "VESTIDO LONGO",
+   "tamanho": "GG",
+   "estoque": 40,
+   "necessidade": 0,
+   "diferenca": 40,
+   "acao": "OK"
+  },
+  {
+   "produto": "VESTIDO LONGO",
+   "tamanho": "M",
+   "estoque": 85,
+   "necessidade": 4,
+   "diferenca": 81,
+   "acao": "OK"
+  },
+  {
+   "produto": "VESTIDO LONGO",
+   "tamanho": "P",
+   "estoque": 64,
+   "necessidade": 0,
+   "diferenca": 64,
+   "acao": "OK"
+  }
+ ],
+ "visao1_stats": {
+  "total_itens": 152,
+  "itens_comprar": 15,
+  "itens_ok": 137
+ },
+ "visao2_fornecedores": [
+  {
+   "fornecedor": "CLASS",
+   "n_produtos": 464,
+   "cobertura_media": 4.3,
+   "valor_estimado": 92083.0,
+   "atinge_10k": "SIM"
+  },
+  {
+   "fornecedor": "VI LINGERIE",
+   "n_produtos": 627,
+   "cobertura_media": 1.9,
+   "valor_estimado": 81812.0,
+   "atinge_10k": "SIM"
+  },
+  {
+   "fornecedor": "ZEE RUCCI",
+   "n_produtos": 414,
+   "cobertura_media": 2.7,
+   "valor_estimado": 56606.0,
+   "atinge_10k": "SIM"
+  },
+  {
+   "fornecedor": "RIVANNA",
+   "n_produtos": 185,
+   "cobertura_media": 3.4,
+   "valor_estimado": 56546.0,
+   "atinge_10k": "SIM"
+  },
+  {
+   "fornecedor": "DIVA DONNA",
+   "n_produtos": 360,
+   "cobertura_media": 3.3,
+   "valor_estimado": 50368.0,
+   "atinge_10k": "SIM"
+  },
+  {
+   "fornecedor": "TRIFIL",
+   "n_produtos": 212,
+   "cobertura_media": 1.7,
+   "valor_estimado": 34486.0,
+   "atinge_10k": "SIM"
+  },
+  {
+   "fornecedor": "MASH",
+   "n_produtos": 247,
+   "cobertura_media": 1.2,
+   "valor_estimado": 29040.0,
+   "atinge_10k": "SIM"
+  },
+  {
+   "fornecedor": "ESBELT",
+   "n_produtos": 19,
+   "cobertura_media": 1.7,
+   "valor_estimado": 13615.0,
+   "atinge_10k": "SIM"
+  },
+  {
+   "fornecedor": "LU MODAS",
+   "n_produtos": 405,
+   "cobertura_media": 0.4,
+   "valor_estimado": 7798.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "EROSS AFRODITE",
+   "n_produtos": 33,
+   "cobertura_media": 1.7,
+   "valor_estimado": 2837.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "LUPO",
+   "n_produtos": 61,
+   "cobertura_media": 2.3,
+   "valor_estimado": 2737.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "ISABELLE LINGERIE",
+   "n_produtos": 26,
+   "cobertura_media": 0.5,
+   "valor_estimado": 274.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "UNIVERSE S/A",
+   "n_produtos": 22,
+   "cobertura_media": 0.1,
+   "valor_estimado": 62.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "CONFECCOES CANAA",
+   "n_produtos": 4,
+   "cobertura_media": 0.1,
+   "valor_estimado": 15.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "TOP CAT",
+   "n_produtos": 85,
+   "cobertura_media": 1.3,
+   "valor_estimado": 14.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "BRAS",
+   "n_produtos": 6,
+   "cobertura_media": 0,
+   "valor_estimado": 8.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "CENSATO",
+   "n_produtos": 67,
+   "cobertura_media": 0,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "EMOCIONE",
+   "n_produtos": 2,
+   "cobertura_media": 3.9,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "FORMACAO FITNESS",
+   "n_produtos": 15,
+   "cobertura_media": 0,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "VIBO",
+   "n_produtos": 4,
+   "cobertura_media": 0.8,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "FOREVER FITNESS",
+   "n_produtos": 119,
+   "cobertura_media": 1.3,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "LIZ",
+   "n_produtos": 117,
+   "cobertura_media": 1.3,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "TOQUE INTIMO",
+   "n_produtos": 148,
+   "cobertura_media": 0.7,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "JULIA MORAES",
+   "n_produtos": 12,
+   "cobertura_media": 0,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "DEMILLUS",
+   "n_produtos": 45,
+   "cobertura_media": 2.6,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "HERMES BALI",
+   "n_produtos": 26,
+   "cobertura_media": 2.0,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "INTER BIJU",
+   "n_produtos": 6,
+   "cobertura_media": 0.1,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "RELUZ BIJU",
+   "n_produtos": 18,
+   "cobertura_media": 0.1,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "LACK",
+   "n_produtos": 44,
+   "cobertura_media": 1.7,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "LOVE SECRET",
+   "n_produtos": 34,
+   "cobertura_media": 2.2,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "ABSOLUT",
+   "n_produtos": 18,
+   "cobertura_media": 0.6,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "FEMINIS",
+   "n_produtos": 6,
+   "cobertura_media": 11.7,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "KARISMA BIJU",
+   "n_produtos": 2,
+   "cobertura_media": 0.2,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "MAURO BIJU",
+   "n_produtos": 153,
+   "cobertura_media": 0.2,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "MROS",
+   "n_produtos": 168,
+   "cobertura_media": 0.5,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "CORPO SENSUAL",
+   "n_produtos": 56,
+   "cobertura_media": 1.8,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "SENSARE",
+   "n_produtos": 274,
+   "cobertura_media": 0.6,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "FINA ESTAMPA",
+   "n_produtos": 46,
+   "cobertura_media": 6.3,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "DIRA",
+   "n_produtos": 102,
+   "cobertura_media": 0.8,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "LIEBE LINGERIE",
+   "n_produtos": 12,
+   "cobertura_media": 0,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "REISUL",
+   "n_produtos": 64,
+   "cobertura_media": 6.2,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "SALDOS",
+   "n_produtos": 12,
+   "cobertura_media": 0.1,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "ENOQUE BIJU",
+   "n_produtos": 8,
+   "cobertura_media": 0,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "LAMAR",
+   "n_produtos": 87,
+   "cobertura_media": 2.9,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "MENSAGEIRO DOS SONHOS",
+   "n_produtos": 171,
+   "cobertura_media": 0.6,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "CHERMOND FITNESS",
+   "n_produtos": 16,
+   "cobertura_media": 0,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "SONHO DE PIJAMA",
+   "n_produtos": 417,
+   "cobertura_media": 0.4,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "ZORIK",
+   "n_produtos": 4,
+   "cobertura_media": 0.1,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "LKF LINGERIE",
+   "n_produtos": 30,
+   "cobertura_media": 1.1,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "LAIBEL",
+   "n_produtos": 8,
+   "cobertura_media": 0,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "AMOR BIJU",
+   "n_produtos": 29,
+   "cobertura_media": 0.2,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "TETRA LINGERIE",
+   "n_produtos": 30,
+   "cobertura_media": 3.6,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  },
+  {
+   "fornecedor": "REPREL",
+   "n_produtos": 13,
+   "cobertura_media": 2.6,
+   "valor_estimado": 0.0,
+   "atinge_10k": "NAO"
+  }
+ ],
+ "visao2_stats": {
+  "total_fornecedores": 53,
+  "atingem_10k": 8
+ },
+ "visao3_forecast": [
+  {
+   "categoria": "UNDERWARE",
+   "media_semanal": 4883.0,
+   "previsao_26s": 126958.0
+  },
+  {
+   "categoria": "LINHA NOITE",
+   "media_semanal": 3122.0,
+   "previsao_26s": 81172.0
+  },
+  {
+   "categoria": "VESTUARIO",
+   "media_semanal": 1298.0,
+   "previsao_26s": 33748.0
+  },
+  {
+   "categoria": "MODA PRAIA",
+   "media_semanal": 937.0,
+   "previsao_26s": 24362.0
+  },
+  {
+   "categoria": "FITNESS",
+   "media_semanal": 80.0,
+   "previsao_26s": 2080.0
+  },
+  {
+   "categoria": "EROTICA",
+   "media_semanal": 71.0,
+   "previsao_26s": 1846.0
+  },
+  {
+   "categoria": "BIJU / JOIAS",
+   "media_semanal": 46.0,
+   "previsao_26s": 1196.0
+  },
+  {
+   "categoria": NaN,
+   "media_semanal": 36.0,
+   "previsao_26s": 936.0
+  },
+  {
+   "categoria": "ACESSORIOS",
+   "media_semanal": 3.0,
+   "previsao_26s": 78.0
+  }
+ ],
+ "forecast_semanas": [
+  "S23/2020",
+  "S24/2020",
+  "S25/2020",
+  "S26/2020",
+  "S27/2020",
+  "S28/2020",
+  "S29/2020",
+  "S30/2020",
+  "S31/2020",
+  "S32/2020",
+  "S33/2020",
+  "S34/2020",
+  "S35/2020",
+  "S36/2020",
+  "S37/2020",
+  "S38/2020",
+  "S39/2020",
+  "S40/2020",
+  "S41/2020",
+  "S42/2020",
+  "S43/2020",
+  "S44/2020",
+  "S45/2020",
+  "S46/2020",
+  "S47/2020",
+  "S48/2020"
+ ],
+ "data_extracao": "2026-07-13 10:29"
+}
