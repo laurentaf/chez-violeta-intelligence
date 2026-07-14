@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """
-Gerador do Dashboard de Pedidos v2 - CORRIGIDO
-==============================================
+Gerador do Dashboard de Pedidos v3 - BIJU/JOIAS como Compra Manual
+==================================================================
 Correções:
 1. VESTUARIO: sempre vai pra aba vestuario, mesmo com cod_fornecedor preenchido
-2. Velocidade diária: usa total de dias (632), não dias com venda
-3. Custo zero: fallback para média da categoria
-4. Previsão proporcional: share do SKU * previsão total da categoria (Prophet 120d)
+2. BIJU / JOIAS: tratado como Compra Manual (igual VESTUARIO), agrupado por des_produto
+3. Velocidade diária: usa total de dias (632), não dias com venda
+4. Custo zero: fallback para média da categoria
+5. Previsão proporcional: share do SKU * previsão total da categoria (Prophet 120d)
 
 Uso: uv run python generate.py
 Saída: index.html (< 500KB)
@@ -104,8 +105,6 @@ cat_vel_sum = produtos.groupby('des_categoria')['vel_diaria'].sum().to_dict()
 # Para BIJU / JOIAS, EROTICA, ACESSORIOS, FITNESS (sem Prophet): usar vel_diaria * 120
 # Para as demais: share * prophet_total
 CAT_COM_PROPHET = set(prophet_cat.keys())  # LINHA NOITE, MODA PRAIA, UNDERWARE, VESTUARIO, OUTROS
-# Mapear OUTROS do Prophet para categorias sem Prophet + NaN
-# OUTROS no Prophet cobre o que nao esta nas outras 4 categorias
 
 def calc_previsao(row):
     cat = row['des_categoria']
@@ -148,12 +147,15 @@ produtos['dias_cobertura'] = produtos.apply(
 precisa = produtos[produtos['precisa_int'] > 0].copy()
 print(f"  Precisa comprar: {len(precisa)} produtos")
 
-# ── SEPARAR FORNECEDOR × VESTUARIO ──
-# CORREÇÃO 1: VESTUARIO vai SEMPRE para aba vestuario,
-# mesmo se tiver cod_fornecedor preenchido
-forn_df = precisa[precisa['des_categoria'] != 'VESTUARIO'].copy()
-vest_df = precisa[precisa['des_categoria'] == 'VESTUARIO'].copy()
-print(f"  Com fornecedor: {len(forn_df)}, Vestuario: {len(vest_df)}")
+# ── SEPARAR FORNECEDOR × COMPRA MANUAL ──
+# Categorias tratadas como Compra Manual (sem fornecedor, agrupado por tipo)
+CAT_MANUAL = {'VESTUARIO', 'BIJU / JOIAS'}
+forn_df = precisa[~precisa['des_categoria'].isin(CAT_MANUAL)].copy()
+manual_df = precisa[precisa['des_categoria'].isin(CAT_MANUAL)].copy()
+vest_df = manual_df[manual_df['des_categoria'] == 'VESTUARIO'].copy()
+biju_df = manual_df[manual_df['des_categoria'] == 'BIJU / JOIAS'].copy()
+
+print(f"  Com fornecedor: {len(forn_df)}, Vestuario: {len(vest_df)}, Bijuterias: {len(biju_df)}")
 
 # ── FORNECEDORES: agregar por fornecedor + artigo + tamanho ──
 forn_agg = forn_df.groupby(['fornecedor', 'des_artigo', 'cod_tamanho']).agg({
@@ -174,7 +176,7 @@ for forn, items in forn_groups.items():
     cobertura = sum(it['dias_cobertura'] for it in items) / len(items)
     total_valor = sum(it['val_total'] for it in items)
     total_itens = sum(it['precisa_int'] for it in items)
-    is_biju = any('BIJU' in str(it.get('des_artigo', '') or '').upper() or
+    is_biju = any('BIJU' in str(it.get('produto_nome', '') or '').upper() or
                    str(forn).upper() in ['AMOR BIJU', 'KARISMA BIJU', 'RELUZ BIJU', 'INTER BIJU',
                                          'ENOQUE BIJU', 'MAURO BIJU']
                   for it in items)
@@ -219,10 +221,46 @@ if len(vest_list) > 30:
     print(f"  Limitando de {len(vest_list)} para 30 tipos mais urgentes")
     vest_list = vest_list[:30]
 
+# ── BIJU / JOIAS: agregar por tipo de produto (des_produto) + tamanho ──
+biju_agg = biju_df.groupby(['des_produto', 'cod_tamanho', 'cod_artigo']).agg({
+    'estoque': 'sum', 'previsao_120d': 'sum', 'precisa_int': 'sum',
+    'id_produto': 'count'
+}).reset_index()
+biju_agg.rename(columns={'id_produto': 'qtd_skus'}, inplace=True)
+print(f"  Linhas agregadas bijuterias: {len(biju_agg)}")
+
+# Agrupar por tipo de produto (ANEL, BRINCO, COLAR, etc.)
+biju_tipos = defaultdict(list)
+for _, row in biju_agg.iterrows():
+    biju_tipos[row['des_produto']].append(row.to_dict())
+
+biju_list = []
+for tipo, sizes in sorted(biju_tipos.items()):
+    total_precisa = sum(s['precisa_int'] for s in sizes)
+    biju_list.append({
+        'tipo': tipo,
+        'total_precisa': total_precisa,
+        'items': sorted(sizes, key=lambda x: x['cod_tamanho'] or '')
+    })
+
+# LIMITE: max 20 tipos mais urgentes
+biju_list.sort(key=lambda x: x['total_precisa'], reverse=True)
+if len(biju_list) > 20:
+    print(f"  Limitando de {len(biju_list)} para 20 tipos mais urgentes")
+    biju_list = biju_list[:20]
+
 # ── OVERVIEW ──
 # Calcular valor total do vestuario com custo real
 val_vest_total = float(vest_df['val_total'].sum()) if len(vest_df) > 0 else 0
 qtd_vest_prod = int(vest_agg['precisa_int'].sum()) if len(vest_agg) > 0 else 0
+# Valor total biju
+val_biju_total = float(biju_df['val_total'].sum()) if len(biju_df) > 0 else 0
+qtd_biju_prod = int(biju_agg['precisa_int'].sum()) if len(biju_agg) > 0 else 0
+
+# Valor total da compra manual
+val_manual_total = val_vest_total + val_biju_total
+qtd_manual_prod = qtd_vest_prod + qtd_biju_prod
+qtd_manual_tipos = len(vest_list) + len(biju_list)
 
 overview = {
     'data_ref': '2019-11-30', 'dias': TOTAL_DIAS,
@@ -231,7 +269,13 @@ overview = {
     'val_forn': round(sum(f['total_valor'] for f in forn_list), 2),
     'qtd_vest': len(vest_list),
     'qtd_vest_prod': qtd_vest_prod,
-    'val_vest': round(val_vest_total, 2)
+    'val_vest': round(val_vest_total, 2),
+    'qtd_biju': len(biju_list),
+    'qtd_biju_prod': qtd_biju_prod,
+    'val_biju': round(val_biju_total, 2),
+    'qtd_manual': qtd_manual_tipos,
+    'qtd_manual_prod': qtd_manual_prod,
+    'val_manual': round(val_manual_total, 2)
 }
 
 # ── GERAR HTML ──
@@ -284,6 +328,20 @@ for v in vest_list:
     )
     v_js.append('{a:' + j(v['artigo']) + ',tp:' + str(v['total_precisa']) + ',s:[' + ss + ']}')
 
+# Bijuterias JS
+b_js = []
+for b in biju_list:
+    its = ','.join(
+        '{a:' + j(it.get('cod_artigo','')) +
+        ',t:' + j(it.get('cod_tamanho','')) +
+        ',e:' + str(int(it['estoque'])) +
+        ',v:' + str(int(round(it['previsao_120d']))) +
+        ',c:' + str(it['precisa_int']) +
+        '}'
+        for it in b['items']
+    )
+    b_js.append('{t:' + j(b['tipo']) + ',tp:' + str(b['total_precisa']) + ',i:[' + its + ']}')
+
 HTML = f"""<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -335,22 +393,26 @@ tr:hover td{{background:#2a1810}}
 .vp{{background:#3d1a1a}}
 .vp td:first-child{{color:#ff6b6b;font-weight:600}}
 .em{{text-align:center;padding:30px;color:#a08060}}
+.shb{{margin:18px 0 10px;padding:8px 14px;background:#1a2a1a;border-left:3px solid #6bcf7f;color:#a0d5a0;font-size:.78em;border-radius:0 6px 6px 0}}
+.shb h4{{color:#c9a84c;font-size:.88em;margin-bottom:4px}}
+.bc{{background:#6b3a2a;color:#c9a84c;font-size:.65em;padding:2px 6px;border-radius:3px;margin-left:6px;vertical-align:middle;text-transform:uppercase;letter-spacing:1px}}
 @media(max-width:768px){{.sh .st{{gap:8px}}.ov{{grid-template-columns:repeat(2,1fr)}}}}
 </style>
 </head>
 <body>
-<div class="banner">MOCK - Dashboard do Comprador (v2 corrigido: velocidade por 632 dias, previsao proporcional por Prophet, custo medio por categoria)</div>
+<div class="banner">MOCK - Dashboard do Comprador (v3: BIJU/JOIAS como Compra Manual)</div>
 <div class="hdr"><div><h1>CHEZ VIOLETA</h1><div class="sub">Dashboard do Comprador</div></div><div class="sub">Base: {overview['data_ref']} &middot; {overview['dias']} dias</div></div>
 <div class="tabs">
 <div class="tab act" onclick="gt('forn',this)">Pedidos por Fornecedor <span class="bdg" id="bf">{overview['qtd_forn']}</span></div>
-<div class="tab" onclick="gt('vest',this)">Vestuário por Tamanho <span class="bdg" id="bv">{overview['qtd_vest']}</span></div>
+<div class="tab" onclick="gt('manual',this)">Compra Manual <span class="bdg" id="bm">{overview['qtd_manual']}</span></div>
 </div>
 <div id="tab-forn" class="cont act"><div class="ov" id="ovf"></div><div id="fl"></div></div>
-<div id="tab-vest" class="cont"><div class="ov" id="ovv"></div><div id="vl"></div></div>
+<div id="tab-manual" class="cont"><div class="ov" id="ovm"></div><div id="vl"></div><div id="bl"></div></div>
 <script>
-var O={{dr:'{overview['data_ref']}',da:{overview['dias']},qf:{overview['qtd_forn']},qfp:{overview['qtd_forn_prod']},vf:{overview['val_forn']},qv:{overview['qtd_vest']},qvp:{overview['qtd_vest_prod']},vv:{overview['val_vest']}}};
+var O={{dr:'{overview['data_ref']}',da:{overview['dias']},qf:{overview['qtd_forn']},qfp:{overview['qtd_forn_prod']},vf:{overview['val_forn']},qv:{overview['qtd_vest']},qvp:{overview['qtd_vest_prod']},vv:{overview['val_vest']},qb:{overview['qtd_biju']},qbp:{overview['qtd_biju_prod']},vb:{overview['val_biju']},qm:{overview['qtd_manual']},qmp:{overview['qtd_manual_prod']},vm:{overview['val_manual']}}};
 var F=[{','.join(f_js)}];
 var V=[{','.join(v_js)}];
+var B=[{','.join(b_js)}];
 function fm(n){{return n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?(n/1e3).toFixed(1)+'K':n.toFixed(0)}}
 function f$(n){{return'R$ '+n.toFixed(2).replace('.',',')}}
 function uc(d){{return d<=30?'u-h':d<=60?'u-m':'u-l'}}
@@ -364,10 +426,10 @@ document.getElementById('ovf').innerHTML=
 '<div class="ovc"><div class="vl">'+O.qf+'</div><div class="lb">Fornecedores</div></div>'+
 '<div class="ovc"><div class="vl">'+fm(O.qfp)+'</div><div class="lb">Itens a Comprar</div></div>'+
 '<div class="ovc"><div class="vl">'+f$(O.vf)+'</div><div class="lb">Valor Total</div></div>';
-document.getElementById('ovv').innerHTML=
-'<div class="ovc"><div class="vl">'+O.qv+'</div><div class="lb">Tipos de Produto</div></div>'+
-'<div class="ovc"><div class="vl">'+fm(O.qvp)+'</div><div class="lb">Itens a Comprar</div></div>'+
-'<div class="ovc"><div class="vl">'+f$(O.vv)+'</div><div class="lb">Valor Estocado</div></div>';
+document.getElementById('ovm').innerHTML=
+'<div class="ovc"><div class="vl">'+O.qm+'</div><div class="lb">Tipos de Produto</div></div>'+
+'<div class="ovc"><div class="vl">'+fm(O.qmp)+'</div><div class="lb">Itens a Comprar</div></div>'+
+'<div class="ovc"><div class="vl">'+f$(O.vm)+'</div><div class="lb">Valor Total</div></div>';
 var h='';
 for(var i=0;i<F.length;i++){{var f=F[i],u=uc(f.c);h+=
 '<div class="sc"><div class="sh" onclick="ts('+i+')"><div><span class="nm">'+f.n+(f.b?' <span class="bj">BIJU</span>':'')+'</span></div>'+
@@ -395,6 +457,18 @@ for(var j=0;j<v.s.length;j++){{var s=v.s[j];vh+=
 vh+='</tbody></table></div>';
 }}
 document.getElementById('vl').innerHTML=vh||'<div class="em">Nenhum produto de vestuário precisa ser comprado.</div>';
+var bh='';
+if(B.length>0){{bh+='<div class="shb"><h4>BIJU / JOIAS</h4>Compra Manual &mdash; sem fornecedor &mdash; agrupado por tipo de produto (ANEL, BRINCO, COLAR, etc.)</div>';
+for(var i=0;i<B.length;i++){{var b=B[i];bh+=
+'<div class="vg"><h3>'+b.t+' <span class="bc">BIJU</span></h3><table><thead><tr><th>Cód</th><th>Tam</th><th class="nr">Estq</th><th class="nr">Prev120d</th><th class="nr">A Comprar</th></tr></thead><tbody>';
+for(var j=0;j<b.i.length;j++){{var x=b.i[j];bh+=
+'<tr'+(x.c>0?' class="vp"':'')+'><td>'+(x.a||'-')+'</td><td>'+(x.t||'-')+'</td>'+
+'<td class="nr">'+Math.round(x.e)+'</td><td class="nr">'+Math.round(x.v)+'</td>'+
+'<td class="nr '+(x.c>10?'ph':(x.c>3?'pm':''))+'">'+x.c+'</td></tr>';
+}}
+bh+='</tbody></table></div>';
+}}}}
+document.getElementById('bl').innerHTML=bh||'<div class="em">Nenhum produto de bijuterias precisa ser comprado.</div>';
 </script>
 </body>
 </html>
@@ -406,7 +480,7 @@ with open(OUTPUT_PATH, 'w', encoding='utf-8') as f:
 size_kb = len(HTML.encode('utf-8')) / 1024
 print(f"\nHTML gerado: {OUTPUT_PATH}")
 print(f"Tamanho: {size_kb:.1f} KB")
-print(f"Fornecedores: {len(forn_list)}, Vestuario tipos: {len(vest_list)}")
+print(f"Fornecedores: {len(forn_list)}, Vestuario tipos: {len(vest_list)}, Bijuterias tipos: {len(biju_list)}")
 print(f"Prophet categorias usadas: {list(prophet_cat.keys())}")
 print(f"Custo medio categorias: {list(custo_medio_cat.keys())}")
 
