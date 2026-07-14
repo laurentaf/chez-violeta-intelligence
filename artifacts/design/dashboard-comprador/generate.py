@@ -1,166 +1,338 @@
-#!/usr/bin/env python3
-"""Generate the Chez Violeta Buyer Dashboard HTML from CSV data."""
+"""
+Gerador do Dashboard de Pedidos
+Uso: uv run python generate.py
+Saida: index.html (< 500KB)
+"""
 
-import csv
-import json
-import os
+import duckdb, json, math
 from collections import defaultdict
 
-INPUT_DIR = r"F:\projects\chez-violeta-intelligence\artifacts\simulation\output-360d-v2"
-OUTPUT_FILE = r"F:\projects\chez-violeta-intelligence\artifacts\design\dashboard-comprador\index.html"
+DB_PATH = "F:/projects/chez-violeta-intelligence/artifacts/data/chez_gold.duckdb"
+OUTPUT_PATH = "F:/projects/chez-violeta-intelligence/artifacts/design/dashboard-comprador/index.html"
 
-def read_csv(filename):
-    path = os.path.join(INPUT_DIR, filename)
-    with open(path, encoding="utf-8") as f:
-        return list(csv.DictReader(f))
+con = duckdb.connect(DB_PATH)
+print("Carregando dados...")
 
-def main():
-    daily_log = read_csv("daily_log.csv")
-    suppliers = read_csv("supplier_performance.csv")
-    slow = read_csv("slow_movers.csv")
-    alerts = read_csv("purchase_alerts.csv")
+# Query agregada: estoque + vendas por produto
+produtos = con.execute("""
+    WITH ultima_data AS (
+        SELECT MAX(id_data) as max_id FROM gold.fato_estoque_diario
+    ),
+    estoque_atual AS (
+        SELECT fe.id_produto, SUM(fe.qtd_estoque)::INTEGER as qtd_estoque
+        FROM gold.fato_estoque_diario fe
+        JOIN ultima_data u ON fe.id_data = u.max_id
+        GROUP BY fe.id_produto
+    ),
+    vendas AS (
+        SELECT fe.id_produto,
+               SUM(fe.qtd_venda)::INTEGER as total_vendas,
+               COUNT(DISTINCT fe.id_data)::INTEGER as dias_com_venda
+        FROM gold.fato_estoque_diario fe
+        WHERE fe.qtd_venda > 0
+        GROUP BY fe.id_produto
+    ),
+    media_cat AS (
+        SELECT p.des_categoria,
+               SUM(v.total_vendas)::FLOAT / NULLIF(SUM(v.dias_com_venda), 0) as vel_media_cat
+        FROM gold.dim_produto p
+        JOIN vendas v ON p.id_produto = v.id_produto
+        WHERE p.dat_fim_vigencia IS NULL AND p.des_status = 'ATIVO' AND v.total_vendas > 0
+        GROUP BY p.des_categoria
+    )
+    SELECT
+        p.id_produto,
+        p.des_produto,
+        p.des_artigo,
+        p.cod_artigo,
+        p.cod_tamanho,
+        COALESCE(NULLIF(p.cod_fornecedor, ''), 'VESTUARIO') as fornecedor,
+        p.des_categoria,
+        COALESCE(p.val_custo_inicial, 0) as val_custo,
+        COALESCE(e.qtd_estoque, 0) as estoque,
+        COALESCE(v.total_vendas, 0) as total_vendas,
+        COALESCE(v.dias_com_venda, 0) as dias_com_venda,
+        COALESCE(mc.vel_media_cat, 0) as vel_media_cat
+    FROM gold.dim_produto p
+    LEFT JOIN estoque_atual e ON p.id_produto = e.id_produto
+    LEFT JOIN vendas v ON p.id_produto = v.id_produto
+    LEFT JOIN media_cat mc ON p.des_categoria = mc.des_categoria
+    WHERE p.dat_fim_vigencia IS NULL AND p.des_status = 'ATIVO'
+      AND (e.qtd_estoque > 0 OR e.qtd_estoque IS NOT NULL)
+""").fetchdf()
 
-    # Convert and clean daily_log
-    dl_js = []
-    for r in daily_log:
-        dl_js.append({
-            "date": r["date"],
-            "stock": int(float(r["total_stock"])),
-            "salesQty": int(float(r["total_sales_qty"])),
-            "salesValue": float(r["total_sales_value"]),
-            "stockouts": int(float(r["stockouts"])),
-            "receipts": int(float(r["receipts"]) if r["receipts"] else 0),
-            "alerts": int(float(r["alerts"])),
-            "slowMovers": int(float(r["slow_movers"]))
-        })
+print(f"  Produtos: {len(produtos)}")
 
-    # Suppliers
-    sup_js = []
-    for r in suppliers:
-        compliance = float(r["compliance_rate"]) if r["compliance_rate"] else 0
-        sup_js.append({
-            "name": r["supplier"],
-            "orders": int(float(r["total_orders"])),
-            "onTime": int(float(r["on_time"])),
-            "late": int(float(r["late"])),
-            "avgDelay": float(r["avg_delay_days"]),
-            "compliance": compliance,
-            "leadTime": int(float(r["estimated_lead_time_mean"])),
-        })
+# Calcular velocidades
+total_dias_venda = con.execute("SELECT COUNT(DISTINCT id_data) FROM gold.fato_estoque_diario WHERE qtd_venda > 0").fetchone()[0]
 
-    # Slow movers - top 100 by days_without_sale
-    slow_sorted = sorted(slow, key=lambda x: -int(x["days_without_sale"]))
-    slow_js = []
-    seen = set()
-    for r in slow_sorted:
-        pid = r["product_id"]
-        if pid in seen:
-            continue
-        seen.add(pid)
-        slow_js.append({
-            "id": int(pid),
-            "cat": r["category"],
-            "stock": int(float(r["stock_qty"])),
-            "dws": int(float(r["days_without_sale"])),
-            "disc": r["suggested_discount"],
-            "lastSale": r.get("last_sale_date", "N/A")
-        })
-        if len(slow_js) >= 100:
-            break
+def calc_vel(row):
+    if row['dias_com_venda'] > 0 and row['total_vendas'] > 0:
+        return row['total_vendas'] / row['dias_com_venda']
+    if row['vel_media_cat'] > 0:
+        return row['vel_media_cat']
+    return 0.001  # minima
 
-    # Alerts
-    urgency_counts = {"CRITICAL": 0, "HIGH": 0, "MEDIUM": 0, "LOW": 0}
-    category_counts = defaultdict(int)
-    supplier_totals = defaultdict(float)
-    total_alert_cost = 0.0
-    
-    all_suppliers = set()
-    all_categories = set()
-    all_dates = set()
-    
-    for r in alerts:
-        urg = r["urgency"].strip().upper()
-        cat = r["category"].strip()
-        sup = r["supplier"].strip()
-        d = r["alert_date"].strip()
-        tc = float(r["total_cost"]) if r["total_cost"] else 0.0
-        
-        if urg in urgency_counts:
-            urgency_counts[urg] += 1
-        category_counts[cat] += 1
-        supplier_totals[sup] += tc
-        total_alert_cost += tc
-        all_suppliers.add(sup)
-        all_categories.add(cat)
-        all_dates.add(d)
-    
-    sorted_dates = sorted(all_dates)
+produtos['vel_diaria'] = produtos.apply(calc_vel, axis=1)
+produtos['previsao_120d'] = produtos['vel_diaria'] * 120
+produtos['precisa'] = (produtos['previsao_120d'] - produtos['estoque']).clip(lower=0)
+produtos['precisa_int'] = produtos['precisa'].apply(lambda x: max(1, int(math.ceil(x))))
+produtos['val_total'] = produtos['precisa_int'] * produtos['val_custo']
+produtos['dias_cobertura'] = produtos.apply(
+    lambda r: r['estoque'] / r['vel_diaria'] if r['vel_diaria'] > 0.001 else 999, axis=1)
 
-    # Alert entries (last 30 days)
-    last_30_dates = set(sorted_dates[-30:] if len(sorted_dates) > 30 else sorted_dates)
-    recent_alerts = [r for r in alerts if r["alert_date"].strip() in last_30_dates]
-    
-    alert_entries_js = []
-    for r in recent_alerts:
-        alert_entries_js.append({
-            "date": r["alert_date"].strip(),
-            "id": int(float(r["product_id"])),
-            "cat": r["category"].strip(),
-            "regime": r["regime"].strip(),
-            "supplier": r["supplier"].strip(),
-            "qty": int(float(r["quantity"])),
-            "coverage": float(r["coverage_days"]),
-            "urgency": r["urgency"].strip().upper(),
-            "unitCost": float(r["unit_cost"]) if r["unit_cost"] else 0.0,
-            "totalCost": float(r["total_cost"]) if r["total_cost"] else 0.0,
-        })
+# Só o que precisa comprar
+precisa = produtos[produtos['precisa_int'] > 0].copy()
+print(f"  Precisa comprar: {len(precisa)} produtos")
 
-    # Recent critical count (last 7 days)
-    recent_7 = set(sorted_dates[-7:] if len(sorted_dates) > 7 else sorted_dates)
-    recent_critical = sum(1 for r in alerts if r["urgency"].strip().upper() == "CRITICAL" and r["alert_date"].strip() in recent_7)
+# ── SEPARAR FORNECEDOR × VESTUARIO ──
+forn_df = precisa[precisa['fornecedor'] != 'VESTUARIO'].copy()
+vest_df = precisa[precisa['des_categoria'] == 'VESTUARIO'].copy()
+print(f"  Com fornecedor: {len(forn_df)}, Vestuario: {len(vest_df)}")
 
-    # Top 10 suppliers by alert value
-    top10 = sorted(supplier_totals.items(), key=lambda x: -x[1])[:10]
+# ── FORNECEDORES: agregar por fornecedor + artigo + tamanho ──
+forn_agg = forn_df.groupby(['fornecedor', 'des_artigo', 'cod_tamanho']).agg({
+    'estoque': 'sum', 'previsao_120d': 'sum', 'precisa_int': 'sum',
+    'val_custo': 'mean', 'val_total': 'sum', 'dias_cobertura': 'mean',
+    'des_produto': 'first', 'cod_artigo': 'first', 'id_produto': 'count'
+}).reset_index()
+forn_agg.rename(columns={'id_produto': 'qtd_skus', 'des_produto': 'produto_nome'}, inplace=True)
+print(f"  Linhas agregadas fornecedor: {len(forn_agg)}")
 
-    # Worst 5 suppliers by compliance (with >=5 orders)
-    suppliers_with_orders = [s for s in sup_js if s["orders"] >= 5]
-    worst_suppliers = sorted(suppliers_with_orders, key=lambda x: x["compliance"])[:5]
+# Agrupar por fornecedor
+forn_groups = defaultdict(list)
+for _, row in forn_agg.iterrows():
+    forn_groups[row['fornecedor']].append(row.to_dict())
 
-    category_pie = sorted(category_counts.items(), key=lambda x: -x[1])
+forn_list = []
+for forn, items in forn_groups.items():
+    cobertura = sum(it['dias_cobertura'] for it in items) / len(items)
+    total_valor = sum(it['val_total'] for it in items)
+    total_itens = sum(it['precisa_int'] for it in items)
+    is_biju = any('BIJU' in str(it.get('des_artigo', '') or '').upper() or
+                   str(forn).upper() in ['AMOR BIJU', 'KARISMA BIJU', 'RELUZ BIJU', 'INTER BIJU',
+                                         'ENOQUE BIJU', 'MAURO BIJU']
+                  for it in items)
+    forn_list.append({
+        'nome': forn, 'cobertura': round(cobertura, 1), 'total_itens': total_itens,
+        'total_valor': round(total_valor, 2), 'qtd_produtos': len(items),
+        'is_biju': is_biju,
+        'items': sorted(items, key=lambda x: x['dias_cobertura'])
+    })
 
-    # Build data JSON
-    data = {
-        "DAILY_LOG": dl_js,
-        "SUPPLIERS": sup_js,
-        "SLOW_MOVERS": slow_js,
-        "ALERT_ENTRIES": alert_entries_js,
-        "URGENCY_COUNTS": urgency_counts,
-        "CATEGORY_LABELS": [c[0] for c in category_pie],
-        "CATEGORY_VALUES": [c[1] for c in category_pie],
-        "TOP10_LABELS": [s[0] for s in top10],
-        "TOP10_VALUES": [s[1] for s in top10],
-        "TOTAL_ALERT_COST": round(total_alert_cost, 2),
-        "RECENT_CRITICAL": recent_critical,
-        "WORST_SUPPLIERS": [{"name": s["name"], "compliance": s["compliance"]} for s in worst_suppliers],
-    }
+forn_list.sort(key=lambda x: x['cobertura'])
+# LIMITE: max 20 fornecedores
+if len(forn_list) > 20:
+    print(f"  Limitando de {len(forn_list)} para 20 fornecedores mais urgentes")
+    forn_list = forn_list[:20]
 
-    # Read HTML template
-    template_path = os.path.join(os.path.dirname(__file__), "template.html")
-    with open(template_path, encoding="utf-8") as f:
-        template = f.read()
+# ── VESTUARIO: agregar por artigo + tamanho ──
+vest_agg = vest_df.groupby(['des_artigo', 'cod_tamanho']).agg({
+    'estoque': 'sum', 'previsao_120d': 'sum', 'precisa_int': 'sum',
+    'id_produto': 'count'
+}).reset_index()
+vest_agg.rename(columns={'id_produto': 'qtd_skus'}, inplace=True)
+print(f"  Linhas agregadas vestuario: {len(vest_agg)}")
 
-    # Replace placeholder
-    html = template.replace("__DATA_JSON__", json.dumps(data, ensure_ascii=False))
+# Agrupar por artigo
+vest_tipos = defaultdict(list)
+for _, row in vest_agg.iterrows():
+    vest_tipos[row['des_artigo']].append(row.to_dict())
 
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-        f.write(html)
+vest_list = []
+for artigo, sizes in sorted(vest_tipos.items()):
+    total_precisa = sum(s['precisa_int'] for s in sizes)
+    vest_list.append({
+        'artigo': artigo,
+        'total_precisa': total_precisa,
+        'sizes': sorted(sizes, key=lambda x: x['cod_tamanho'] or '')
+    })
 
-    print(f"Dashboard generated: {OUTPUT_FILE}")
-    print(f"  Daily log entries: {len(dl_js)}")
-    print(f"  Suppliers: {len(sup_js)}")
-    print(f"  Slow movers: {len(slow_js)}")
-    print(f"  Alert entries: {len(alert_entries_js)}")
-    print(f"  Total alert cost: R$ {total_alert_cost:.2f}")
+# LIMITE: max 30 tipos mais urgentes
+vest_list.sort(key=lambda x: x['total_precisa'], reverse=True)
+if len(vest_list) > 30:
+    print(f"  Limitando de {len(vest_list)} para 30 tipos mais urgentes")
+    vest_list = vest_list[:30]
 
-if __name__ == "__main__":
-    main()
+# ── OVERVIEW ──
+overview = {
+    'data_ref': '2019-11-30', 'dias': total_dias_venda,
+    'qtd_forn': len(forn_list), 'qtd_forn_prod': int(forn_agg['precisa_int'].sum()),
+    'val_forn': round(sum(f['total_valor'] for f in forn_list), 2),
+    'qtd_vest': len(vest_list), 'qtd_vest_prod': int(vest_agg['precisa_int'].sum()),
+    'val_vest': round(vest_df['val_total'].sum(), 2)
+}
+
+# ── GERAR HTML ──
+print("Gerando HTML...")
+
+def j(v):
+    if v is None: return 'null'
+    if isinstance(v, bool): return 'true' if v else 'false'
+    if isinstance(v, (int, float)):
+        if math.isnan(v) or math.isinf(v): return '0'
+        return str(v)
+    return json.dumps(str(v))
+
+# Fornecedores JS
+f_js = []
+for f in forn_list:
+    its = ','.join(
+        '{p:' + j(it.get('produto_nome','') or it.get('des_artigo','')) +
+        ',a:' + j(it.get('cod_artigo','')) +
+        ',t:' + j(it.get('cod_tamanho','')) +
+        ',e:' + str(int(it['estoque'])) +
+        ',v:' + str(int(round(it['previsao_120d']))) +
+        ',c:' + str(it['precisa_int']) +
+        ',cu:' + j(round(it['val_custo'],2)) +
+        ',vt:' + j(round(it['val_total'],2)) +
+        ',d:' + j(round(it['dias_cobertura'],1)) +
+        '}'
+        for it in f['items']
+    )
+    f_js.append(
+        '{n:' + j(f['nome']) +
+        ',c:' + j(f['cobertura']) +
+        ',ti:' + str(f['total_itens']) +
+        ',tv:' + j(f['total_valor']) +
+        ',qp:' + str(f['qtd_produtos']) +
+        ',b:' + j(f['is_biju']) +
+        ',i:[' + its + ']}'
+    )
+
+# Vestuario JS
+v_js = []
+for v in vest_list:
+    ss = ','.join(
+        '{t:' + j(s['cod_tamanho']) +
+        ',e:' + str(int(s['estoque'])) +
+        ',v:' + str(int(round(s['previsao_120d']))) +
+        ',c:' + str(s['precisa_int']) +
+        '}'
+        for s in v['sizes']
+    )
+    v_js.append('{a:' + j(v['artigo']) + ',tp:' + str(v['total_precisa']) + ',s:[' + ss + ']}')
+
+HTML = f"""<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Dashboard do Comprador - Chez Violeta</title>
+<style>
+*{{margin:0;padding:0;box-sizing:border-box}}
+body{{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#1a1a1a;color:#e0d5c8;font-size:14px}}
+.hdr{{background:linear-gradient(135deg,#2c1810,#4a1a10,#2c1810);border-bottom:3px solid #c9a84c;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px}}
+.hdr h1{{color:#c9a84c;font-size:1.3em;font-weight:300;letter-spacing:2px}}
+.hdr .sub{{color:#a08060;font-size:.82em}}
+.tabs{{display:flex;background:#2c1810;border-bottom:1px solid #3d2a18}}
+.tab{{padding:10px 22px;cursor:pointer;color:#a08060;font-size:.88em;border-bottom:3px solid transparent;transition:all .15s}}
+.tab:hover{{color:#e0d5c8;background:#3d2a18}}
+.tab.act{{color:#c9a84c;border-bottom-color:#c9a84c;background:#2c1810}}
+.bdg{{display:inline-block;background:#c9a84c;color:#1a1a1a;border-radius:10px;padding:1px 7px;font-size:.72em;margin-left:5px;font-weight:700}}
+.cont{{display:none;padding:16px}}
+.cont.act{{display:block}}
+.ov{{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:18px}}
+.ovc{{background:#2c1810;border-radius:8px;padding:14px;border:1px solid #3d2a18;text-align:center}}
+.ovc .vl{{font-size:1.5em;color:#c9a84c;font-weight:700}}
+.ovc .lb{{font-size:.73em;color:#a08060;margin-top:3px;text-transform:uppercase;letter-spacing:1px}}
+.sc{{background:#2c1810;border-radius:8px;margin-bottom:10px;border:1px solid #3d2a18;overflow:hidden}}
+.sh{{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;cursor:pointer;transition:background .12s;gap:10px;flex-wrap:wrap}}
+.sh:hover{{background:#3d2a18}}
+.sh .nm{{font-size:1em;color:#e0d5c8;font-weight:600}}
+.sh .nm .bj{{display:inline-block;background:#6b3a2a;color:#c9a84c;font-size:.58em;padding:1px 5px;border-radius:3px;margin-left:6px;vertical-align:middle;text-transform:uppercase;letter-spacing:1px}}
+.sh .st{{display:flex;gap:16px;font-size:.84em;align-items:center}}
+.sh .st>div{{text-align:right}}
+.sh .st .n{{color:#c9a84c;font-weight:600;white-space:nowrap}}
+.sh .st .l{{color:#a08060;font-size:.78em}}
+.urg{{padding:3px 8px;border-radius:4px;font-size:.78em;font-weight:600;white-space:nowrap}}
+.u-h{{background:#5c1a1a;color:#ff6b6b}}
+.u-m{{background:#5c4a1a;color:#ffd93d}}
+.u-l{{background:#1a3d2a;color:#6bcf7f}}
+.sb{{display:none;padding:0 16px 12px;overflow-x:auto}}
+.sb.o{{display:block}}
+table{{width:100%;border-collapse:collapse;font-size:.8em;min-width:500px}}
+th{{text-align:left;padding:6px 5px;border-bottom:1px solid #3d2a18;color:#a08060;text-transform:uppercase;letter-spacing:.4px;font-weight:600;font-size:.76em;white-space:nowrap}}
+td{{padding:5px;border-bottom:1px solid #2a1a0a;white-space:nowrap}}
+tr:hover td{{background:#2a1810}}
+.nr{{text-align:right}}
+.ph{{color:#ff6b6b;font-weight:700}}
+.pm{{color:#ffd93b;font-weight:600}}
+.vg{{margin-bottom:14px}}
+.vg h3{{color:#c9a84c;font-size:.92em;margin-bottom:6px;border-left:3px solid #c9a84c;padding-left:10px}}
+.vp{{background:#3d1a1a}}
+.vp td:first-child{{color:#ff6b6b;font-weight:600}}
+.em{{text-align:center;padding:30px;color:#a08060}}
+@media(max-width:768px){{.sh .st{{gap:8px}}.ov{{grid-template-columns:repeat(2,1fr)}}}}
+</style>
+</head>
+<body>
+<div class="hdr"><div><h1>CHEZ VIOLETA</h1><div class="sub">Dashboard do Comprador</div></div><div class="sub">Base: {overview['data_ref']} &middot; {overview['dias']} dias</div></div>
+<div class="tabs">
+<div class="tab act" onclick="gt('forn',this)">Pedidos por Fornecedor <span class="bdg" id="bf">{overview['qtd_forn']}</span></div>
+<div class="tab" onclick="gt('vest',this)">Vestuário por Tamanho <span class="bdg" id="bv">{overview['qtd_vest']}</span></div>
+</div>
+<div id="tab-forn" class="cont act"><div class="ov" id="ovf"></div><div id="fl"></div></div>
+<div id="tab-vest" class="cont"><div class="ov" id="ovv"></div><div id="vl"></div></div>
+<script>
+var O={{dr:'{overview['data_ref']}',da:{overview['dias']},qf:{overview['qtd_forn']},qfp:{overview['qtd_forn_prod']},vf:{overview['val_forn']},qv:{overview['qtd_vest']},qvp:{overview['qtd_vest_prod']},vv:{overview['val_vest']}}};
+var F=[{','.join(f_js)}];
+var V=[{','.join(v_js)}];
+function fm(n){{return n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?(n/1e3).toFixed(1)+'K':n.toFixed(0)}}
+function f$(n){{return'R$ '+n.toFixed(2).replace('.',',')}}
+function uc(d){{return d<=30?'u-h':d<=60?'u-m':'u-l'}}
+function ul(d){{return d<=30?'URGENTE':d<=60?'ATENÇÃO':'OK'}}
+function gt(t,el){{
+document.querySelectorAll('.tab').forEach(e=>e.classList.remove('act'));
+document.querySelectorAll('.cont').forEach(e=>e.classList.remove('act'));
+el.classList.add('act');document.getElementById('tab-'+t).classList.add('act');
+}}
+document.getElementById('ovf').innerHTML=
+'<div class="ovc"><div class="vl">'+O.qf+'</div><div class="lb">Fornecedores</div></div>'+
+'<div class="ovc"><div class="vl">'+fm(O.qfp)+'</div><div class="lb">Itens a Comprar</div></div>'+
+'<div class="ovc"><div class="vl">'+f$(O.vf)+'</div><div class="lb">Valor Total</div></div>';
+document.getElementById('ovv').innerHTML=
+'<div class="ovc"><div class="vl">'+O.qv+'</div><div class="lb">Tipos de Produto</div></div>'+
+'<div class="ovc"><div class="vl">'+fm(O.qvp)+'</div><div class="lb">Itens a Comprar</div></div>'+
+'<div class="ovc"><div class="vl">'+f$(O.vv)+'</div><div class="lb">Valor Estocado</div></div>';
+var h='';
+for(var i=0;i<F.length;i++){{var f=F[i],u=uc(f.c);h+=
+'<div class="sc"><div class="sh" onclick="ts('+i+')"><div><span class="nm">'+f.n+(f.b?' <span class="bj">BIJU</span>':'')+'</span></div>'+
+'<div class="st"><div><div class="n">'+f.qp+'</div><div class="l">Grupos</div></div>'+
+'<div><div class="n">'+fm(f.ti)+'</div><div class="l">Itens</div></div>'+
+'<div><div class="n">'+f$(f.tv)+'</div><div class="l">Valor</div></div>'+
+'<div class="urg '+u+'">'+ul(f.c)+' ('+f.c.toFixed(0)+'d)</div></div></div>'+
+'<div class="sb" id="sb'+i+'"><table><thead><tr><th>Produto</th><th>Cód</th><th>Tam</th><th class="nr">Estq</th><th class="nr">Prev120d</th><th class="nr">A Comprar</th><th class="nr">R$ Und</th><th class="nr">Total</th><th class="nr">Cob.</th></tr></thead><tbody>';
+for(var j=0;j<f.i.length;j++){{var x=f.i[j],pc=x.c>10?'ph':(x.c>3?'pm':'');h+=
+'<tr><td>'+(x.p||x.a||'-')+'</td><td>'+(x.a||'-')+'</td><td>'+(x.t||'-')+'</td>'+
+'<td class="nr">'+Math.round(x.e)+'</td><td class="nr">'+Math.round(x.v)+'</td>'+
+'<td class="nr '+pc+'">'+x.c+'</td><td class="nr">'+f$(x.cu)+'</td>'+
+'<td class="nr">'+f$(x.vt)+'</td><td class="nr">'+(x.d>999?'-':x.d.toFixed(0)+'d')+'</td></tr>';
+}}
+h+='</tbody></table></div></div>';
+}}
+document.getElementById('fl').innerHTML=h;
+function ts(i){{var e=document.getElementById('sb'+i);e.classList.toggle('o')}}
+var vh='';
+for(var i=0;i<V.length;i++){{var v=V[i];vh+=
+'<div class="vg"><h3>'+v.a+'</h3><table><thead><tr><th>Tamanho</th><th class="nr">Estoque</th><th class="nr">Prev120d</th><th class="nr">A Comprar</th></tr></thead><tbody>';
+for(var j=0;j<v.s.length;j++){{var s=v.s[j];vh+=
+'<tr'+(s.c>0?' class="vp"':'')+'><td>'+s.t+'</td><td class="nr">'+s.e+'</td><td class="nr">'+s.v+'</td><td class="nr">'+s.c+'</td></tr>';
+}}
+vh+='</tbody></table></div>';
+}}
+document.getElementById('vl').innerHTML=vh||'<div class="em">Nenhum produto de vestuário precisa ser comprado.</div>';
+</script>
+</body>
+</html>
+"""
+
+with open(OUTPUT_PATH, 'w', encoding='utf-8') as f:
+    f.write(HTML)
+
+size_kb = len(HTML.encode('utf-8')) / 1024
+print(f"\nHTML gerado: {OUTPUT_PATH}")
+print(f"Tamanho: {size_kb:.1f} KB")
+print(f"Fornecedores: {len(forn_list)}, Vestuario tipos: {len(vest_list)}")
+
+con.close()
