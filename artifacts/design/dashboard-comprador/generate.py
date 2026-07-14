@@ -1,7 +1,15 @@
+#!/usr/bin/env python3
 """
-Gerador do Dashboard de Pedidos
+Gerador do Dashboard de Pedidos v2 - CORRIGIDO
+==============================================
+Correções:
+1. VESTUARIO: sempre vai pra aba vestuario, mesmo com cod_fornecedor preenchido
+2. Velocidade diária: usa total de dias (632), não dias com venda
+3. Custo zero: fallback para média da categoria
+4. Previsão proporcional: share do SKU * previsão total da categoria (Prophet 120d)
+
 Uso: uv run python generate.py
-Saida: index.html (< 500KB)
+Saída: index.html (< 500KB)
 """
 
 import duckdb, json, math
@@ -13,8 +21,39 @@ OUTPUT_PATH = "F:/projects/chez-violeta-intelligence/artifacts/design/dashboard-
 con = duckdb.connect(DB_PATH)
 print("Carregando dados...")
 
-# Query agregada: estoque + vendas por produto
-produtos = con.execute("""
+# ── Total de dias no período (para velocidade correta) ──
+TOTAL_DIAS = con.execute(
+    "SELECT COUNT(DISTINCT id_data) FROM gold.fato_estoque_diario"
+).fetchone()[0]
+print(f"  Total dias no período: {TOTAL_DIAS}")
+
+# ── Custo médio por categoria (fallback para custo zero) ──
+custo_medio_cat = {}
+for row in con.execute("""
+    SELECT des_categoria, AVG(val_custo_inicial) as custo_medio
+    FROM gold.dim_produto
+    WHERE val_custo_inicial > 0 AND dat_fim_vigencia IS NULL
+    GROUP BY des_categoria
+""").fetchall():
+    if row[1] is not None and row[1] > 0:
+        custo_medio_cat[row[0]] = float(row[1])
+# Global fallback
+GLOBAL_CUSTO = sum(custo_medio_cat.values()) / len(custo_medio_cat) if custo_medio_cat else 15.0
+print(f"  Custo medio global fallback: R$ {GLOBAL_CUSTO:.2f}")
+
+# ── Previsão Prophet 120d por categoria ──
+prophet_cat = {}
+for row in con.execute("""
+    SELECT categoria, SUM(yhat) as total_yhat
+    FROM read_csv_auto('artifacts/data/prophet_forecast_future.csv')
+    WHERE ds < '2020-03-30'  -- 120 dias a partir de 2019-12-01
+    GROUP BY categoria
+""").fetchall():
+    prophet_cat[row[0]] = float(row[1] or 0)
+print(f"  Categorias com Prophet 120d: {list(prophet_cat.keys())}")
+
+# ── Query principal: estoque + vendas por produto ──
+produtos = con.execute(f"""
     WITH ultima_data AS (
         SELECT MAX(id_data) as max_id FROM gold.fato_estoque_diario
     ),
@@ -26,19 +65,9 @@ produtos = con.execute("""
     ),
     vendas AS (
         SELECT fe.id_produto,
-               SUM(fe.qtd_venda)::INTEGER as total_vendas,
-               COUNT(DISTINCT fe.id_data)::INTEGER as dias_com_venda
+               SUM(fe.qtd_venda)::INTEGER as total_vendas
         FROM gold.fato_estoque_diario fe
-        WHERE fe.qtd_venda > 0
         GROUP BY fe.id_produto
-    ),
-    media_cat AS (
-        SELECT p.des_categoria,
-               SUM(v.total_vendas)::FLOAT / NULLIF(SUM(v.dias_com_venda), 0) as vel_media_cat
-        FROM gold.dim_produto p
-        JOIN vendas v ON p.id_produto = v.id_produto
-        WHERE p.dat_fim_vigencia IS NULL AND p.des_status = 'ATIVO' AND v.total_vendas > 0
-        GROUP BY p.des_categoria
     )
     SELECT
         p.id_produto,
@@ -46,54 +75,90 @@ produtos = con.execute("""
         p.des_artigo,
         p.cod_artigo,
         p.cod_tamanho,
-        COALESCE(NULLIF(p.cod_fornecedor, ''), 'VESTUARIO') as fornecedor,
+        COALESCE(NULLIF(p.cod_fornecedor, ''), 'SEM FORNECEDOR') as fornecedor,
         p.des_categoria,
         COALESCE(p.val_custo_inicial, 0) as val_custo,
         COALESCE(e.qtd_estoque, 0) as estoque,
-        COALESCE(v.total_vendas, 0) as total_vendas,
-        COALESCE(v.dias_com_venda, 0) as dias_com_venda,
-        COALESCE(mc.vel_media_cat, 0) as vel_media_cat
+        COALESCE(v.total_vendas, 0) as total_vendas
     FROM gold.dim_produto p
     LEFT JOIN estoque_atual e ON p.id_produto = e.id_produto
     LEFT JOIN vendas v ON p.id_produto = v.id_produto
-    LEFT JOIN media_cat mc ON p.des_categoria = mc.des_categoria
-    WHERE p.dat_fim_vigencia IS NULL AND p.des_status = 'ATIVO'
+    WHERE p.dat_fim_vigencia IS NULL
+      AND p.des_status = 'ATIVO'
       AND (e.qtd_estoque > 0 OR e.qtd_estoque IS NOT NULL)
 """).fetchdf()
 
 print(f"  Produtos: {len(produtos)}")
 
-# Calcular velocidades
-total_dias_venda = con.execute("SELECT COUNT(DISTINCT id_data) FROM gold.fato_estoque_diario WHERE qtd_venda > 0").fetchone()[0]
+# ── Calcular velocidade correta: total_vendas / TOTAL_DIAS (não dias com venda) ──
+produtos['vel_diaria'] = produtos['total_vendas'] / TOTAL_DIAS
 
-def calc_vel(row):
-    if row['dias_com_venda'] > 0 and row['total_vendas'] > 0:
-        return row['total_vendas'] / row['dias_com_venda']
-    if row['vel_media_cat'] > 0:
-        return row['vel_media_cat']
-    return 0.001  # minima
+# ── Previsão proporcional por categoria usando Prophet ──
+# Primeiro: calcular share de cada SKU dentro de sua categoria
+produtos['vel_diaria'] = produtos['vel_diaria'].clip(lower=0.0001)  # evitar zero
 
-produtos['vel_diaria'] = produtos.apply(calc_vel, axis=1)
-produtos['previsao_120d'] = produtos['vel_diaria'] * 120
-produtos['precisa'] = (produtos['previsao_120d'] - produtos['estoque']).clip(lower=0)
-produtos['precisa_int'] = produtos['precisa'].apply(lambda x: max(1, int(math.ceil(x))))
-produtos['val_total'] = produtos['precisa_int'] * produtos['val_custo']
+# Para categorias que têm Prophet: previsão proporcional
+# Primeiro: somar velocidades por categoria
+cat_vel_sum = produtos.groupby('des_categoria')['vel_diaria'].sum().to_dict()
+
+# Para BIJU / JOIAS, EROTICA, ACESSORIOS, FITNESS (sem Prophet): usar vel_diaria * 120
+# Para as demais: share * prophet_total
+CAT_COM_PROPHET = set(prophet_cat.keys())  # LINHA NOITE, MODA PRAIA, UNDERWARE, VESTUARIO, OUTROS
+# Mapear OUTROS do Prophet para categorias sem Prophet + NaN
+# OUTROS no Prophet cobre o que nao esta nas outras 4 categorias
+
+def calc_previsao(row):
+    cat = row['des_categoria']
+    vel = row['vel_diaria']
+    stock = row['estoque']
+    
+    if cat in CAT_COM_PROPHET and cat in prophet_cat and prophet_cat[cat] > 0 and cat in cat_vel_sum and cat_vel_sum[cat] > 0:
+        # Previsao proporcional: share do SKU * prophet_total
+        share = vel / cat_vel_sum[cat]
+        previsao = share * prophet_cat[cat]
+    else:
+        # Fallback: vel_diaria * 120 (para categorias sem Prophet)
+        previsao = vel * 120
+    
+    precisa = max(0, previsao - stock)
+    precisa_int = max(1, int(math.ceil(previsao - stock)))
+    return previsao, precisa, precisa_int
+
+prev_results = produtos.apply(lambda r: calc_previsao(r), axis=1, result_type='expand')
+produtos['previsao_120d'] = prev_results[0]
+produtos['precisa'] = prev_results[1]
+produtos['precisa_int'] = prev_results[2]
+
+# ── Custo: fallback para media da categoria ──
+def calc_custo(row):
+    cat = row['des_categoria']
+    custo = row['val_custo']
+    if custo is None or custo <= 0:
+        if cat in custo_medio_cat:
+            return custo_medio_cat[cat]
+        return GLOBAL_CUSTO
+    return custo
+
+produtos['val_custo_real'] = produtos.apply(calc_custo, axis=1)
+produtos['val_total'] = produtos['precisa_int'] * produtos['val_custo_real']
 produtos['dias_cobertura'] = produtos.apply(
-    lambda r: r['estoque'] / r['vel_diaria'] if r['vel_diaria'] > 0.001 else 999, axis=1)
+    lambda r: r['estoque'] / r['vel_diaria'] if r['vel_diaria'] > 0.0001 else 999, axis=1)
 
 # Só o que precisa comprar
 precisa = produtos[produtos['precisa_int'] > 0].copy()
 print(f"  Precisa comprar: {len(precisa)} produtos")
 
 # ── SEPARAR FORNECEDOR × VESTUARIO ──
-forn_df = precisa[precisa['fornecedor'] != 'VESTUARIO'].copy()
+# CORREÇÃO 1: VESTUARIO vai SEMPRE para aba vestuario,
+# mesmo se tiver cod_fornecedor preenchido
+forn_df = precisa[precisa['des_categoria'] != 'VESTUARIO'].copy()
 vest_df = precisa[precisa['des_categoria'] == 'VESTUARIO'].copy()
 print(f"  Com fornecedor: {len(forn_df)}, Vestuario: {len(vest_df)}")
 
 # ── FORNECEDORES: agregar por fornecedor + artigo + tamanho ──
 forn_agg = forn_df.groupby(['fornecedor', 'des_artigo', 'cod_tamanho']).agg({
     'estoque': 'sum', 'previsao_120d': 'sum', 'precisa_int': 'sum',
-    'val_custo': 'mean', 'val_total': 'sum', 'dias_cobertura': 'mean',
+    'val_custo_real': 'mean', 'val_total': 'sum', 'dias_cobertura': 'mean',
     'des_produto': 'first', 'cod_artigo': 'first', 'id_produto': 'count'
 }).reset_index()
 forn_agg.rename(columns={'id_produto': 'qtd_skus', 'des_produto': 'produto_nome'}, inplace=True)
@@ -155,12 +220,18 @@ if len(vest_list) > 30:
     vest_list = vest_list[:30]
 
 # ── OVERVIEW ──
+# Calcular valor total do vestuario com custo real
+val_vest_total = float(vest_df['val_total'].sum()) if len(vest_df) > 0 else 0
+qtd_vest_prod = int(vest_agg['precisa_int'].sum()) if len(vest_agg) > 0 else 0
+
 overview = {
-    'data_ref': '2019-11-30', 'dias': total_dias_venda,
-    'qtd_forn': len(forn_list), 'qtd_forn_prod': int(forn_agg['precisa_int'].sum()),
+    'data_ref': '2019-11-30', 'dias': TOTAL_DIAS,
+    'qtd_forn': len(forn_list),
+    'qtd_forn_prod': int(forn_agg['precisa_int'].sum()) if len(forn_agg) > 0 else 0,
     'val_forn': round(sum(f['total_valor'] for f in forn_list), 2),
-    'qtd_vest': len(vest_list), 'qtd_vest_prod': int(vest_agg['precisa_int'].sum()),
-    'val_vest': round(vest_df['val_total'].sum(), 2)
+    'qtd_vest': len(vest_list),
+    'qtd_vest_prod': qtd_vest_prod,
+    'val_vest': round(val_vest_total, 2)
 }
 
 # ── GERAR HTML ──
@@ -184,7 +255,7 @@ for f in forn_list:
         ',e:' + str(int(it['estoque'])) +
         ',v:' + str(int(round(it['previsao_120d']))) +
         ',c:' + str(it['precisa_int']) +
-        ',cu:' + j(round(it['val_custo'],2)) +
+        ',cu:' + j(round(it['val_custo_real'],2)) +
         ',vt:' + j(round(it['val_total'],2)) +
         ',d:' + j(round(it['dias_cobertura'],1)) +
         '}'
@@ -222,6 +293,7 @@ HTML = f"""<!DOCTYPE html>
 <style>
 *{{margin:0;padding:0;box-sizing:border-box}}
 body{{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#1a1a1a;color:#e0d5c8;font-size:14px}}
+.banner{{background:#FFF3CD;color:#856404;text-align:center;font-size:0.7rem;padding:2px 0;font-family:sans-serif}}
 .hdr{{background:linear-gradient(135deg,#2c1810,#4a1a10,#2c1810);border-bottom:3px solid #c9a84c;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px}}
 .hdr h1{{color:#c9a84c;font-size:1.3em;font-weight:300;letter-spacing:2px}}
 .hdr .sub{{color:#a08060;font-size:.82em}}
@@ -267,6 +339,7 @@ tr:hover td{{background:#2a1810}}
 </style>
 </head>
 <body>
+<div class="banner">MOCK - Dashboard do Comprador (v2 corrigido: velocidade por 632 dias, previsao proporcional por Prophet, custo medio por categoria)</div>
 <div class="hdr"><div><h1>CHEZ VIOLETA</h1><div class="sub">Dashboard do Comprador</div></div><div class="sub">Base: {overview['data_ref']} &middot; {overview['dias']} dias</div></div>
 <div class="tabs">
 <div class="tab act" onclick="gt('forn',this)">Pedidos por Fornecedor <span class="bdg" id="bf">{overview['qtd_forn']}</span></div>
@@ -334,5 +407,7 @@ size_kb = len(HTML.encode('utf-8')) / 1024
 print(f"\nHTML gerado: {OUTPUT_PATH}")
 print(f"Tamanho: {size_kb:.1f} KB")
 print(f"Fornecedores: {len(forn_list)}, Vestuario tipos: {len(vest_list)}")
+print(f"Prophet categorias usadas: {list(prophet_cat.keys())}")
+print(f"Custo medio categorias: {list(custo_medio_cat.keys())}")
 
 con.close()

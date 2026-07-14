@@ -7,7 +7,7 @@ granted_at: 2026-07-08T10:00:00Z
 reason: "dados da simulação output-360d-v2 previamente executada (seed=42, 360 dias)"
 ---
 
-# Fonte de Design — Dashboard do Comprador Chez Violeta v2
+# Fonte de Design — Dashboard do Comprador Chez Violeta v2 (corrigido)
 
 **DESIGN.md de referência:** O presente dashboard segue o design system
 Chez Violeta definido no brief do projeto:
@@ -19,52 +19,38 @@ Chez Violeta definido no brief do projeto:
 - **Capabilities:** ladesign
 - **Data policy:** `synthetic: true` (dados de simulação de 360 dias)
 
-## Fontes de dados
+## Fonte de dados
 
-CSVs da simulação em `artifacts/simulation/output-360d-v2/`:
-- `purchase_alerts_enriched.csv` — 7.111 alertas enriquecidos com dados de pedido pendente
-- `supplier_performance.csv` — 178 fornecedores (compliance, atrasos)
-- `stock_by_store.csv` — 45.050 registros de estoque por loja
-- `slow_movers.csv` — produtos com baixa rotatividade
-- `daily_log.csv` — log diário de estoque, vendas e rupturas
-- `risk-analysis-methodology.md` — metodologia de classificação de risco
+DuckDB gold layer (`chez_gold.duckdb`) + Prophet forecast CSV:
+- `gold.dim_produto` — 15.469 produtos ativos com estoque
+- `gold.fato_estoque_diario` — 632 dias de histórico (2018-03 ~ 2019-11)
+- `prophet_forecast_future.csv` — Previsão Prophet 120d por categoria
 
-## Versão 2 — Melhorias
+## Versão 2 — Correções (2026-07-13)
 
-vs versão anterior (`index.html` original):
+vs versão anterior (`generate.py` original):
 
-1. ✅ **Tabela de alertas completamente interativa** — ordenação por qualquer coluna, 13 colunas com dados enriquecidos
-2. ✅ **Colunas novas:** Tem Pedido?, Previsão Chegada, Chega Antes da Ruptura?, Risco
-3. ✅ **Destaque vermelho** em linhas que NÃO chegam antes da ruptura
-4. ✅ **Seção "Cobertura por Loja"** — estoque por loja para produtos em alerta
-5. ✅ **Seção "Risco de Ruptura vs Pedidos"** — cards explicativos + tabela
-6. ✅ **Seção "Performance de Fornecedores"** — ordenável, com nota A-D + explicação
-7. ✅ **KPIs no topo** — total, % alto/crítico, ruptura antes do pedido, pior fornecedor
-8. ✅ **Gráficos** — distribuição de risco (rosca), alertas por categoria (barras), top fornecedores
-9. ✅ **Design system Chez Violeta** — vinho, dourado, off-white
-10. ✅ **Responsivo** — adapta a mobile
-11. ✅ **MOCK banner** no topo
-12. ✅ **Self-contained** — HTML único com dados embutidos em JSON, Chart.js via CDN
+1. ✅ **VESTUARIO corrigido**: Produtos de `des_categoria = 'VESTUARIO'` vão SEMPRE para a aba de vestuário, mesmo que tenham `cod_fornecedor` preenchido. Antes, todos os 17.886 VESTUARIO iam para fornecedor (todos têm código).
+2. ✅ **Velocidade diária corrigida**: Agora usa `total_vendas / 632` (todos os dias do período), não `total_vendas / dias_com_venda`. Ex: um SKU que vendeu 30 un em 8 dias: antes previa 450 un (30/8×120), agora prevê 6 un (30/632×120).
+3. ✅ **Custo zero corrigido**: Fallback para custo médio da categoria quando `val_custo_inicial = 0` ou NULL. Médias: VESTUARIO R$28,98, UNDERWARE R$10,33, LINHA NOITE R$23,44, MODA PRAIA R$24,33, EROTICA R$11,20, ACESSORIOS R$3,58.
+4. ✅ **Previsão proporcional**: Cada SKU recebe share da previsão total da categoria pelo Prophet 120d: `share = vel_sku / sum(vel_categoria) * prophet_yhat_categoria`. Categorias sem Prophet (FITNESS, BIJU, EROTICA, ACESSORIOS) usam fallback `vel × 120`.
 
 ## Artefatos
 
-- `dashboard-comprador/index.html` — Dashboard self-contained (231 KB)
-- `dashboard-comprador/README.md` — Documentação do dashboard
+- `dashboard-comprador/index.html` — Dashboard self-contained (110 KB)
 - `dashboard-comprador/source.md` — Este arquivo (fonte de design)
-- `dashboard-comprador/data.json` — Dados extraídos em JSON (intermediário)
-- `dashboard-comprador/extract_data.py` — Script de extração de dados
-- `dashboard-comprador/generate_dashboard.py` — Gerador do HTML final
+- `dashboard-comprador/generate.py` — Gerador do HTML (DuckDB + Prophet)
 
 ## Dados embutidos
 
-- 200 alertas mais recentes (dos 7.111 totais)
-- 178 fornecedores
-- Estoque por loja para produtos em alerta (~1.008 registros)
-- Resumo estatístico completo
+- 20 fornecedores mais urgentes (com 3.058 grupos de SKU)
+- 30 tipos de vestuário mais urgentes (5.006 SKU agregados)
+- Previsão Prophet 120d por categoria: UNDERWARE (36.810), VESTUARIO (17.997), MODA PRAIA (14.040), LINHA NOITE (7.837), OUTROS (524)
 
 ## Notas Técnicas
 
-- Chart.js 4.4.4 via CDN (requer internet na primeira carga)
-- Google Fonts (Cormorant Garamond + Inter) via CDN
+- Geração: `uv run python artifacts/design/dashboard-comprador/generate.py`
+- DuckDB: `artifacts/data/chez_gold.duckdb`
+- Prophet: `artifacts/data/prophet_forecast_future.csv`
 - Navegador: Chrome, Firefox, Edge (moderno)
 - Abertura local: `file:///F:/projects/chez-violeta-intelligence/artifacts/design/dashboard-comprador/index.html`
